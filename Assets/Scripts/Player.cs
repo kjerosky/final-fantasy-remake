@@ -11,10 +11,19 @@ public class Player : MonoBehaviour {
     public Tilemap tilemap;
 
     private SolidTiles solidTiles;
+    private Animator animator;
+
     private Vector3 walkTarget;
 
     void Awake() {
         solidTiles = tilemap.gameObject.GetComponent<SolidTiles>();
+
+        animator = GetComponent<Animator>();
+        animator.SetFloat("Horizontal", 0);
+        animator.SetFloat("Vertical", -1);
+        animator.SetBool("isWalking", false);
+
+
         walkTarget = NO_WALK_TARGET;
     }
 
@@ -34,9 +43,15 @@ public class Player : MonoBehaviour {
         if (horizontalMovement != 0) {
             walkTargetCandidate = transform.position;
             walkTargetCandidate.x = Mathf.Round(walkTargetCandidate.x + horizontalMovement);
+
+            animator.SetFloat("Horizontal", horizontalMovement);
+            animator.SetFloat("Vertical", 0);
         } else if (verticalMovement != 0) {
             walkTargetCandidate = transform.position;
             walkTargetCandidate.y = Mathf.Round(walkTargetCandidate.y + verticalMovement);
+
+            animator.SetFloat("Horizontal", 0);
+            animator.SetFloat("Vertical", verticalMovement);
         }
 
         if (walkTargetCandidate != NO_WALK_TARGET) {
@@ -44,6 +59,8 @@ public class Player : MonoBehaviour {
             Tile walkTargetCandidateTile = tilemap.GetTile<Tile>(walkTargetCandidateCell);
             if (!solidTiles.isSolidTile(walkTargetCandidateTile)) {
                 walkTarget = walkTargetCandidate;
+
+                animator.SetBool("isWalking", true);
             }
         }
     }
@@ -54,6 +71,8 @@ public class Player : MonoBehaviour {
 
         if (newPosition == walkTarget) {
             walkTarget = NO_WALK_TARGET;
+
+            animator.SetBool("isWalking", false);
         }
     }
 }
