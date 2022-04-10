@@ -5,35 +5,55 @@ using UnityEngine.Tilemaps;
 
 public class Player : MonoBehaviour {
 
-    private static Vector3 NO_NEW_POSITION = Vector3.forward;
+    private static Vector3 NO_WALK_TARGET = Vector3.forward;
 
+    public float walkSpeed = 4.0f;
     public Tilemap tilemap;
 
     private SolidTiles solidTiles;
+    private Vector3 walkTarget;
 
     void Awake() {
         solidTiles = tilemap.gameObject.GetComponent<SolidTiles>();
+        walkTarget = NO_WALK_TARGET;
     }
 
     void Update() {
-        int horizontalMovement = (Input.GetKeyDown(KeyCode.D) ? 1 : 0) - (Input.GetKeyDown(KeyCode.A) ? 1 : 0);
-        int verticalMovement = (Input.GetKeyDown(KeyCode.W) ? 1 : 0) - (Input.GetKeyDown(KeyCode.S) ? 1 : 0);
+        if (walkTarget == NO_WALK_TARGET) {
+            checkWalkInput();
+        } else {
+            walkTowardsTarget();
+        }
+    }
 
-        Vector3 newPosition = NO_NEW_POSITION;
+    private void checkWalkInput() {
+        int horizontalMovement = (Input.GetKey(KeyCode.D) ? 1 : 0) - (Input.GetKey(KeyCode.A) ? 1 : 0);
+        int verticalMovement = (Input.GetKey(KeyCode.W) ? 1 : 0) - (Input.GetKey(KeyCode.S) ? 1 : 0);
+
+        Vector3 walkTargetCandidate = NO_WALK_TARGET;
         if (horizontalMovement != 0) {
-            newPosition = transform.position;
-            newPosition.x = Mathf.Round(newPosition.x + horizontalMovement);
+            walkTargetCandidate = transform.position;
+            walkTargetCandidate.x = Mathf.Round(walkTargetCandidate.x + horizontalMovement);
         } else if (verticalMovement != 0) {
-            newPosition = transform.position;
-            newPosition.y = Mathf.Round(newPosition.y + verticalMovement);
+            walkTargetCandidate = transform.position;
+            walkTargetCandidate.y = Mathf.Round(walkTargetCandidate.y + verticalMovement);
         }
 
-        if (newPosition != NO_NEW_POSITION) {
-            Vector3Int newPositionCell = tilemap.WorldToCell(newPosition);
-            Tile newPositionTile = tilemap.GetTile<Tile>(newPositionCell);
-            if (!solidTiles.isSolidTile(newPositionTile)) {
-                transform.position = newPosition;
+        if (walkTargetCandidate != NO_WALK_TARGET) {
+            Vector3Int walkTargetCandidateCell = tilemap.WorldToCell(walkTargetCandidate);
+            Tile walkTargetCandidateTile = tilemap.GetTile<Tile>(walkTargetCandidateCell);
+            if (!solidTiles.isSolidTile(walkTargetCandidateTile)) {
+                walkTarget = walkTargetCandidate;
             }
+        }
+    }
+
+    private void walkTowardsTarget() {
+        Vector3 newPosition = Vector3.MoveTowards(transform.position, walkTarget, walkSpeed * Time.deltaTime);
+        transform.position = newPosition;
+
+        if (newPosition == walkTarget) {
+            walkTarget = NO_WALK_TARGET;
         }
     }
 }
