@@ -6,9 +6,19 @@ using System;
 
 public class SolidTiles : MonoBehaviour {
 
-    public Tile[] solidTiles;
+    public Tile[] walkableTiles;
+    public Tile[] shipMovableTiles;
+    public Tile[] shipDockingTiles;
 
-    public bool isSolidTile(Tile tile) {
-        return Array.Exists<Tile>(solidTiles, currentSolidTile => tile == currentSolidTile);
+    public bool isWalkableTile(Tile tile) {
+        return Array.Exists<Tile>(walkableTiles, currentWalkableTile => tile == currentWalkableTile);
+    }
+
+    public bool isShipMovableTile(Tile tile) {
+        return Array.Exists<Tile>(shipMovableTiles, currentShipMovableTile => tile == currentShipMovableTile);
+    }
+
+    public bool isShipDockingTile(Tile tile) {
+        return Array.Exists<Tile>(shipDockingTiles, currentShipDockingTile => tile == currentShipDockingTile);
     }
 }

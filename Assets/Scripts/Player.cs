@@ -8,12 +8,16 @@ public class Player : MonoBehaviour {
     private static Vector3 NO_WALK_TARGET = Vector3.forward;
 
     public float walkSpeed = 4.0f;
+    public float shipSpeed = 8.0f;
     public Tilemap tilemap;
+    public Transform ship;
 
     private SolidTiles solidTiles;
     private Animator animator;
+    private SpriteRenderer spriteRenderer;
 
     private Vector3 walkTarget;
+    private bool isOnShip;
 
     void Awake() {
         solidTiles = tilemap.gameObject.GetComponent<SolidTiles>();
@@ -23,8 +27,11 @@ public class Player : MonoBehaviour {
         animator.SetFloat("Vertical", -1);
         animator.SetBool("isWalking", false);
 
+        spriteRenderer = GetComponent<SpriteRenderer>();
 
         walkTarget = NO_WALK_TARGET;
+
+        isOnShip = false;
     }
 
     void Update() {
@@ -57,22 +64,44 @@ public class Player : MonoBehaviour {
         if (walkTargetCandidate != NO_WALK_TARGET) {
             Vector3Int walkTargetCandidateCell = tilemap.WorldToCell(walkTargetCandidate);
             Tile walkTargetCandidateTile = tilemap.GetTile<Tile>(walkTargetCandidateCell);
-            if (!solidTiles.isSolidTile(walkTargetCandidateTile)) {
+            if (!isOnShip && (solidTiles.isWalkableTile(walkTargetCandidateTile) || walkTargetCandidate == ship.position)) {
                 walkTarget = walkTargetCandidate;
-
                 animator.SetBool("isWalking", true);
+            } else if (isOnShip) {
+                if (solidTiles.isShipMovableTile(walkTargetCandidateTile)) {
+                    walkTarget = walkTargetCandidate;
+                    animator.SetBool("isWalking", true);
+                } else if (solidTiles.isShipDockingTile(walkTargetCandidateTile)) {
+                    isOnShip = false;
+                    spriteRenderer.enabled = true;
+                    ship.parent = null;
+
+                    walkTarget = walkTargetCandidate;
+                    animator.SetBool("isWalking", true);
+                }
             }
         }
     }
 
     private void walkTowardsTarget() {
-        Vector3 newPosition = Vector3.MoveTowards(transform.position, walkTarget, walkSpeed * Time.deltaTime);
+        float moveSpeed = walkSpeed;
+        if (isOnShip) {
+            moveSpeed = shipSpeed;
+        }
+
+        Vector3 newPosition = Vector3.MoveTowards(transform.position, walkTarget, moveSpeed * Time.deltaTime);
         transform.position = newPosition;
 
         if (newPosition == walkTarget) {
             walkTarget = NO_WALK_TARGET;
 
             animator.SetBool("isWalking", false);
+
+            if (!isOnShip && newPosition == ship.position) {
+                isOnShip = true;
+                spriteRenderer.enabled = false;
+                ship.parent = transform;
+            }
         }
     }
 }
