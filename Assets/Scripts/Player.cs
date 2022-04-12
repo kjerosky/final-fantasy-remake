@@ -15,6 +15,7 @@ public class Player : MonoBehaviour {
     private SolidTiles solidTiles;
     private Animator animator;
     private SpriteRenderer spriteRenderer;
+    private Animator shipAnimator;
 
     private Vector3 walkTarget;
     private bool isOnShip;
@@ -28,6 +29,9 @@ public class Player : MonoBehaviour {
         animator.SetBool("isWalking", false);
 
         spriteRenderer = GetComponent<SpriteRenderer>();
+
+        shipAnimator = ship.gameObject.GetComponent<Animator>();
+        resetShipAnimation();
 
         walkTarget = NO_WALK_TARGET;
 
@@ -53,12 +57,20 @@ public class Player : MonoBehaviour {
 
             animator.SetFloat("Horizontal", horizontalMovement);
             animator.SetFloat("Vertical", 0);
+            if (isOnShip) {
+                shipAnimator.SetFloat("Horizontal", horizontalMovement);
+                shipAnimator.SetFloat("Vertical", 0);
+            }
         } else if (verticalMovement != 0) {
             walkTargetCandidate = transform.position;
             walkTargetCandidate.y = Mathf.Round(walkTargetCandidate.y + verticalMovement);
 
             animator.SetFloat("Horizontal", 0);
             animator.SetFloat("Vertical", verticalMovement);
+            if (isOnShip) {
+                shipAnimator.SetFloat("Horizontal", 0);
+                shipAnimator.SetFloat("Vertical", verticalMovement);
+            }
         }
 
         if (walkTargetCandidate != NO_WALK_TARGET) {
@@ -70,11 +82,12 @@ public class Player : MonoBehaviour {
             } else if (isOnShip) {
                 if (solidTiles.isShipMovableTile(walkTargetCandidateTile)) {
                     walkTarget = walkTargetCandidate;
-                    animator.SetBool("isWalking", true);
+                    shipAnimator.SetBool("isMoving", true);
                 } else if (solidTiles.isShipDockingTile(walkTargetCandidateTile)) {
                     isOnShip = false;
                     spriteRenderer.enabled = true;
                     ship.parent = null;
+                    resetShipAnimation();
 
                     walkTarget = walkTargetCandidate;
                     animator.SetBool("isWalking", true);
@@ -96,12 +109,23 @@ public class Player : MonoBehaviour {
             walkTarget = NO_WALK_TARGET;
 
             animator.SetBool("isWalking", false);
+            if (isOnShip) {
+                shipAnimator.SetBool("isMoving", false);
+            }
 
             if (!isOnShip && newPosition == ship.position) {
                 isOnShip = true;
                 spriteRenderer.enabled = false;
                 ship.parent = transform;
+                shipAnimator.SetBool("isOnShip", true);
             }
         }
+    }
+
+    private void resetShipAnimation() {
+        shipAnimator.SetFloat("Horizontal", -1);
+        shipAnimator.SetFloat("Vertical", 0);
+        shipAnimator.SetBool("isOnShip", false);
+        shipAnimator.SetBool("isMoving", false);
     }
 }
