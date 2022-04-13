@@ -9,6 +9,7 @@ public class Player : MonoBehaviour {
 
     public float walkSpeed = 4.0f;
     public float shipSpeed = 8.0f;
+    public bool hasCanoe = false;
     public Tilemap tilemap;
     public Transform ship;
 
@@ -27,6 +28,7 @@ public class Player : MonoBehaviour {
         animator.SetFloat("Horizontal", 0);
         animator.SetFloat("Vertical", -1);
         animator.SetBool("isWalking", false);
+        animator.SetBool("isInCanoe", false);
 
         spriteRenderer = GetComponent<SpriteRenderer>();
 
@@ -74,16 +76,15 @@ public class Player : MonoBehaviour {
         }
 
         if (walkTargetCandidate != NO_WALK_TARGET) {
-            Vector3Int walkTargetCandidateCell = tilemap.WorldToCell(walkTargetCandidate);
-            Tile walkTargetCandidateTile = tilemap.GetTile<Tile>(walkTargetCandidateCell);
-            if (!isOnShip && (solidTiles.isWalkableTile(walkTargetCandidateTile) || walkTargetCandidate == ship.position)) {
+            Tile walkTargetCandidateTile = getTileAtWorldPosition(walkTargetCandidate);
+            if (!isOnShip && walkTargetCandidate == ship.position) {
                 walkTarget = walkTargetCandidate;
                 animator.SetBool("isWalking", true);
             } else if (isOnShip) {
                 if (solidTiles.isShipMovableTile(walkTargetCandidateTile)) {
                     walkTarget = walkTargetCandidate;
                     shipAnimator.SetBool("isMoving", true);
-                } else if (solidTiles.isShipDockingTile(walkTargetCandidateTile)) {
+                } else if (solidTiles.isShipDockingTile(walkTargetCandidateTile) || (hasCanoe && solidTiles.isCanoeWalkableTile(walkTargetCandidateTile))) {
                     isOnShip = false;
                     spriteRenderer.enabled = true;
                     ship.parent = null;
@@ -92,6 +93,19 @@ public class Player : MonoBehaviour {
                     walkTarget = walkTargetCandidate;
                     animator.SetBool("isWalking", true);
                 }
+            } else if (animator.GetBool("isInCanoe") && !solidTiles.isCanoeWalkableTile(walkTargetCandidateTile) && solidTiles.isWalkableTile(walkTargetCandidateTile)) {
+                walkTarget = walkTargetCandidate;
+                animator.SetBool("isWalking", true);
+                animator.SetBool("isInCanoe", false);
+            } else if (animator.GetBool("isInCanoe") && solidTiles.isCanoeWalkableTile(walkTargetCandidateTile)) {
+                walkTarget = walkTargetCandidate;
+                animator.SetBool("isWalking", true);
+            } else if (hasCanoe && !animator.GetBool("isInCanoe") && solidTiles.isCanoeWalkableTile(walkTargetCandidateTile)) {
+                walkTarget = walkTargetCandidate;
+                animator.SetBool("isWalking", true);
+            } else if (solidTiles.isWalkableTile(walkTargetCandidateTile)) {
+                walkTarget = walkTargetCandidate;
+                animator.SetBool("isWalking", true);
             }
         }
     }
@@ -119,6 +133,9 @@ public class Player : MonoBehaviour {
                 ship.parent = transform;
                 shipAnimator.SetBool("isOnShip", true);
             }
+
+            Tile tileAtPlayerPosition = getTileAtWorldPosition(newPosition);
+            animator.SetBool("isInCanoe", solidTiles.isCanoeWalkableTile(tileAtPlayerPosition));
         }
     }
 
@@ -127,5 +144,10 @@ public class Player : MonoBehaviour {
         shipAnimator.SetFloat("Vertical", 0);
         shipAnimator.SetBool("isOnShip", false);
         shipAnimator.SetBool("isMoving", false);
+    }
+
+    private Tile getTileAtWorldPosition(Vector3 worldPosition) {
+        Vector3Int walkTargetCandidateCell = tilemap.WorldToCell(worldPosition);
+        return tilemap.GetTile<Tile>(walkTargetCandidateCell);
     }
 }
