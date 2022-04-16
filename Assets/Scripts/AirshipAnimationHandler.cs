@@ -13,4 +13,8 @@ public class AirshipAnimationHandler : MonoBehaviour {
     public void handleLandingCompleted() {
         player.onAirshipLandingComplete();
     }
+
+    public void handleShakingCompleted() {
+        player.onAirshipShakingComplete();
+    }
 }

@@ -70,6 +70,10 @@ public class Player : MonoBehaviour {
         controlsEnabled = true;
     }
 
+    public void onAirshipShakingComplete() {
+        controlsEnabled = true;
+    }
+
     private void checkWalkInput() {
         if (!controlsEnabled) {
             return;
@@ -129,7 +133,11 @@ public class Player : MonoBehaviour {
                 controlsEnabled = false;
                 return;
             } else {
-                //TODO add shake animation
+                airshipAnimator.SetTrigger("Shake");
+                airshipAnimator.SetFloat("Horizontal", 1);
+                airshipAnimator.SetFloat("Vertical", 0);
+
+                controlsEnabled = false;
             }
         }
 
