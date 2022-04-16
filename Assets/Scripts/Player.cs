@@ -9,17 +9,22 @@ public class Player : MonoBehaviour {
 
     public float walkSpeed = 4.0f;
     public float shipSpeed = 8.0f;
+    public float airshipSpeed = 16.0f;
     public bool hasCanoe = false;
     public Tilemap tilemap;
     public Transform ship;
+    public Transform airship;
 
     private SolidTiles solidTiles;
     private Animator animator;
     private SpriteRenderer spriteRenderer;
     private Animator shipAnimator;
+    private Animator airshipAnimator;
 
     private Vector3 walkTarget;
     private bool isOnShip;
+    private bool isOnAirship;
+    private bool controlsEnabled;
 
     void Awake() {
         solidTiles = tilemap.gameObject.GetComponent<SolidTiles>();
@@ -35,9 +40,12 @@ public class Player : MonoBehaviour {
         shipAnimator = ship.gameObject.GetComponent<Animator>();
         resetShipAnimation();
 
-        walkTarget = NO_WALK_TARGET;
+        airshipAnimator = airship.gameObject.GetComponent<Animator>();
 
+        walkTarget = NO_WALK_TARGET;
         isOnShip = false;
+        isOnAirship = false;
+        controlsEnabled = true;
     }
 
     void Update() {
@@ -48,9 +56,28 @@ public class Player : MonoBehaviour {
         }
     }
 
+    public void onAirshipTakeoffComplete() {
+        controlsEnabled = true;
+    }
+
+    public void onAirshipLandingComplete() {
+        animator.SetBool("isOnAirship", false);
+        animator.SetFloat("Horizontal", 0);
+        animator.SetFloat("Vertical", -1);
+
+        airship.parent = null;
+        isOnAirship = false;
+        controlsEnabled = true;
+    }
+
     private void checkWalkInput() {
+        if (!controlsEnabled) {
+            return;
+        }
+
         int horizontalMovement = (Input.GetKey(KeyCode.D) ? 1 : 0) - (Input.GetKey(KeyCode.A) ? 1 : 0);
         int verticalMovement = (Input.GetKey(KeyCode.W) ? 1 : 0) - (Input.GetKey(KeyCode.S) ? 1 : 0);
+        bool activateAirshipWasPressed = Input.GetKeyDown(KeyCode.Space);
 
         Vector3 walkTargetCandidate = NO_WALK_TARGET;
         if (horizontalMovement != 0) {
@@ -62,6 +89,9 @@ public class Player : MonoBehaviour {
             if (isOnShip) {
                 shipAnimator.SetFloat("Horizontal", horizontalMovement);
                 shipAnimator.SetFloat("Vertical", 0);
+            } else if (isOnAirship) {
+                airshipAnimator.SetFloat("Horizontal", horizontalMovement);
+                airshipAnimator.SetFloat("Vertical", 0);
             }
         } else if (verticalMovement != 0) {
             walkTargetCandidate = transform.position;
@@ -72,12 +102,42 @@ public class Player : MonoBehaviour {
             if (isOnShip) {
                 shipAnimator.SetFloat("Horizontal", 0);
                 shipAnimator.SetFloat("Vertical", verticalMovement);
+            } else if (isOnAirship) {
+                airshipAnimator.SetFloat("Horizontal", 0);
+                airshipAnimator.SetFloat("Vertical", verticalMovement);
+            }
+        }
+
+        if (activateAirshipWasPressed && !isOnAirship && transform.position == airship.position) {
+            animator.SetBool("isOnAirship", true);
+
+            airshipAnimator.SetBool("playerIsOnAirship", true);
+            airshipAnimator.SetFloat("Horizontal", 1);
+            airshipAnimator.SetFloat("Vertical", 0);
+
+            airship.parent = transform;
+            isOnAirship = true;
+            controlsEnabled = false;
+            return;
+        } else if (activateAirshipWasPressed && isOnAirship) {
+            Tile currentTile = getTileAtWorldPosition(airship.position);
+            if (solidTiles.isAirshipLandable(currentTile)) {
+                airshipAnimator.SetBool("playerIsOnAirship", false);
+                airshipAnimator.SetFloat("Horizontal", 1);
+                airshipAnimator.SetFloat("Vertical", 0);
+
+                controlsEnabled = false;
+                return;
+            } else {
+                //TODO add shake animation
             }
         }
 
         if (walkTargetCandidate != NO_WALK_TARGET) {
             Tile walkTargetCandidateTile = getTileAtWorldPosition(walkTargetCandidate);
-            if (!isOnShip && walkTargetCandidate == ship.position) {
+            if (isOnAirship) {
+                walkTarget = walkTargetCandidate;
+            } else if (!isOnShip && walkTargetCandidate == ship.position) {
                 walkTarget = walkTargetCandidate;
                 animator.SetBool("isWalking", true);
             } else if (isOnShip) {
@@ -114,6 +174,8 @@ public class Player : MonoBehaviour {
         float moveSpeed = walkSpeed;
         if (isOnShip) {
             moveSpeed = shipSpeed;
+        } else if (isOnAirship) {
+            moveSpeed = airshipSpeed;
         }
 
         Vector3 newPosition = Vector3.MoveTowards(transform.position, walkTarget, moveSpeed * Time.deltaTime);
@@ -127,7 +189,7 @@ public class Player : MonoBehaviour {
                 shipAnimator.SetBool("isMoving", false);
             }
 
-            if (!isOnShip && newPosition == ship.position) {
+            if (!isOnAirship && !isOnShip && newPosition == ship.position) {
                 isOnShip = true;
                 spriteRenderer.enabled = false;
                 ship.parent = transform;
