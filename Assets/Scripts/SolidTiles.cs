@@ -9,7 +9,7 @@ public class SolidTiles : MonoBehaviour {
     public Tile[] walkableTiles;
     public Tile[] shipMovableTiles;
     public Tile[] shipDockingTiles;
-    public Tile[] canoeWalkableTiles;
+    public Tile[] canoeMovableTiles;
     public Tile[] airshipLandableTiles;
 
     public bool isWalkableTile(Tile tile) {
@@ -24,8 +24,8 @@ public class SolidTiles : MonoBehaviour {
         return Array.Exists<Tile>(shipDockingTiles, currentShipDockingTile => tile == currentShipDockingTile);
     }
 
-    public bool isCanoeWalkableTile(Tile tile) {
-        return Array.Exists<Tile>(canoeWalkableTiles, currentCanoeWalkableTile => tile == currentCanoeWalkableTile);
+    public bool isCanoeMovableTile(Tile tile) {
+        return Array.Exists<Tile>(canoeMovableTiles, currentCanoeWalkableTile => tile == currentCanoeWalkableTile);
     }
 
     public bool isAirshipLandable(Tile tile) {
