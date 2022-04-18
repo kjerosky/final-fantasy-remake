@@ -20,6 +20,7 @@ public class Player : MonoBehaviour {
     public Tilemap tilemap;
     public Transform ship;
     public Transform airship;
+    public LevelLoader levelLoader;
 
     private SolidTiles solidTiles;
     private Animator animator;
@@ -60,6 +61,11 @@ public class Player : MonoBehaviour {
     }
 
     void Update() {
+        //TODO REMOVE THIS TEMPORARY CODE!!!
+        if (Input.GetKeyDown(KeyCode.N)) {
+            levelLoader.startTransition();
+        }
+
         if (movementTarget == NO_MOVEMENT_TARGET) {
             checkMovementInput();
         } else {
