@@ -205,7 +205,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7700565160268545560}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
@@ -330,3 +330,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   transitionAnimator: {fileID: 7700565160268545562}
   transitionTime: 1.25
+  transitionCanvasGroup: {fileID: 7700565160268545566}

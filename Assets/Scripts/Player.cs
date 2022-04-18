@@ -21,6 +21,7 @@ public class Player : MonoBehaviour {
     public Transform ship;
     public Transform airship;
     public LevelLoader levelLoader;
+    public PositionToTransitionData positionToTransitionData;
 
     private SolidTiles solidTiles;
     private Animator animator;
@@ -34,6 +35,12 @@ public class Player : MonoBehaviour {
     private Dictionary<MovementState, float> movementStateToSpeed;
 
     void Awake() {
+        SceneTransitionData sceneTransitionData = GameObject.Find("SceneTransitionData").GetComponent<SceneTransitionData>();
+        Vector3 nextPlayerPosition = transform.position;
+        nextPlayerPosition.x = sceneTransitionData.getNextPlayerX();
+        nextPlayerPosition.y = sceneTransitionData.getNextPlayerY();
+        transform.position = nextPlayerPosition;
+
         solidTiles = tilemap.gameObject.GetComponent<SolidTiles>();
 
         animator = GetComponent<Animator>();
@@ -50,7 +57,7 @@ public class Player : MonoBehaviour {
         airshipAnimator = airship.gameObject.GetComponent<Animator>();
 
         movementTarget = NO_MOVEMENT_TARGET;
-        controlsEnabled = true;
+        controlsEnabled = false;
         movementState = MovementState.WALKING;
 
         movementStateToSpeed = new Dictionary<MovementState, float>();
@@ -61,16 +68,15 @@ public class Player : MonoBehaviour {
     }
 
     void Update() {
-        //TODO REMOVE THIS TEMPORARY CODE!!!
-        if (Input.GetKeyDown(KeyCode.N)) {
-            levelLoader.startTransition();
-        }
-
         if (movementTarget == NO_MOVEMENT_TARGET) {
             checkMovementInput();
         } else {
             moveTowardsMovementTarget();
         }
+    }
+
+    public void onTransitionIntoSceneComplete() {
+        controlsEnabled = true;
     }
 
     public void onAirshipTakeoffComplete() {
@@ -212,28 +218,38 @@ public class Player : MonoBehaviour {
         Vector3 newPosition = Vector3.MoveTowards(transform.position, movementTarget, moveSpeed * Time.deltaTime);
         transform.position = newPosition;
 
-        if (newPosition == movementTarget) {
-            movementTarget = NO_MOVEMENT_TARGET;
+        if (newPosition != movementTarget) {
+            return;
+        }
 
-            animator.SetBool("isWalking", false);
+        movementTarget = NO_MOVEMENT_TARGET;
 
-            Tile tileAtPlayerPosition = getTileAtWorldPosition(newPosition);
-            if (movementState == MovementState.IN_SHIP) {
-                shipAnimator.SetBool("isMoving", false);
-            } else if (
-                (movementState == MovementState.WALKING || movementState == MovementState.IN_CANOE) &&
-                newPosition == ship.position
-            ) {
-                movementState = MovementState.IN_SHIP;
-                spriteRenderer.enabled = false;
-                ship.parent = transform;
-                shipAnimator.SetBool("isOnShip", true);
-            }
+        animator.SetBool("isWalking", false);
 
-            bool isOnCanoeTile = solidTiles.isCanoeMovableTile(tileAtPlayerPosition);
-            animator.SetBool("isInCanoe", isOnCanoeTile);
-            if (movementState != MovementState.IN_AIRSHIP && isOnCanoeTile) {
-                movementState = MovementState.IN_CANOE;
+        Tile tileAtPlayerPosition = getTileAtWorldPosition(newPosition);
+        if (movementState == MovementState.IN_SHIP) {
+            shipAnimator.SetBool("isMoving", false);
+        } else if (
+            (movementState == MovementState.WALKING || movementState == MovementState.IN_CANOE) &&
+            newPosition == ship.position
+        ) {
+            movementState = MovementState.IN_SHIP;
+            spriteRenderer.enabled = false;
+            ship.parent = transform;
+            shipAnimator.SetBool("isOnShip", true);
+        }
+
+        bool isOnCanoeTile = solidTiles.isCanoeMovableTile(tileAtPlayerPosition);
+        animator.SetBool("isInCanoe", isOnCanoeTile);
+        if (movementState != MovementState.IN_AIRSHIP && isOnCanoeTile) {
+            movementState = MovementState.IN_CANOE;
+        }
+
+        if (movementState == MovementState.WALKING || movementState == MovementState.IN_CANOE) {
+            TransitionData transitionData = positionToTransitionData.getTransitionDataForTile(newPosition.x, newPosition.y);
+            if (transitionData != null) {
+                controlsEnabled = false;
+                levelLoader.startTransition(transitionData.nextScene, transitionData.nextPlayerX, transitionData.nextPlayerY);
             }
         }
     }

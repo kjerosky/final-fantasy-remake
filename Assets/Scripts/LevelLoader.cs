@@ -7,13 +7,25 @@ public class LevelLoader : MonoBehaviour {
 
     public Animator transitionAnimator;
     public float transitionTime = 1.25f;
+    public CanvasGroup transitionCanvasGroup;
 
-    public void startTransition() {
-        if (SceneManager.GetActiveScene().name == "SampleScene") {
-            StartCoroutine(loadLevel("TestTown"));
-        } else {
-            StartCoroutine(loadLevel("SampleScene"));
+    private SceneTransitionData sceneTransitionData;
+
+    void Awake() {
+        sceneTransitionData = GameObject.Find("SceneTransitionData").GetComponent<SceneTransitionData>();
+        transitionCanvasGroup.alpha = 1f;
+    }
+
+    //TODO REMOVE THIS TEMPORARY CODE!!!
+    void Update() {
+        if (Input.GetKeyDown(KeyCode.N)) {
+            startTransition("SampleScene", 131, 126);
         }
+    }
+
+    public void startTransition(string nextScene, int nextPlayerX, int nextPlayerY) {
+        sceneTransitionData.setNextPlayerPosition(nextPlayerX, nextPlayerY);
+        StartCoroutine(loadLevel(nextScene));
     }
 
     private IEnumerator loadLevel(string levelName) {
