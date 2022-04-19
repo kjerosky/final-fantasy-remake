@@ -23,7 +23,7 @@ public class Player : MonoBehaviour {
     public LevelLoader levelLoader;
     public PositionToTransitionData positionToTransitionData;
 
-    private SolidTiles solidTiles;
+    private TileMovementData tileMovementData;
     private Animator animator;
     private SpriteRenderer spriteRenderer;
     private Animator shipAnimator;
@@ -41,7 +41,7 @@ public class Player : MonoBehaviour {
         nextPlayerPosition.y = sceneTransitionData.getNextPlayerY();
         transform.position = nextPlayerPosition;
 
-        solidTiles = tilemap.gameObject.GetComponent<SolidTiles>();
+        tileMovementData = tilemap.gameObject.GetComponent<TileMovementData>();
 
         animator = GetComponent<Animator>();
         animator.SetFloat("Horizontal", 0);
@@ -51,10 +51,14 @@ public class Player : MonoBehaviour {
 
         spriteRenderer = GetComponent<SpriteRenderer>();
 
-        shipAnimator = ship.gameObject.GetComponent<Animator>();
-        resetShipAnimation();
+        if (ship != null) {
+            shipAnimator = ship.gameObject.GetComponent<Animator>();
+            resetShipAnimation();
+        }
 
-        airshipAnimator = airship.gameObject.GetComponent<Animator>();
+        if (airship != null) {
+            airshipAnimator = airship.gameObject.GetComponent<Animator>();
+        }
 
         movementTarget = NO_MOVEMENT_TARGET;
         controlsEnabled = false;
@@ -103,7 +107,7 @@ public class Player : MonoBehaviour {
         }
 
         bool activateAirshipButtonWasPressed = Input.GetKeyDown(KeyCode.Space);
-        if (activateAirshipButtonWasPressed) {
+        if (airship != null && activateAirshipButtonWasPressed) {
             if (movementState == MovementState.WALKING && transform.position == airship.position) {
                 animator.SetBool("isOnAirship", true);
 
@@ -117,7 +121,7 @@ public class Player : MonoBehaviour {
                 return;
             } else if (movementState == MovementState.IN_AIRSHIP) {
                 Tile currentTile = getTileAtWorldPosition(airship.position);
-                if (solidTiles.isAirshipLandable(currentTile)) {
+                if (tileMovementData.isAirshipLandable(currentTile)) {
                     airshipAnimator.SetBool("playerIsOnAirship", false);
                 } else {
                     airshipAnimator.SetTrigger("Shake");
@@ -153,10 +157,10 @@ public class Player : MonoBehaviour {
         if (movementTargetCandidate != NO_MOVEMENT_TARGET) {
             animator.SetFloat("Horizontal", horizontalDirection);
             animator.SetFloat("Vertical", verticalDirection);
-            if (movementState == MovementState.IN_SHIP) {
+            if (ship != null && movementState == MovementState.IN_SHIP) {
                 shipAnimator.SetFloat("Horizontal", horizontalDirection);
                 shipAnimator.SetFloat("Vertical", verticalDirection);
-            } else if (movementState == MovementState.IN_AIRSHIP) {
+            } else if (airship != null && movementState == MovementState.IN_AIRSHIP) {
                 airshipAnimator.SetFloat("Horizontal", horizontalDirection);
                 airshipAnimator.SetFloat("Vertical", verticalDirection);
             }
@@ -165,9 +169,9 @@ public class Player : MonoBehaviour {
             switch (movementState) {
                 case MovementState.WALKING: {
                     if (
-                        movementTargetCandidate == ship.position ||
-                        (hasCanoe && solidTiles.isCanoeMovableTile(movementTargetCandidateTile)) ||
-                        solidTiles.isWalkableTile(movementTargetCandidateTile)
+                        (ship != null && movementTargetCandidate == ship.position) ||
+                        (hasCanoe && tileMovementData.isCanoeMovableTile(movementTargetCandidateTile)) ||
+                        tileMovementData.isWalkableTile(movementTargetCandidateTile)
                     ) {
                         movementTarget = movementTargetCandidate;
                         animator.SetBool("isWalking", true);
@@ -179,26 +183,27 @@ public class Player : MonoBehaviour {
                         movementTarget = movementTargetCandidate;
                         animator.SetBool("isWalking", true);
                         movementState = MovementState.WALKING;
-                    } else if (!solidTiles.isCanoeMovableTile(movementTargetCandidateTile) && solidTiles.isWalkableTile(movementTargetCandidateTile)) {
+                    } else if (!tileMovementData.isCanoeMovableTile(movementTargetCandidateTile) && tileMovementData.isWalkableTile(movementTargetCandidateTile)) {
                         movementTarget = movementTargetCandidate;
                         animator.SetBool("isWalking", true);
                         animator.SetBool("isInCanoe", false);
                         movementState = MovementState.WALKING;
-                    } else if (solidTiles.isCanoeMovableTile(movementTargetCandidateTile)) {
+                    } else if (tileMovementData.isCanoeMovableTile(movementTargetCandidateTile)) {
                         movementTarget = movementTargetCandidate;
                         animator.SetBool("isWalking", true);
                     }
                 } break;
 
                 case MovementState.IN_SHIP: {
-                    if (solidTiles.isShipMovableTile(movementTargetCandidateTile)) {
+
+                    if (tileMovementData.isShipMovableTile(movementTargetCandidateTile)) {
                         movementTarget = movementTargetCandidate;
                         shipAnimator.SetBool("isMoving", true);
-                    } else if (solidTiles.isShipDockingTile(movementTargetCandidateTile)) {
+                    } else if (tileMovementData.isShipDockingTile(movementTargetCandidateTile)) {
                         movementTarget = movementTargetCandidate;
                         movementState = MovementState.WALKING;
                         disembarkFromShip();
-                    } else if (hasCanoe && solidTiles.isCanoeMovableTile(movementTargetCandidateTile)) {
+                    } else if (hasCanoe && tileMovementData.isCanoeMovableTile(movementTargetCandidateTile)) {
                         movementTarget = movementTargetCandidate;
                         movementState = MovementState.IN_CANOE;
                         disembarkFromShip();
@@ -227,9 +232,10 @@ public class Player : MonoBehaviour {
         animator.SetBool("isWalking", false);
 
         Tile tileAtPlayerPosition = getTileAtWorldPosition(newPosition);
-        if (movementState == MovementState.IN_SHIP) {
+        if (ship != null && movementState == MovementState.IN_SHIP) {
             shipAnimator.SetBool("isMoving", false);
         } else if (
+            ship != null &&
             (movementState == MovementState.WALKING || movementState == MovementState.IN_CANOE) &&
             newPosition == ship.position
         ) {
@@ -239,7 +245,7 @@ public class Player : MonoBehaviour {
             shipAnimator.SetBool("isOnShip", true);
         }
 
-        bool isOnCanoeTile = solidTiles.isCanoeMovableTile(tileAtPlayerPosition);
+        bool isOnCanoeTile = tileMovementData.isCanoeMovableTile(tileAtPlayerPosition);
         animator.SetBool("isInCanoe", isOnCanoeTile);
         if (movementState != MovementState.IN_AIRSHIP && isOnCanoeTile) {
             movementState = MovementState.IN_CANOE;
