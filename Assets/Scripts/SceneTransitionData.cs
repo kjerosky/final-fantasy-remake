@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class SceneTransitionData : MonoBehaviour {
 
-    private int nextPlayerX = 131;
-    private int nextPlayerY = 124;
+    private int nextPlayerX = 153;
+    private int nextPlayerY = 92;
 
     void Awake() {
         DontDestroyOnLoad(gameObject);

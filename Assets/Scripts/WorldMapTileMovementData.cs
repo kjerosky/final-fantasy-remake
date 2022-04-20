@@ -65,6 +65,9 @@ public class WorldMapTileMovementData : TileMovementData {
         walkableTileNames.Add("ff1-world-tiles_93");
         walkableTileNames.Add("ff1-world-tiles_94");
         walkableTileNames.Add("ff1-world-tiles_95");
+        walkableTileNames.Add("ff1-world-tiles_100");
+        walkableTileNames.Add("ff1-world-tiles_102");
+        walkableTileNames.Add("ff1-world-tiles_103");
 
         shipMovableTileNames = new HashSet<string>();
         shipMovableTileNames.Add("ff1-world-tiles_57");
