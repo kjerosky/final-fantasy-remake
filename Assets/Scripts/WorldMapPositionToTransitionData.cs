@@ -11,12 +11,12 @@ public class WorldMapPositionToTransitionData : PositionToTransitionData {
 
     void Awake() {
         data = new Dictionary<Vector2, TransitionData>();
-        data.Add(new Vector2(151, 95), new TransitionData("TestTown", TEST_TOWN_X, TEST_TOWN_Y));
-        data.Add(new Vector2(151, 96), new TransitionData("TestTown", TEST_TOWN_X, TEST_TOWN_Y));
-        data.Add(new Vector2(151, 97), new TransitionData("TestTown", TEST_TOWN_X, TEST_TOWN_Y));
-        data.Add(new Vector2(154, 95), new TransitionData("TestTown", TEST_TOWN_X, TEST_TOWN_Y));
-        data.Add(new Vector2(154, 96), new TransitionData("TestTown", TEST_TOWN_X, TEST_TOWN_Y));
-        data.Add(new Vector2(154, 97), new TransitionData("TestTown", TEST_TOWN_X, TEST_TOWN_Y));
+        data.Add(new Vector2(151, 95), new TransitionData("Cornelia", TEST_TOWN_X, TEST_TOWN_Y));
+        data.Add(new Vector2(151, 96), new TransitionData("Cornelia", TEST_TOWN_X, TEST_TOWN_Y));
+        data.Add(new Vector2(151, 97), new TransitionData("Cornelia", TEST_TOWN_X, TEST_TOWN_Y));
+        data.Add(new Vector2(154, 95), new TransitionData("Cornelia", TEST_TOWN_X, TEST_TOWN_Y));
+        data.Add(new Vector2(154, 96), new TransitionData("Cornelia", TEST_TOWN_X, TEST_TOWN_Y));
+        data.Add(new Vector2(154, 97), new TransitionData("Cornelia", TEST_TOWN_X, TEST_TOWN_Y));
     }
 
     public override TransitionData getTransitionDataForTile(float x, float y) {

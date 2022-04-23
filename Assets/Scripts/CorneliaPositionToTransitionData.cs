@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TestTownPositionToTransitionData : PositionToTransitionData {
+public class CorneliaPositionToTransitionData : PositionToTransitionData {
 
     private static int WORLD_MAP_X = 153;
     private static int WORLD_MAP_Y = 96;
@@ -11,8 +11,8 @@ public class TestTownPositionToTransitionData : PositionToTransitionData {
 
     void Awake() {
         data = new Dictionary<Vector2, TransitionData>();
-        data.Add(new Vector2(21, 10), new TransitionData("SampleScene", WORLD_MAP_X, WORLD_MAP_Y));
-        data.Add(new Vector2(21, 24), new TransitionData("SampleScene", WORLD_MAP_X, WORLD_MAP_Y));
+        data.Add(new Vector2(21, 10), new TransitionData("WorldMap", WORLD_MAP_X, WORLD_MAP_Y));
+        data.Add(new Vector2(21, 24), new TransitionData("WorldMap", WORLD_MAP_X, WORLD_MAP_Y));
     }
 
     public override TransitionData getTransitionDataForTile(float x, float y) {

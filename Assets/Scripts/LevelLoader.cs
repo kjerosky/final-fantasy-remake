@@ -19,7 +19,7 @@ public class LevelLoader : MonoBehaviour {
     //TODO REMOVE THIS TEMPORARY CODE!!!
     void Update() {
         if (Input.GetKeyDown(KeyCode.N)) {
-            startTransition("SampleScene", 153, 92);
+            startTransition("WorldMap", 153, 92);
         }
     }
 
