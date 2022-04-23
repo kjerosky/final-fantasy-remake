@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class CorneliaPositionToTransitionData : PositionToTransitionData {
 
-    private static int WORLD_MAP_X = 153;
-    private static int WORLD_MAP_Y = 96;
+    private static int WORLD_MAP_X = 173;
+    private static int WORLD_MAP_Y = 116;
     
     private Dictionary<Vector2, TransitionData> data;
 

@@ -12,6 +12,10 @@ public class Player : MonoBehaviour {
         IN_AIRSHIP
     };
     private static Vector3 NO_MOVEMENT_TARGET = Vector3.forward;
+    private static int WRAPPING_X_MIN = 0;
+    private static int WRAPPING_X_MAX = 255 + 20 + 20;
+    private static int WRAPPING_Y_MIN = 0;
+    private static int WRAPPING_Y_MAX = 255 + 20 + 20;
 
     public float walkSpeed = 4.0f;
     public float shipSpeed = 8.0f;
@@ -257,6 +261,33 @@ public class Player : MonoBehaviour {
                 controlsEnabled = false;
                 levelLoader.startTransition(transitionData.nextScene, transitionData.nextPlayerX, transitionData.nextPlayerY);
             }
+        }
+
+        adjustPlayerPositionWithWrapping();
+    }
+
+    private void adjustPlayerPositionWithWrapping() {
+        // Only the world map will need this wrapping.  Other maps will be smaller than the world map
+        // and be constructed in such a way that the player will never reach the map boundaries.
+
+        if (transform.position.x < WRAPPING_X_MIN) {
+            Vector3 adjustedPlayerPosition = transform.position;
+            adjustedPlayerPosition.x = WRAPPING_X_MAX - (WRAPPING_X_MIN - transform.position.x - 1);
+            transform.position = adjustedPlayerPosition;
+        } else if (transform.position.x > WRAPPING_X_MAX) {
+            Vector3 adjustedPlayerPosition = transform.position;
+            adjustedPlayerPosition.x = WRAPPING_X_MIN + (transform.position.x - WRAPPING_X_MAX - 1);
+            transform.position = adjustedPlayerPosition;
+        }
+
+        if (transform.position.y < WRAPPING_Y_MIN) {
+            Vector3 adjustedPlayerPosition = transform.position;
+            adjustedPlayerPosition.y = WRAPPING_Y_MAX - (WRAPPING_Y_MIN - transform.position.y - 1);
+            transform.position = adjustedPlayerPosition;
+        } else if (transform.position.y >= WRAPPING_Y_MAX) {
+            Vector3 adjustedPlayerPosition = transform.position;
+            adjustedPlayerPosition.y = WRAPPING_Y_MIN + (transform.position.y - WRAPPING_Y_MAX - 1);
+            transform.position = adjustedPlayerPosition;
         }
     }
 
