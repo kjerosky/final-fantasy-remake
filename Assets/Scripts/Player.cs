@@ -33,10 +33,10 @@ public class Player : MonoBehaviour {
     private Animator shipAnimator;
     private Animator airshipAnimator;
 
-    private Vector3 movementTarget;
     private bool controlsEnabled;
     private MovementState movementState;
     private Dictionary<MovementState, float> movementStateToSpeed;
+    private bool isMoving;
 
     void Awake() {
         SceneTransitionData sceneTransitionData = GameObject.Find("SceneTransitionData").GetComponent<SceneTransitionData>();
@@ -64,7 +64,6 @@ public class Player : MonoBehaviour {
             airshipAnimator = airship.gameObject.GetComponent<Animator>();
         }
 
-        movementTarget = NO_MOVEMENT_TARGET;
         controlsEnabled = false;
         movementState = MovementState.WALKING;
 
@@ -73,13 +72,13 @@ public class Player : MonoBehaviour {
         movementStateToSpeed.Add(MovementState.IN_CANOE, walkSpeed);
         movementStateToSpeed.Add(MovementState.IN_SHIP, shipSpeed);
         movementStateToSpeed.Add(MovementState.IN_AIRSHIP, airshipSpeed);
+
+        isMoving = false;
     }
 
     void Update() {
-        if (movementTarget == NO_MOVEMENT_TARGET) {
+        if (controlsEnabled && !isMoving) {
             checkMovementInput();
-        } else {
-            moveTowardsMovementTarget();
         }
     }
 
@@ -106,10 +105,6 @@ public class Player : MonoBehaviour {
     }
 
     private void checkMovementInput() {
-        if (!controlsEnabled) {
-            return;
-        }
-
         bool activateAirshipButtonWasPressed = Input.GetKeyDown(KeyCode.Space);
         if (airship != null && activateAirshipButtonWasPressed) {
             if (movementState == MovementState.WALKING && transform.position == airship.position) {
@@ -158,90 +153,95 @@ public class Player : MonoBehaviour {
             verticalDirection = verticalMovementInput;
         }
 
-        if (movementTargetCandidate != NO_MOVEMENT_TARGET) {
-            animator.SetFloat("Horizontal", horizontalDirection);
-            animator.SetFloat("Vertical", verticalDirection);
-            if (ship != null && movementState == MovementState.IN_SHIP) {
-                shipAnimator.SetFloat("Horizontal", horizontalDirection);
-                shipAnimator.SetFloat("Vertical", verticalDirection);
-            } else if (airship != null && movementState == MovementState.IN_AIRSHIP) {
-                airshipAnimator.SetFloat("Horizontal", horizontalDirection);
-                airshipAnimator.SetFloat("Vertical", verticalDirection);
-            }
-
-            Tile movementTargetCandidateTile = getTileAtWorldPosition(movementTargetCandidate);
-            switch (movementState) {
-                case MovementState.WALKING: {
-                    if (
-                        (ship != null && movementTargetCandidate == ship.position) ||
-                        (hasCanoe && tileMovementData.isCanoeMovableTile(movementTargetCandidateTile)) ||
-                        tileMovementData.isWalkableTile(movementTargetCandidateTile)
-                    ) {
-                        movementTarget = movementTargetCandidate;
-                        animator.SetBool("isWalking", true);
-                    }
-                } break;
-
-                case MovementState.IN_CANOE: {
-                    if (movementTargetCandidate == ship.position) {
-                        movementTarget = movementTargetCandidate;
-                        animator.SetBool("isWalking", true);
-                        movementState = MovementState.WALKING;
-                    } else if (!tileMovementData.isCanoeMovableTile(movementTargetCandidateTile) && tileMovementData.isWalkableTile(movementTargetCandidateTile)) {
-                        movementTarget = movementTargetCandidate;
-                        animator.SetBool("isWalking", true);
-                        animator.SetBool("isInCanoe", false);
-                        movementState = MovementState.WALKING;
-                    } else if (tileMovementData.isCanoeMovableTile(movementTargetCandidateTile)) {
-                        movementTarget = movementTargetCandidate;
-                        animator.SetBool("isWalking", true);
-                    }
-                } break;
-
-                case MovementState.IN_SHIP: {
-
-                    if (tileMovementData.isShipMovableTile(movementTargetCandidateTile)) {
-                        movementTarget = movementTargetCandidate;
-                        shipAnimator.SetBool("isMoving", true);
-                    } else if (tileMovementData.isShipDockingTile(movementTargetCandidateTile)) {
-                        movementTarget = movementTargetCandidate;
-                        movementState = MovementState.WALKING;
-                        disembarkFromShip();
-                    } else if (hasCanoe && tileMovementData.isCanoeMovableTile(movementTargetCandidateTile)) {
-                        movementTarget = movementTargetCandidate;
-                        movementState = MovementState.IN_CANOE;
-                        disembarkFromShip();
-                    }
-                } break;
-
-                case MovementState.IN_AIRSHIP: {
-                    movementTarget = movementTargetCandidate;
-                } break;
-            }
-        }
-    }
-
-    private void moveTowardsMovementTarget() {
-        float moveSpeed = movementStateToSpeed[movementState];
-
-        Vector3 newPosition = Vector3.MoveTowards(transform.position, movementTarget, moveSpeed * Time.deltaTime);
-        transform.position = newPosition;
-
-        if (newPosition != movementTarget) {
+        if (movementTargetCandidate == NO_MOVEMENT_TARGET) {
             return;
         }
 
-        movementTarget = NO_MOVEMENT_TARGET;
+        animator.SetFloat("Horizontal", horizontalDirection);
+        animator.SetFloat("Vertical", verticalDirection);
+        if (ship != null && movementState == MovementState.IN_SHIP) {
+            shipAnimator.SetFloat("Horizontal", horizontalDirection);
+            shipAnimator.SetFloat("Vertical", verticalDirection);
+        } else if (airship != null && movementState == MovementState.IN_AIRSHIP) {
+            airshipAnimator.SetFloat("Horizontal", horizontalDirection);
+            airshipAnimator.SetFloat("Vertical", verticalDirection);
+        }
+
+        Tile movementTargetCandidateTile = getTileAtWorldPosition(movementTargetCandidate);
+        Vector3 movementTarget = NO_MOVEMENT_TARGET;
+        switch (movementState) {
+            case MovementState.WALKING: {
+                if (
+                    (ship != null && movementTargetCandidate == ship.position) ||
+                    (hasCanoe && tileMovementData.isCanoeMovableTile(movementTargetCandidateTile)) ||
+                    tileMovementData.isWalkableTile(movementTargetCandidateTile)
+                ) {
+                    movementTarget = movementTargetCandidate;
+                    animator.SetBool("isWalking", true);
+                }
+            } break;
+
+            case MovementState.IN_CANOE: {
+                if (movementTargetCandidate == ship.position) {
+                    movementTarget = movementTargetCandidate;
+                    animator.SetBool("isWalking", true);
+                    movementState = MovementState.WALKING;
+                } else if (!tileMovementData.isCanoeMovableTile(movementTargetCandidateTile) && tileMovementData.isWalkableTile(movementTargetCandidateTile)) {
+                    movementTarget = movementTargetCandidate;
+                    animator.SetBool("isWalking", true);
+                    animator.SetBool("isInCanoe", false);
+                    movementState = MovementState.WALKING;
+                } else if (tileMovementData.isCanoeMovableTile(movementTargetCandidateTile)) {
+                    movementTarget = movementTargetCandidate;
+                    animator.SetBool("isWalking", true);
+                }
+            } break;
+
+            case MovementState.IN_SHIP: {
+
+                if (tileMovementData.isShipMovableTile(movementTargetCandidateTile)) {
+                    movementTarget = movementTargetCandidate;
+                    shipAnimator.SetBool("isMoving", true);
+                } else if (tileMovementData.isShipDockingTile(movementTargetCandidateTile)) {
+                    movementTarget = movementTargetCandidate;
+                    movementState = MovementState.WALKING;
+                    disembarkFromShip();
+                } else if (hasCanoe && tileMovementData.isCanoeMovableTile(movementTargetCandidateTile)) {
+                    movementTarget = movementTargetCandidate;
+                    movementState = MovementState.IN_CANOE;
+                    disembarkFromShip();
+                }
+            } break;
+
+            case MovementState.IN_AIRSHIP: {
+                movementTarget = movementTargetCandidate;
+            } break;
+        }
+
+        if (movementTarget != NO_MOVEMENT_TARGET) {
+            StartCoroutine(moveTowardsPosition(movementTarget));
+        }
+    }
+
+    private IEnumerator moveTowardsPosition(Vector3 newPosition) {
+        float moveSpeed = movementStateToSpeed[movementState];
+
+        isMoving = true;
+        while (transform.position != newPosition) {
+            transform.position = Vector3.MoveTowards(transform.position, newPosition, moveSpeed * Time.deltaTime);
+            yield return null;
+        }
+        isMoving = false;
 
         animator.SetBool("isWalking", false);
 
-        Tile tileAtPlayerPosition = getTileAtWorldPosition(newPosition);
+        Tile tileAtPlayerPosition = getTileAtWorldPosition(transform.position);
         if (ship != null && movementState == MovementState.IN_SHIP) {
             shipAnimator.SetBool("isMoving", false);
         } else if (
             ship != null &&
             (movementState == MovementState.WALKING || movementState == MovementState.IN_CANOE) &&
-            newPosition == ship.position
+            transform.position == ship.position
         ) {
             movementState = MovementState.IN_SHIP;
             spriteRenderer.enabled = false;
@@ -256,7 +256,7 @@ public class Player : MonoBehaviour {
         }
 
         if (movementState == MovementState.WALKING || movementState == MovementState.IN_CANOE) {
-            TransitionData transitionData = positionToTransitionData.getTransitionDataForTile(newPosition.x, newPosition.y);
+            TransitionData transitionData = positionToTransitionData.getTransitionDataForTile(transform.position.x, transform.position.y);
             if (transitionData != null) {
                 controlsEnabled = false;
                 levelLoader.startTransition(transitionData.nextScene, transitionData.nextPlayerX, transitionData.nextPlayerY);
