@@ -26,6 +26,7 @@ public class Player : MonoBehaviour {
     public Transform airship;
     public LevelLoader levelLoader;
     public PositionToTransitionData positionToTransitionData;
+    public LayerMask interactableLayer;
 
     private TileMovementData tileMovementData;
     private Animator animator;
@@ -37,6 +38,7 @@ public class Player : MonoBehaviour {
     private MovementState movementState;
     private Dictionary<MovementState, float> movementStateToSpeed;
     private bool isMoving;
+    private Vector3 facingDirection;
 
     void Awake() {
         SceneTransitionData sceneTransitionData = GameObject.Find("SceneTransitionData").GetComponent<SceneTransitionData>();
@@ -52,6 +54,8 @@ public class Player : MonoBehaviour {
         animator.SetFloat("Vertical", -1);
         animator.SetBool("isWalking", false);
         animator.SetBool("isInCanoe", false);
+
+        facingDirection = new Vector3(0, -1);
 
         spriteRenderer = GetComponent<SpriteRenderer>();
 
@@ -78,7 +82,7 @@ public class Player : MonoBehaviour {
 
     void Update() {
         if (controlsEnabled && !isMoving) {
-            checkMovementInput();
+            checkPlayerInput();
         }
     }
 
@@ -104,9 +108,9 @@ public class Player : MonoBehaviour {
         controlsEnabled = true;
     }
 
-    private void checkMovementInput() {
-        bool activateAirshipButtonWasPressed = Input.GetKeyDown(KeyCode.Space);
-        if (airship != null && activateAirshipButtonWasPressed) {
+    private void checkPlayerInput() {
+        bool interactButtonWasPressed = Input.GetKeyDown(KeyCode.Space);
+        if (airship != null && interactButtonWasPressed) {
             if (movementState == MovementState.WALKING && transform.position == airship.position) {
                 animator.SetBool("isOnAirship", true);
 
@@ -129,6 +133,15 @@ public class Player : MonoBehaviour {
                 airshipAnimator.SetFloat("Horizontal", 1);
                 airshipAnimator.SetFloat("Vertical", 0);
                 controlsEnabled = false;
+                return;
+            }
+        }
+
+        if (interactButtonWasPressed) {
+            Vector2 interactionTarget = transform.position + facingDirection;
+            Collider2D interactionCollider = Physics2D.OverlapCircle(interactionTarget, 0.5f, interactableLayer);
+            if (interactionCollider != null) {
+                interactionCollider.GetComponent<Interactable>()?.interact();
                 return;
             }
         }
@@ -157,6 +170,8 @@ public class Player : MonoBehaviour {
             return;
         }
 
+        facingDirection.x = horizontalDirection;
+        facingDirection.y = verticalDirection;
         animator.SetFloat("Horizontal", horizontalDirection);
         animator.SetFloat("Vertical", verticalDirection);
         if (ship != null && movementState == MovementState.IN_SHIP) {

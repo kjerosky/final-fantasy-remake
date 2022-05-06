@@ -189,6 +189,9 @@ MonoBehaviour:
   airship: {fileID: 0}
   levelLoader: {fileID: 0}
   positionToTransitionData: {fileID: 0}
+  interactableLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!95 &3400233256972683474
 Animator:
   serializedVersion: 3
