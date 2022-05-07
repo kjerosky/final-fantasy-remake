@@ -16,9 +16,11 @@ public class DialogManager : MonoBehaviour {
     private bool isTyping;
     private Dialog currentDialog;
     private int currentDialogLineNumber;
+    private bool requestedTypingSkip;
 
     void Start() {
         isTyping = false;
+        requestedTypingSkip = false;
     }
 
     public void showDialog(Dialog dialog) {
@@ -33,13 +35,17 @@ public class DialogManager : MonoBehaviour {
 
     public void handleUpdate() {
         bool interactButtonWasPressed = Input.GetKeyDown(KeyCode.Space);
-        if (!isTyping && interactButtonWasPressed) {
-            currentDialogLineNumber++;
-            if (currentDialogLineNumber < currentDialog.Lines.Count) {
-                StartCoroutine(typeDialogLine(currentDialog.Lines[currentDialogLineNumber]));
+        if (interactButtonWasPressed) {
+            if (isTyping) {
+                requestedTypingSkip = true;
             } else {
-                dialogBox.SetActive(false);
-                OnDialogClosed?.Invoke();
+                currentDialogLineNumber++;
+                if (currentDialogLineNumber < currentDialog.Lines.Count) {
+                    StartCoroutine(typeDialogLine(currentDialog.Lines[currentDialogLineNumber]));
+                } else {
+                    dialogBox.SetActive(false);
+                    OnDialogClosed?.Invoke();
+                }
             }
         }
     }
@@ -51,6 +57,12 @@ public class DialogManager : MonoBehaviour {
         string convertedLine = line.Replace("\\n", "\n");
 
         foreach (char currentCharacter in convertedLine.ToCharArray()) {
+            if (requestedTypingSkip) {
+                requestedTypingSkip = false;
+                dialogText.text = convertedLine;
+                break;
+            }
+
             dialogText.text += currentCharacter;
             yield return new WaitForSeconds(1f / lettersPerSecond);
         }
