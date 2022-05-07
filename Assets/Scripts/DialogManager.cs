@@ -56,17 +56,23 @@ public class DialogManager : MonoBehaviour {
         dialogText.text = "";
         string convertedLine = line.Replace("\\n", "\n");
 
-        foreach (char currentCharacter in convertedLine.ToCharArray()) {
+        for (int currentCharacterIndex = 0; currentCharacterIndex < convertedLine.Length; currentCharacterIndex++) {
             if (requestedTypingSkip) {
                 requestedTypingSkip = false;
-                dialogText.text = convertedLine;
                 break;
             }
 
-            dialogText.text += currentCharacter;
+            // Skip spaces to give the animation a slightly cleaner look.
+            while (convertedLine[currentCharacterIndex] == ' ') {
+                currentCharacterIndex++;
+            }
+
+            string displayLine = convertedLine.Insert(currentCharacterIndex, "<color=\"#00000000\">") + "</color>";
+            dialogText.text = displayLine;
             yield return new WaitForSeconds(1f / lettersPerSecond);
         }
 
+        dialogText.text = convertedLine;
         yield return new WaitForEndOfFrame();
 
         isTyping = false;
