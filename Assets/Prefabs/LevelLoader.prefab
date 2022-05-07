@@ -159,6 +159,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogBox: {fileID: 8051551533550782471}
   dialogText: {fileID: 4125753944255866034}
+  lettersPerSecond: 40
 --- !u!1 &4457623448601879795
 GameObject:
   m_ObjectHideFlags: 0

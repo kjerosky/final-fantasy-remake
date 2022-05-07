@@ -8,6 +8,7 @@ public class DialogManager : MonoBehaviour {
 
     public GameObject dialogBox;
     public Text dialogText;
+    public int lettersPerSecond;
 
     public event Action OnShowDialog;
     public event Action OnDialogClosed;
@@ -46,8 +47,14 @@ public class DialogManager : MonoBehaviour {
     private IEnumerator typeDialogLine(string line) {
         isTyping = true;
 
-        // Let's allow newlines, for now.
-        dialogText.text = line.Replace("\\n", "\n");
+        dialogText.text = "";
+        string convertedLine = line.Replace("\\n", "\n");
+
+        foreach (char currentCharacter in convertedLine.ToCharArray()) {
+            dialogText.text += currentCharacter;
+            yield return new WaitForSeconds(1f / lettersPerSecond);
+        }
+
         yield return new WaitForEndOfFrame();
 
         isTyping = false;
