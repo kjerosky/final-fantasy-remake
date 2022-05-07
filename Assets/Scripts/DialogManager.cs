@@ -9,6 +9,7 @@ public class DialogManager : MonoBehaviour {
     public GameObject dialogBox;
     public Text dialogText;
     public int lettersPerSecond;
+    public float boxAppearanceSeconds;
 
     public event Action OnShowDialog;
     public event Action OnDialogClosed;
@@ -17,23 +18,40 @@ public class DialogManager : MonoBehaviour {
     private Dialog currentDialog;
     private int currentDialogLineNumber;
     private bool requestedTypingSkip;
+    private bool isChangingAppearance;
 
     void Start() {
         isTyping = false;
         requestedTypingSkip = false;
+        isChangingAppearance = false;
     }
 
-    public void showDialog(Dialog dialog) {
+    public IEnumerator showDialog(Dialog dialog) {
         OnShowDialog?.Invoke();
 
+        dialogText.text = "";
         dialogBox.SetActive(true);
+
+        yield return changeDialogBoxAppearance(0f, 1f);
 
         currentDialog = dialog;
         currentDialogLineNumber = 0;
         StartCoroutine(typeDialogLine(currentDialog.Lines[currentDialogLineNumber]));
     }
 
+    private IEnumerator closeDialog() {
+        dialogText.text = "";
+        yield return changeDialogBoxAppearance(1f, 0f);
+
+        dialogBox.SetActive(false);
+        OnDialogClosed?.Invoke();
+    }
+
     public void handleUpdate() {
+        if (isChangingAppearance) {
+            return;
+        }
+
         bool interactButtonWasPressed = Input.GetKeyDown(KeyCode.Space);
         if (interactButtonWasPressed) {
             if (isTyping) {
@@ -43,11 +61,34 @@ public class DialogManager : MonoBehaviour {
                 if (currentDialogLineNumber < currentDialog.Lines.Count) {
                     StartCoroutine(typeDialogLine(currentDialog.Lines[currentDialogLineNumber]));
                 } else {
-                    dialogBox.SetActive(false);
-                    OnDialogClosed?.Invoke();
+                    StartCoroutine(closeDialog());
                 }
             }
         }
+    }
+
+    private IEnumerator changeDialogBoxAppearance(float startScale, float endScale) {
+        isChangingAppearance = true;
+
+        float dialogBoxAppearanceRate = 1 / boxAppearanceSeconds;
+        float lowerScaleBound = startScale;
+        float upperScaleBound = endScale;
+        if (startScale > endScale) {
+            dialogBoxAppearanceRate = -dialogBoxAppearanceRate;
+            lowerScaleBound = endScale;
+            upperScaleBound = startScale;
+        }
+
+        float dialogBoxScale = startScale;
+        while (dialogBoxScale != endScale) {
+            dialogBox.transform.localScale = new Vector3(dialogBoxScale, dialogBoxScale, dialogBoxScale);
+            dialogBoxScale += dialogBoxAppearanceRate * Time.deltaTime;
+            dialogBoxScale = Mathf.Clamp(dialogBoxScale, lowerScaleBound, upperScaleBound);
+            yield return null;
+        }
+
+        dialogBox.transform.localScale = new Vector3(endScale, endScale, endScale);
+        isChangingAppearance = false;
     }
 
     private IEnumerator typeDialogLine(string line) {

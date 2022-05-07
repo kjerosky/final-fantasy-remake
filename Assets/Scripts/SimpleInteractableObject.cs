@@ -8,6 +8,6 @@ public class SimpleInteractableObject : MonoBehaviour, Interactable {
     public DialogManager dialogManager;
 
     public void interact() {
-        dialogManager.showDialog(dialog);
+        StartCoroutine(dialogManager.showDialog(dialog));
     }
 }
