@@ -80,7 +80,7 @@ public class Player : MonoBehaviour {
         isMoving = false;
     }
 
-    void Update() {
+    public void handleUpdate() {
         if (controlsEnabled && !isMoving) {
             checkPlayerInput();
         }

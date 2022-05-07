@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class SimpleInteractableObject : MonoBehaviour, Interactable {
 
-    public string dialogLine;
+    public Dialog dialog;
+    public DialogManager dialogManager;
 
     public void interact() {
-        Debug.Log(dialogLine);
+        dialogManager.showDialog(dialog);
     }
 }

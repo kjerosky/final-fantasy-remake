@@ -215,7 +215,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c88848e2cc054e20ad44be40b0ee44f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogLine: I'm a fountain!
+  dialog:
+    lines:
+    - See your face upon the clean water.\nHow dirty!
+    - Come! Wash your face!
+  dialogManager: {fileID: 1438839878}
 --- !u!1 &938940399
 GameObject:
   m_ObjectHideFlags: 0
@@ -358,6 +362,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 99293920926857310, guid: 4281a965f65ea48f7abf7a6172f31121, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 1206199461}
     - target: {fileID: 777915542372318549, guid: 4281a965f65ea48f7abf7a6172f31121, type: 3}
       propertyPath: player
       value: 
@@ -412,6 +420,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4281a965f65ea48f7abf7a6172f31121, type: 3}
+--- !u!114 &1438839878 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 715567946870479270, guid: 4281a965f65ea48f7abf7a6172f31121, type: 3}
+  m_PrefabInstance: {fileID: 1438839877}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0275f7b8b3e445ccba9eb0f0f407d37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1856124480
 GameObject:
   m_ObjectHideFlags: 0
@@ -443,7 +462,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c88848e2cc054e20ad44be40b0ee44f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogLine: I'm just a well...
+  dialog:
+    lines:
+    - This is a well. You might think that there is something to it... but in fact
+      it is just an ordinary well.
+  dialogManager: {fileID: 1438839878}
 --- !u!61 &1856124482
 BoxCollider2D:
   m_ObjectHideFlags: 0
