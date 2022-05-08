@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
 
 public class Player : MonoBehaviour {
@@ -27,6 +28,7 @@ public class Player : MonoBehaviour {
     public LevelLoader levelLoader;
     public PositionToTransitionData positionToTransitionData;
     public LayerMask interactableLayer;
+    public LayerMask solidObjectsLayer;
 
     private TileMovementData tileMovementData;
     private Animator animator;
@@ -39,6 +41,7 @@ public class Player : MonoBehaviour {
     private Dictionary<MovementState, float> movementStateToSpeed;
     private bool isMoving;
     private Vector3 facingDirection;
+    private bool isOnWorldMap;
 
     void Awake() {
         SceneTransitionData sceneTransitionData = GameObject.Find("SceneTransitionData").GetComponent<SceneTransitionData>();
@@ -78,6 +81,8 @@ public class Player : MonoBehaviour {
         movementStateToSpeed.Add(MovementState.IN_AIRSHIP, airshipSpeed);
 
         isMoving = false;
+
+        isOnWorldMap = SceneManager.GetActiveScene().name == "WorldMap";
     }
 
     public void handleUpdate() {
@@ -139,7 +144,7 @@ public class Player : MonoBehaviour {
 
         if (interactButtonWasPressed) {
             Vector2 interactionTarget = transform.position + facingDirection;
-            Collider2D interactionCollider = Physics2D.OverlapCircle(interactionTarget, 0.5f, interactableLayer);
+            Collider2D interactionCollider = Physics2D.OverlapCircle(interactionTarget, 0.3f, interactableLayer);
             if (interactionCollider != null) {
                 interactionCollider.GetComponent<Interactable>()?.interact();
                 return;
@@ -148,28 +153,39 @@ public class Player : MonoBehaviour {
 
         int horizontalMovementInput = (Input.GetKey(KeyCode.D) ? 1 : 0) - (Input.GetKey(KeyCode.A) ? 1 : 0);
         int verticalMovementInput = (Input.GetKey(KeyCode.W) ? 1 : 0) - (Input.GetKey(KeyCode.S) ? 1 : 0);
-
-        Vector3 movementTargetCandidate = NO_MOVEMENT_TARGET;
-        float horizontalDirection = 0;
-        float verticalDirection = 0;
-        if (horizontalMovementInput != 0) {
-            movementTargetCandidate = transform.position;
-            movementTargetCandidate.x = Mathf.Round(movementTargetCandidate.x + horizontalMovementInput);
-
-            horizontalDirection = horizontalMovementInput;
-            verticalDirection = 0;
-        } else if (verticalMovementInput != 0) {
-            movementTargetCandidate = transform.position;
-            movementTargetCandidate.y = Mathf.Round(movementTargetCandidate.y + verticalMovementInput);
-
-            horizontalDirection = 0;
-            verticalDirection = verticalMovementInput;
+        if (horizontalMovementInput == 0 && verticalMovementInput == 0) {
+            return;
+        } else if (horizontalMovementInput != 0) {
+            verticalMovementInput = 0;
         }
 
-        if (movementTargetCandidate == NO_MOVEMENT_TARGET) {
+        Vector3 movementDirection = new Vector3(horizontalMovementInput, verticalMovementInput);
+        facingDirection = movementDirection;
+        
+        animator.SetFloat("Horizontal", facingDirection.x);
+        animator.SetFloat("Vertical", facingDirection.y);
+
+        Vector3 moveToPosition = new Vector3(
+            Mathf.Round(transform.position.x + movementDirection.x),
+            Mathf.Round(transform.position.y + movementDirection.y)
+        );
+
+        if (!isWalkable(moveToPosition)) {
             return;
         }
 
+        animator.SetBool("isWalking", true);
+
+        if (!isOnWorldMap) {
+            StartCoroutine(moveTowardsPosition(moveToPosition));
+            return;
+        }
+
+        //TODO ADDITITONAL WORLD MAP MOVEMENT CHECKS SHOULD BE DONE HERE!!!
+        StartCoroutine(moveTowardsPosition(moveToPosition));
+
+        //TODO REWRITE THIS SECTION AND REMOVE IT!!!
+        /*
         facingDirection.x = horizontalDirection;
         facingDirection.y = verticalDirection;
         animator.SetFloat("Horizontal", horizontalDirection);
@@ -236,6 +252,11 @@ public class Player : MonoBehaviour {
         if (movementTarget != NO_MOVEMENT_TARGET) {
             StartCoroutine(moveTowardsPosition(movementTarget));
         }
+        */
+    }
+
+    private bool isWalkable(Vector3 targetPosition) {
+        return !Physics2D.OverlapCircle(targetPosition, 0.3f, solidObjectsLayer);
     }
 
     private IEnumerator moveTowardsPosition(Vector3 newPosition) {
