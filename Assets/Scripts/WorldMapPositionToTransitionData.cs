@@ -4,19 +4,23 @@ using UnityEngine;
 
 public class WorldMapPositionToTransitionData : PositionToTransitionData {
 
-    private static int TEST_TOWN_X = 28;
-    private static int TEST_TOWN_Y = 11;
+    private static string TOWNS_SCENE_NAME = "Towns";
+
+    private static int CORNELIA_TOWNS_ENTRANCE_X = 28;
+    private static int CORNELIA_TOWNS_ENTRANCE_Y = 11;
 
     private Dictionary<Vector2, TransitionData> data;
 
     void Awake() {
         data = new Dictionary<Vector2, TransitionData>();
-        data.Add(new Vector2(171, 115), new TransitionData("Cornelia", TEST_TOWN_X, TEST_TOWN_Y));
-        data.Add(new Vector2(171, 116), new TransitionData("Cornelia", TEST_TOWN_X, TEST_TOWN_Y));
-        data.Add(new Vector2(171, 117), new TransitionData("Cornelia", TEST_TOWN_X, TEST_TOWN_Y));
-        data.Add(new Vector2(174, 115), new TransitionData("Cornelia", TEST_TOWN_X, TEST_TOWN_Y));
-        data.Add(new Vector2(174, 116), new TransitionData("Cornelia", TEST_TOWN_X, TEST_TOWN_Y));
-        data.Add(new Vector2(174, 117), new TransitionData("Cornelia", TEST_TOWN_X, TEST_TOWN_Y));
+
+        // Cornelia
+        data.Add(new Vector2(171, 115), new TransitionData(TOWNS_SCENE_NAME, CORNELIA_TOWNS_ENTRANCE_X, CORNELIA_TOWNS_ENTRANCE_Y));
+        data.Add(new Vector2(171, 116), new TransitionData(TOWNS_SCENE_NAME, CORNELIA_TOWNS_ENTRANCE_X, CORNELIA_TOWNS_ENTRANCE_Y));
+        data.Add(new Vector2(171, 117), new TransitionData(TOWNS_SCENE_NAME, CORNELIA_TOWNS_ENTRANCE_X, CORNELIA_TOWNS_ENTRANCE_Y));
+        data.Add(new Vector2(174, 115), new TransitionData(TOWNS_SCENE_NAME, CORNELIA_TOWNS_ENTRANCE_X, CORNELIA_TOWNS_ENTRANCE_Y));
+        data.Add(new Vector2(174, 116), new TransitionData(TOWNS_SCENE_NAME, CORNELIA_TOWNS_ENTRANCE_X, CORNELIA_TOWNS_ENTRANCE_Y));
+        data.Add(new Vector2(174, 117), new TransitionData(TOWNS_SCENE_NAME, CORNELIA_TOWNS_ENTRANCE_X, CORNELIA_TOWNS_ENTRANCE_Y));
     }
 
     public override TransitionData getTransitionDataForTile(float x, float y) {
