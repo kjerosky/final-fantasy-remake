@@ -11,8 +11,9 @@ public class CorneliaPositionToTransitionData : PositionToTransitionData {
 
     void Awake() {
         data = new Dictionary<Vector2, TransitionData>();
-        data.Add(new Vector2(21, 10), new TransitionData("WorldMap", WORLD_MAP_X, WORLD_MAP_Y));
-        data.Add(new Vector2(21, 24), new TransitionData("WorldMap", WORLD_MAP_X, WORLD_MAP_Y));
+        data.Add(new Vector2(28, 10), new TransitionData("WorldMap", WORLD_MAP_X, WORLD_MAP_Y));
+        data.Add(new Vector2(28, 35), new TransitionData("WorldMap", WORLD_MAP_X, WORLD_MAP_Y));
+        data.Add(new Vector2(44, 22), new TransitionData("WorldMap", WORLD_MAP_X, WORLD_MAP_Y));
     }
 
     public override TransitionData getTransitionDataForTile(float x, float y) {

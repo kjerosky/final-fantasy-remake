@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class WorldMapPositionToTransitionData : PositionToTransitionData {
 
-    private static int TEST_TOWN_X = 21;
+    private static int TEST_TOWN_X = 28;
     private static int TEST_TOWN_Y = 11;
 
     private Dictionary<Vector2, TransitionData> data;
