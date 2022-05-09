@@ -2,25 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SceneTransitionData : MonoBehaviour {
+public class SceneTransitionData {
 
-    private int nextPlayerX = 173;
-    private int nextPlayerY = 112;
+    private static int nextPlayerX = -1;
+    private static int nextPlayerY = -1;
 
-    void Awake() {
-        DontDestroyOnLoad(gameObject);
-    }
-
-    public void setNextPlayerPosition(int x, int y) {
+    public static void setNextPlayerPosition(int x, int y) {
         nextPlayerX = x;
         nextPlayerY = y;
     }
 
-    public float getNextPlayerX() {
+    public static int getNextPlayerX() {
         return nextPlayerX;
     }
 
-    public float getNextPlayerY() {
+    public static int getNextPlayerY() {
         return nextPlayerY;
     }
 }

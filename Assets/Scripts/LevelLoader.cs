@@ -9,22 +9,12 @@ public class LevelLoader : MonoBehaviour {
     public float transitionTime = 1.25f;
     public CanvasGroup transitionCanvasGroup;
 
-    private SceneTransitionData sceneTransitionData;
-
     void Awake() {
-        sceneTransitionData = GameObject.Find("SceneTransitionData").GetComponent<SceneTransitionData>();
         transitionCanvasGroup.alpha = 1f;
     }
 
-    //TODO REMOVE THIS TEMPORARY CODE!!!
-    void Update() {
-        if (Input.GetKeyDown(KeyCode.N)) {
-            startTransition("WorldMap", 173, 112);
-        }
-    }
-
     public void startTransition(string nextScene, int nextPlayerX, int nextPlayerY) {
-        sceneTransitionData.setNextPlayerPosition(nextPlayerX, nextPlayerY);
+        SceneTransitionData.setNextPlayerPosition(nextPlayerX, nextPlayerY);
         StartCoroutine(loadLevel(nextScene));
     }
 

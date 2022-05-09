@@ -4348,6 +4348,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1940037729}
     - target: {fileID: 3400233256972683475, guid: b25cad14c8c88409f999a6b62fd7cc97, type: 3}
+      propertyPath: defaultScenePosition.x
+      value: 28
+      objectReference: {fileID: 0}
+    - target: {fileID: 3400233256972683475, guid: b25cad14c8c88409f999a6b62fd7cc97, type: 3}
+      propertyPath: defaultScenePosition.y
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 3400233256972683475, guid: b25cad14c8c88409f999a6b62fd7cc97, type: 3}
       propertyPath: positionToTransitionData
       value: 
       objectReference: {fileID: 2035884709}

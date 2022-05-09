@@ -29,6 +29,7 @@ public class Player : MonoBehaviour {
     public PositionToTransitionData positionToTransitionData;
     public LayerMask interactableLayer;
     public LayerMask solidObjectsLayer;
+    public Vector2Int defaultScenePosition;
 
     private WorldMapTileMovementData worldMapTileMovementData;
     private Animator animator;
@@ -46,10 +47,12 @@ public class Player : MonoBehaviour {
     void Awake() {
         isOnWorldMap = SceneManager.GetActiveScene().name == "WorldMap";
 
-        SceneTransitionData sceneTransitionData = GameObject.Find("SceneTransitionData").GetComponent<SceneTransitionData>();
+        if (SceneTransitionData.getNextPlayerX() == -1) {
+            SceneTransitionData.setNextPlayerPosition(defaultScenePosition.x, defaultScenePosition.y);
+        }
         Vector3 nextPlayerPosition = transform.position;
-        nextPlayerPosition.x = sceneTransitionData.getNextPlayerX();
-        nextPlayerPosition.y = sceneTransitionData.getNextPlayerY();
+        nextPlayerPosition.x = SceneTransitionData.getNextPlayerX();
+        nextPlayerPosition.y = SceneTransitionData.getNextPlayerY();
         transform.position = nextPlayerPosition;
 
         worldMapTileMovementData = GetComponent<WorldMapTileMovementData>();
