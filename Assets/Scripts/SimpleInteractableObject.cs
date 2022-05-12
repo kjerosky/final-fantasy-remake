@@ -5,7 +5,12 @@ using UnityEngine;
 public class SimpleInteractableObject : MonoBehaviour, Interactable {
 
     public Dialog dialog;
-    public DialogManager dialogManager;
+
+    private DialogManager dialogManager;
+
+    public void Awake() {
+        dialogManager = FindObjectOfType<DialogManager>();
+    }
 
     public void interact() {
         StartCoroutine(dialogManager.showDialog(dialog));

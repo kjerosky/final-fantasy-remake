@@ -12,7 +12,6 @@ public class Player : MonoBehaviour {
         IN_SHIP,
         IN_AIRSHIP
     };
-    private static Vector3 NO_MOVEMENT_TARGET = Vector3.forward;
     private static int WRAPPING_X_MIN = 0;
     private static int WRAPPING_X_MAX = 255 + 20 + 20;
     private static int WRAPPING_Y_MIN = 0;
@@ -23,14 +22,12 @@ public class Player : MonoBehaviour {
     public float airshipSpeed = 16.0f;
     public bool hasCanoe = false;
     public Tilemap backgroundTilemap;
-    public Transform ship;
-    public Transform airship;
-    public LevelLoader levelLoader;
-    public PositionToTransitionData positionToTransitionData;
     public LayerMask interactableLayer;
     public LayerMask solidObjectsLayer;
-    public Vector2Int defaultScenePosition;
+    public LayerMask portalsLayer;
 
+    private Transform ship;
+    private Transform airship;
     private WorldMapTileMovementData worldMapTileMovementData;
     private Animator animator;
     private SpriteRenderer spriteRenderer;
@@ -45,34 +42,12 @@ public class Player : MonoBehaviour {
     private bool isOnWorldMap;
 
     void Awake() {
-        isOnWorldMap = SceneManager.GetActiveScene().name == "WorldMap";
-
-        if (SceneTransitionData.getNextPlayerX() == -1) {
-            SceneTransitionData.setNextPlayerPosition(defaultScenePosition.x, defaultScenePosition.y);
-        }
-        Vector3 nextPlayerPosition = transform.position;
-        nextPlayerPosition.x = SceneTransitionData.getNextPlayerX();
-        nextPlayerPosition.y = SceneTransitionData.getNextPlayerY();
-        transform.position = nextPlayerPosition;
+        Vector3 defaultScenePosition = FindObjectOfType<EssentialObjectsLoader>().DefaultPlayerPosition;
+        handleSceneLoaded(defaultScenePosition);
 
         worldMapTileMovementData = GetComponent<WorldMapTileMovementData>();
 
-        animator = GetComponent<Animator>();
-        animator.SetFloat("Horizontal", 0);
-        animator.SetFloat("Vertical", -1);
-        animator.SetBool("isWalking", false);
-        animator.SetBool("isInCanoe", false);
-
-        facingDirection = new Vector3(0, -1);
-
         spriteRenderer = GetComponent<SpriteRenderer>();
-
-        if (isOnWorldMap) {
-            shipAnimator = ship.gameObject.GetComponent<Animator>();
-            resetShipAnimation();
-
-            airshipAnimator = airship.gameObject.GetComponent<Animator>();
-        }
 
         controlsEnabled = false;
         movementState = MovementState.WALKING;
@@ -84,6 +59,32 @@ public class Player : MonoBehaviour {
         movementStateToSpeed.Add(MovementState.IN_AIRSHIP, airshipSpeed);
 
         isMoving = false;
+    }
+
+    public void handleSceneLoaded(Vector3 newPlayerPosition) {
+        transform.position = newPlayerPosition;
+
+        backgroundTilemap = GameObject.Find("Background").GetComponent<Tilemap>();
+
+        animator = GetComponent<Animator>();
+        animator.SetFloat("Horizontal", 0);
+        animator.SetFloat("Vertical", -1);
+        animator.SetBool("isWalking", false);
+        animator.SetBool("isInCanoe", false);
+
+        facingDirection = new Vector3(0, -1);
+
+        isOnWorldMap = SceneManager.GetActiveScene().name == "WorldMap";
+        if (isOnWorldMap) {
+            GameObject shipObject = GameObject.Find("Ship");
+            ship = shipObject.GetComponent<Transform>();
+            shipAnimator = shipObject.GetComponent<Animator>();
+            resetShipAnimation();
+
+            GameObject airshipObject = GameObject.Find("Airship");
+            airship = airshipObject.GetComponent<Transform>();
+            airshipAnimator = airshipObject.GetComponent<Animator>();
+        }
     }
 
     public void handleUpdate() {
@@ -268,10 +269,10 @@ public class Player : MonoBehaviour {
         animator.SetBool("isWalking", false);
 
         if (movementState == MovementState.WALKING || movementState == MovementState.IN_CANOE) {
-            TransitionData transitionData = positionToTransitionData.getTransitionDataForTile(transform.position.x, transform.position.y);
-            if (transitionData != null) {
+            Collider2D portalCollider = Physics2D.OverlapCircle(transform.position, 0.3f, portalsLayer);
+            if (portalCollider != null) {
                 controlsEnabled = false;
-                levelLoader.startTransition(transitionData.nextScene, transitionData.nextPlayerX, transitionData.nextPlayerY);
+                portalCollider.GetComponent<Portal>().OnPlayerTriggered(this);
             }
         }
 

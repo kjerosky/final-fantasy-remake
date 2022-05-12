@@ -13,16 +13,13 @@ public class LevelLoader : MonoBehaviour {
         transitionCanvasGroup.alpha = 1f;
     }
 
-    public void startTransition(string nextScene, int nextPlayerX, int nextPlayerY) {
-        SceneTransitionData.setNextPlayerPosition(nextPlayerX, nextPlayerY);
-        StartCoroutine(loadLevel(nextScene));
+    public IEnumerator transitionOutOfScene() {
+        transitionAnimator.SetBool("shouldCloseBars", true);
+        yield return new WaitForSeconds(transitionTime);
     }
 
-    private IEnumerator loadLevel(string levelName) {
-        transitionAnimator.SetTrigger("Start");
-
+    public IEnumerator transitionIntoScene() {
+        transitionAnimator.SetBool("shouldCloseBars", false);
         yield return new WaitForSeconds(transitionTime);
-
-        SceneManager.LoadScene(levelName);
-    } 
+    }
 }
