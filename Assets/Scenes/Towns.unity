@@ -40951,9 +40951,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24af47f30dc614d6c9485f0601c7c5da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveSpeed: 2
   dialog:
     lines:
     - Welcome to Cornelia, the city of dreams.
+  solidObjectsLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  interactableLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  claimedMoveDestinationPrefab: {fileID: 8768446628316541724, guid: f1c94881df4b84724a5ce83a9179959d, type: 3}
 --- !u!61 &2013751908
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -40992,6 +41003,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23b8fcacf19434fb682e9a1587d30abe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveFrameTime: 0.125
   moveUpFrames:
   - {fileID: 2242565777422024618, guid: 6ce65707ad266478da137b919b9e942c, type: 3}
   - {fileID: -2600988976424656773, guid: 6ce65707ad266478da137b919b9e942c, type: 3}

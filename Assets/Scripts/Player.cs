@@ -25,6 +25,7 @@ public class Player : MonoBehaviour {
     public LayerMask interactableLayer;
     public LayerMask solidObjectsLayer;
     public LayerMask portalsLayer;
+    public GameObject claimedMovePositionPrefab;
 
     private Transform ship;
     private Transform airship;
@@ -196,7 +197,7 @@ public class Player : MonoBehaviour {
     }
 
     private bool isWalkable(Vector3 targetPosition) {
-        return !Physics2D.OverlapCircle(targetPosition, 0.3f, solidObjectsLayer);
+        return !Physics2D.OverlapCircle(targetPosition, 0.3f, solidObjectsLayer | interactableLayer);
     }
 
     private bool checkAndProcessWorldMapMovability(Vector3 targetPosition) {
@@ -257,15 +258,18 @@ public class Player : MonoBehaviour {
     private IEnumerator moveTowardsPosition(Vector3 newPosition) {
         float moveSpeed = movementStateToSpeed[movementState];
 
+
+        GameObject claimedMoveDestination = Instantiate(claimedMovePositionPrefab, newPosition, Quaternion.identity);
+        isMoving = true;
         animator.SetBool("isWalking", true);
 
-        isMoving = true;
         while (transform.position != newPosition) {
             transform.position = Vector3.MoveTowards(transform.position, newPosition, moveSpeed * Time.deltaTime);
             yield return null;
         }
-        isMoving = false;
 
+        Destroy(claimedMoveDestination);
+        isMoving = false;
         animator.SetBool("isWalking", false);
 
         if (movementState == MovementState.WALKING || movementState == MovementState.IN_CANOE) {

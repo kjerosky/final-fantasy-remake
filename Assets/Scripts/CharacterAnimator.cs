@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CharacterAnimator : MonoBehaviour {
 
+    [SerializeField] float moveFrameTime;
     [SerializeField] List<Sprite> moveUpFrames;
     [SerializeField] List<Sprite> moveDownFrames;
     [SerializeField] List<Sprite> moveLeftFrames;
@@ -26,10 +27,10 @@ public class CharacterAnimator : MonoBehaviour {
     void Start() {
         spriteRenderer = GetComponent<SpriteRenderer>();
 
-        moveUpAnimator = new SpriteAnimator(spriteRenderer, moveUpFrames, 0.25f);
-        moveDownAnimator = new SpriteAnimator(spriteRenderer, moveDownFrames, 0.25f);
-        moveLeftAnimator = new SpriteAnimator(spriteRenderer, moveLeftFrames, 0.25f);
-        moveRightAnimator = new SpriteAnimator(spriteRenderer, moveRightFrames, 0.25f);
+        moveUpAnimator = new SpriteAnimator(spriteRenderer, moveUpFrames, moveFrameTime);
+        moveDownAnimator = new SpriteAnimator(spriteRenderer, moveDownFrames, moveFrameTime);
+        moveLeftAnimator = new SpriteAnimator(spriteRenderer, moveLeftFrames, moveFrameTime);
+        moveRightAnimator = new SpriteAnimator(spriteRenderer, moveRightFrames, moveFrameTime);
 
         currentAnimator = moveDownAnimator;
 
