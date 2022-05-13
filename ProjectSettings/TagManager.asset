@@ -44,9 +44,6 @@ TagManager:
   - name: World
     uniqueID: 798059895
     locked: 0
-  - name: Characters
-    uniqueID: 440415301
-    locked: 0
   - name: Background
     uniqueID: 1695276057
     locked: 0
@@ -55,6 +52,9 @@ TagManager:
     locked: 0
   - name: Vehicles
     uniqueID: 1757394665
+    locked: 0
+  - name: Characters
+    uniqueID: 440415301
     locked: 0
   - name: Player
     uniqueID: 2684415737

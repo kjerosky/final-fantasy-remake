@@ -8,11 +8,11 @@ public class SimpleInteractableObject : MonoBehaviour, Interactable {
 
     private DialogManager dialogManager;
 
-    public void Awake() {
-        dialogManager = FindObjectOfType<DialogManager>();
-    }
-
     public void interact() {
+        if (dialogManager == null) {
+            dialogManager = FindObjectOfType<DialogManager>();
+        }
+
         StartCoroutine(dialogManager.showDialog(dialog));
     }
 }
