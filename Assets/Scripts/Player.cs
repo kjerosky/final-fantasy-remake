@@ -150,7 +150,7 @@ public class Player : MonoBehaviour {
             Vector2 interactionTarget = transform.position + facingDirection;
             Collider2D interactionCollider = Physics2D.OverlapCircle(interactionTarget, 0.3f, interactableLayer);
             if (interactionCollider != null) {
-                interactionCollider.GetComponent<Interactable>()?.interact();
+                interactionCollider.GetComponent<Interactable>()?.interact(transform);
                 return;
             }
         }

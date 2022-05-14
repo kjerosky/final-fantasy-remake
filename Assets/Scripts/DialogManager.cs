@@ -19,6 +19,7 @@ public class DialogManager : MonoBehaviour {
     private int currentDialogLineNumber;
     private bool requestedTypingSkip;
     private bool isChangingAppearance;
+    private Action onFinished;
 
     void Start() {
         isTyping = false;
@@ -26,7 +27,9 @@ public class DialogManager : MonoBehaviour {
         isChangingAppearance = false;
     }
 
-    public IEnumerator showDialog(Dialog dialog) {
+    public IEnumerator showDialog(Dialog dialog, Action onDialogFinished = null) {
+        onFinished = onDialogFinished;
+
         OnShowDialog?.Invoke();
 
         dialogText.text = "";
@@ -45,6 +48,7 @@ public class DialogManager : MonoBehaviour {
 
         dialogBox.SetActive(false);
         OnDialogClosed?.Invoke();
+        onFinished?.Invoke();
     }
 
     public void handleUpdate() {

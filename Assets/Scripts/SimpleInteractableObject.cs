@@ -8,7 +8,7 @@ public class SimpleInteractableObject : MonoBehaviour, Interactable {
 
     private DialogManager dialogManager;
 
-    public void interact() {
+    public void interact(Transform initiator) {
         if (dialogManager == null) {
             dialogManager = FindObjectOfType<DialogManager>();
         }

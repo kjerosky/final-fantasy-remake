@@ -40952,6 +40952,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 2
+  timeBetweenMoves: 1
   dialog:
     lines:
     - Welcome to Cornelia, the city of dreams.

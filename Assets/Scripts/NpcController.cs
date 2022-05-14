@@ -1,10 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class NpcController : MonoBehaviour, Interactable {
 
+    private static readonly Vector3[] POSSIBLE_MOVE_DIRECTIONS = new Vector3[] { Vector3.up, Vector3.down, Vector3.left, Vector3.right };
+
     [SerializeField] float moveSpeed;
+    [SerializeField] float timeBetweenMoves;
     [SerializeField] Dialog dialog;
     [SerializeField] LayerMask solidObjectsLayer;
     [SerializeField] LayerMask interactableLayer;
@@ -14,7 +18,8 @@ public class NpcController : MonoBehaviour, Interactable {
     private CharacterAnimator animator;
     private DialogManager dialogManager;
 
-    private bool isMoving;
+    private NpcState state;
+    private float timeSinceLastMove;
 
     void Awake() {
         animator = GetComponent<CharacterAnimator>();
@@ -22,25 +27,28 @@ public class NpcController : MonoBehaviour, Interactable {
         animator.Vertical = -1;
         animator.IsMoving = false;
 
-        isMoving = false;
+        state = NpcState.IDLE;
+        timeSinceLastMove = 0f;
     }
 
     void Update() {
-        if (isMoving) {
+        if (state != NpcState.IDLE) {
             return;
         }
 
-        Vector3 moveDirection = new Vector2(
-            (Input.GetKey(KeyCode.L) ? 1 : 0) - (Input.GetKey(KeyCode.J) ? 1 : 0),
-            (Input.GetKey(KeyCode.I) ? 1 : 0) - (Input.GetKey(KeyCode.K) ? 1 : 0)
-        );
-        if (moveDirection.x != 0) {
-            moveDirection.y = 0;
+        Vector3 randomMoveDirection;
+        timeSinceLastMove += Time.deltaTime;
+        if (timeSinceLastMove > timeBetweenMoves) {
+            timeSinceLastMove = 0f;
+
+            List<Vector3> moveDirectionCandidates = POSSIBLE_MOVE_DIRECTIONS
+                .Where(moveDirection => isWalkable(transform.position + moveDirection)).ToList();
+            randomMoveDirection = moveDirectionCandidates[Random.Range(0, moveDirectionCandidates.Count)];
+        } else {
+            return;
         }
 
-        if (moveDirection.sqrMagnitude > 0) {
-            StartCoroutine(move(moveDirection));
-        }
+        StartCoroutine(move(randomMoveDirection));
     }
 
     private IEnumerator move(Vector3 moveDirection) {
@@ -57,7 +65,7 @@ public class NpcController : MonoBehaviour, Interactable {
         }
 
         GameObject claimedMoveDestination = Instantiate(claimedMoveDestinationPrefab, targetPosition, Quaternion.identity);
-        isMoving = true;
+        state = NpcState.MOVING;
         animator.IsMoving = true;
 
         while (transform.position != targetPosition) {
@@ -66,7 +74,7 @@ public class NpcController : MonoBehaviour, Interactable {
         }
 
         Destroy(claimedMoveDestination);
-        isMoving = false;
+        state = NpcState.IDLE;
         animator.IsMoving = false;
     }
 
@@ -74,11 +82,38 @@ public class NpcController : MonoBehaviour, Interactable {
         return !Physics2D.OverlapCircle(targetPosition, 0.3f, solidObjectsLayer | interactableLayer | playerLayer);
     }
 
-    public void interact() {
+    public void interact(Transform initiator) {
         if (dialogManager == null) {
             dialogManager = FindObjectOfType<DialogManager>();
         }
 
-        StartCoroutine(dialogManager.showDialog(dialog));
+        if (state != NpcState.IDLE) {
+            return;
+        }
+
+        state = NpcState.INTERACTING;
+        lookTowards(initiator.position);
+        StartCoroutine(dialogManager.showDialog(dialog, () => {
+            timeSinceLastMove = 0f;
+            state = NpcState.IDLE;
+        }));
     }
+
+    private void lookTowards(Vector3 lookPoint) {
+        float xLookDirection = Mathf.Round(lookPoint.x - transform.position.x);
+        float yLookDirection = Mathf.Round(lookPoint.y - transform.position.y);
+
+        if (xLookDirection != 0 && yLookDirection != 0) {
+            return;
+        }
+
+        animator.Horizontal = Mathf.Clamp(xLookDirection, -1f, 1f);
+        animator.Vertical = Mathf.Clamp(yLookDirection, -1f, 1f);
+    }
+}
+
+public enum NpcState {
+    IDLE,
+    MOVING,
+    INTERACTING
 }
