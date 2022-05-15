@@ -21,6 +21,13 @@ public class NpcController : MonoBehaviour, Interactable {
     private NpcState state;
     private float timeSinceLastMove;
 
+    private Vector3 nextPosition;
+    private Vector3 previousPosition;
+    private NpcState previousState;
+    private float previousAnimatorHorizontal;
+    private float previousAnimatorVertical;
+    private bool previousAnimatorIsMoving;
+
     void Awake() {
         animator = GetComponent<CharacterAnimator>();
         animator.Horizontal = 0;
@@ -52,6 +59,8 @@ public class NpcController : MonoBehaviour, Interactable {
     }
 
     private IEnumerator move(Vector3 moveDirection) {
+        previousPosition = transform.position;
+
         animator.Horizontal = moveDirection.x;
         animator.Vertical = moveDirection.y;
 
@@ -64,11 +73,18 @@ public class NpcController : MonoBehaviour, Interactable {
             yield break;
         }
 
+        nextPosition = targetPosition;
+
         GameObject claimedMoveDestination = Instantiate(claimedMoveDestinationPrefab, targetPosition, Quaternion.identity);
         state = NpcState.MOVING;
         animator.IsMoving = true;
 
         while (transform.position != targetPosition) {
+            if (state != NpcState.MOVING) {
+                yield return null;
+                continue;
+            }
+
             transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
             yield return null;
         }
@@ -87,28 +103,35 @@ public class NpcController : MonoBehaviour, Interactable {
             dialogManager = FindObjectOfType<DialogManager>();
         }
 
-        if (state != NpcState.IDLE) {
-            return;
-        }
+        previousState = state;
+        previousAnimatorHorizontal = animator.Horizontal;
+        previousAnimatorVertical = animator.Vertical;
+        previousAnimatorIsMoving = animator.IsMoving;
+
+        Vector3 lookDirection = determineLookDirection(initiator.position);
 
         state = NpcState.INTERACTING;
-        lookTowards(initiator.position);
+        animator.Horizontal = lookDirection.x;
+        animator.Vertical = lookDirection.y;
+        animator.IsMoving = false;
         StartCoroutine(dialogManager.showDialog(dialog, () => {
             timeSinceLastMove = 0f;
-            state = NpcState.IDLE;
+
+            state = previousState;
+            animator.Horizontal = previousAnimatorHorizontal;
+            animator.Vertical = previousAnimatorVertical;
+            animator.IsMoving = previousAnimatorIsMoving;
         }));
     }
 
-    private void lookTowards(Vector3 lookPoint) {
-        float xLookDirection = Mathf.Round(lookPoint.x - transform.position.x);
-        float yLookDirection = Mathf.Round(lookPoint.y - transform.position.y);
-
-        if (xLookDirection != 0 && yLookDirection != 0) {
-            return;
+    private Vector3 determineLookDirection(Vector3 initiatorPosition) {
+        Vector3 fromPreviousPositionToInitiator = (initiatorPosition - previousPosition).normalized;
+        Vector3 fromNextPositionToInitiator = (initiatorPosition - nextPosition).normalized;
+        if (Mathf.Abs(fromPreviousPositionToInitiator.x) == 1f || Mathf.Abs(fromPreviousPositionToInitiator.y) == 1f) {
+            return fromPreviousPositionToInitiator;
+        } else {
+            return fromNextPositionToInitiator;
         }
-
-        animator.Horizontal = Mathf.Clamp(xLookDirection, -1f, 1f);
-        animator.Vertical = Mathf.Clamp(yLookDirection, -1f, 1f);
     }
 }
 
