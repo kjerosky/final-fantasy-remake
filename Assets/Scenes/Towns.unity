@@ -40951,6 +40951,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24af47f30dc614d6c9485f0601c7c5da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  movesAround: 1
   moveSpeed: 2
   timeBetweenMoves: 1
   dialog:

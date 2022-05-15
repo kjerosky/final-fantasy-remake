@@ -7,6 +7,7 @@ public class NpcController : MonoBehaviour, Interactable {
 
     private static readonly Vector3[] POSSIBLE_MOVE_DIRECTIONS = new Vector3[] { Vector3.up, Vector3.down, Vector3.left, Vector3.right };
 
+    [SerializeField] bool movesAround;
     [SerializeField] float moveSpeed;
     [SerializeField] float timeBetweenMoves;
     [SerializeField] Dialog dialog;
@@ -32,14 +33,17 @@ public class NpcController : MonoBehaviour, Interactable {
         animator = GetComponent<CharacterAnimator>();
         animator.Horizontal = 0;
         animator.Vertical = -1;
-        animator.IsMoving = false;
+        animator.IsMoving = !movesAround;
 
         state = NpcState.IDLE;
         timeSinceLastMove = 0f;
+
+        previousPosition = transform.position;
+        nextPosition = transform.position;
     }
 
     void Update() {
-        if (state != NpcState.IDLE) {
+        if (!movesAround || state != NpcState.IDLE) {
             return;
         }
 
