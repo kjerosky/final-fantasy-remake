@@ -99,7 +99,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movesAround: 1
   moveSpeed: 2
-  timeBetweenMoves: 1
+  minTimeBetweenMoves: 0.5
+  maxTimeBetweenMoves: 2
   dialog:
     lines:
     - '[PLACE TEXT HERE]'

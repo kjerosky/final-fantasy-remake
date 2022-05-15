@@ -9,7 +9,8 @@ public class NpcController : MonoBehaviour, Interactable {
 
     [SerializeField] bool movesAround;
     [SerializeField] float moveSpeed;
-    [SerializeField] float timeBetweenMoves;
+    [SerializeField] float minTimeBetweenMoves;
+    [SerializeField] float maxTimeBetweenMoves;
     [SerializeField] Dialog dialog;
     [SerializeField] LayerMask solidObjectsLayer;
     [SerializeField] LayerMask interactableLayer;
@@ -21,6 +22,7 @@ public class NpcController : MonoBehaviour, Interactable {
 
     private NpcState state;
     private float timeSinceLastMove;
+    private float timeToNextMove;
 
     private Vector3 nextPosition;
     private Vector3 previousPosition;
@@ -37,6 +39,7 @@ public class NpcController : MonoBehaviour, Interactable {
 
         state = NpcState.IDLE;
         timeSinceLastMove = 0f;
+        timeToNextMove = determineTimeToNextMove();
 
         previousPosition = transform.position;
         nextPosition = transform.position;
@@ -49,8 +52,9 @@ public class NpcController : MonoBehaviour, Interactable {
 
         Vector3 randomMoveDirection;
         timeSinceLastMove += Time.deltaTime;
-        if (timeSinceLastMove > timeBetweenMoves) {
+        if (timeSinceLastMove > timeToNextMove) {
             timeSinceLastMove = 0f;
+            timeToNextMove = determineTimeToNextMove();
 
             List<Vector3> moveDirectionCandidates = POSSIBLE_MOVE_DIRECTIONS
                 .Where(moveDirection => isWalkable(transform.position + moveDirection)).ToList();
@@ -60,6 +64,10 @@ public class NpcController : MonoBehaviour, Interactable {
         }
 
         StartCoroutine(move(randomMoveDirection));
+    }
+
+    private float determineTimeToNextMove() {
+        return Random.Range(minTimeBetweenMoves, maxTimeBetweenMoves);
     }
 
     private IEnumerator move(Vector3 moveDirection) {
