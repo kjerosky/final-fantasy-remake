@@ -1,31 +1,31 @@
 fileFormatVersion: 2
-guid: 6ce65707ad266478da137b919b9e942c
+guid: bc31bb6d1510649feac5f131bbd908cd
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7179145564579747211
-    second: cornelia-woman-down-idle
+      213: 4411879735031159849
+    second: cornelia-sage-down-idle
   - first:
-      213: 5978585806505790429
-    second: cornelia-woman-left-idle
+      213: 1512123284462951290
+    second: cornelia-sage-left-idle
   - first:
-      213: 2242565777422024618
-    second: cornelia-woman-up-idle
+      213: 3739408169032004676
+    second: cornelia-sage-up-idle
   - first:
-      213: 5962868520875829864
-    second: cornelia-woman-right-idle
+      213: 8683913704399275421
+    second: cornelia-sage-right-idle
   - first:
-      213: 6553689719046558208
-    second: cornelia-woman-down-moving
+      213: -3917034383379734890
+    second: cornelia-sage-down-moving
   - first:
-      213: -2936136875097245108
-    second: cornelia-woman-left-moving
+      213: -6672062755437274512
+    second: cornelia-sage-left-moving
   - first:
-      213: -2600988976424656773
-    second: cornelia-woman-up-moving
+      213: 8148273039127889669
+    second: cornelia-sage-up-moving
   - first:
-      213: 2507170265071053613
-    second: cornelia-woman-right-moving
+      213: 4919609546726278513
+    second: cornelia-sage-right-moving
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -67,7 +67,7 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 1
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 16
@@ -115,7 +115,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: cornelia-woman-down-idle
+      name: cornelia-sage-down-idle
       rect:
         serializedVersion: 2
         x: 0
@@ -129,14 +129,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b85d89faad271a360800000000000000
-      internalID: 7179145564579747211
+      spriteID: 92cd64e6e352a3d30800000000000000
+      internalID: 4411879735031159849
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: cornelia-woman-left-idle
+      name: cornelia-sage-left-idle
       rect:
         serializedVersion: 2
         x: 16
@@ -150,14 +150,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ddb48f77d1438f250800000000000000
-      internalID: 5978585806505790429
+      spriteID: a7bd20b9d142cf410800000000000000
+      internalID: 1512123284462951290
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: cornelia-woman-up-idle
+      name: cornelia-sage-up-idle
       rect:
         serializedVersion: 2
         x: 32
@@ -171,14 +171,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: aafffa461b13f1f10800000000000000
-      internalID: 2242565777422024618
+      spriteID: 444b851eaeb05e330800000000000000
+      internalID: 3739408169032004676
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: cornelia-woman-right-idle
+      name: cornelia-sage-right-idle
       rect:
         serializedVersion: 2
         x: 48
@@ -192,14 +192,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 86aa92db35d50c250800000000000000
-      internalID: 5962868520875829864
+      spriteID: d958dda3185738870800000000000000
+      internalID: 8683913704399275421
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: cornelia-woman-down-moving
+      name: cornelia-sage-down-moving
       rect:
         serializedVersion: 2
         x: 0
@@ -213,14 +213,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 00256e7931263fa50800000000000000
-      internalID: 6553689719046558208
+      spriteID: 69ed8ad4bf5e3a9c0800000000000000
+      internalID: -3917034383379734890
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: cornelia-woman-left-moving
+      name: cornelia-sage-left-moving
       rect:
         serializedVersion: 2
         x: 16
@@ -234,14 +234,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c4a37e3811fb047d0800000000000000
-      internalID: -2936136875097245108
+      spriteID: 07a1c0726421863a0800000000000000
+      internalID: -6672062755437274512
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: cornelia-woman-up-moving
+      name: cornelia-sage-up-moving
       rect:
         serializedVersion: 2
         x: 32
@@ -255,14 +255,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b70608b7e4e67ebd0800000000000000
-      internalID: -2600988976424656773
+      spriteID: 5074c1e582b741170800000000000000
+      internalID: 8148273039127889669
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: cornelia-woman-right-moving
+      name: cornelia-sage-right-moving
       rect:
         serializedVersion: 2
         x: 48
@@ -276,8 +276,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d2b6bf092124bc220800000000000000
-      internalID: 2507170265071053613
+      spriteID: 1758d3a41d6f54440800000000000000
+      internalID: 4919609546726278513
       vertices: []
       indices: 
       edges: []
