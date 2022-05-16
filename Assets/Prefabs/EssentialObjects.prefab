@@ -256,6 +256,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   claimedMovePositionPrefab: {fileID: 8768446628316541724, guid: f1c94881df4b84724a5ce83a9179959d, type: 3}
+  openDoorTile: {fileID: 11400000, guid: e04ae1133cf6c47f39a6944346362d80, type: 2}
+  closedDoorTile: {fileID: 11400000, guid: 136ae3dbed5e0429790aa989a6312d2c, type: 2}
 --- !u!95 &3302406472380957437
 Animator:
   serializedVersion: 3

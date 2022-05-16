@@ -26,6 +26,8 @@ public class Player : MonoBehaviour {
     public LayerMask solidObjectsLayer;
     public LayerMask portalsLayer;
     public GameObject claimedMovePositionPrefab;
+    [SerializeField] Tile openDoorTile;
+    [SerializeField] Tile closedDoorTile;
 
     private Transform ship;
     private Transform airship;
@@ -256,8 +258,15 @@ public class Player : MonoBehaviour {
     }
 
     private IEnumerator moveTowardsPosition(Vector3 newPosition) {
-        float moveSpeed = movementStateToSpeed[movementState];
+        Vector3 startPosition = transform.position;
+        Tile startTile = getBackgroundTileAtWorldPosition(startPosition);
+        Tile destinationTile = getBackgroundTileAtWorldPosition(newPosition);
 
+        if (destinationTile == closedDoorTile) {
+            setBackgroundTileAtWorldPosition(newPosition, openDoorTile);
+        }
+
+        float moveSpeed = movementStateToSpeed[movementState];
 
         GameObject claimedMoveDestination = Instantiate(claimedMovePositionPrefab, newPosition, Quaternion.identity);
         isMoving = true;
@@ -271,6 +280,10 @@ public class Player : MonoBehaviour {
         Destroy(claimedMoveDestination);
         isMoving = false;
         animator.SetBool("isWalking", false);
+
+        if (startTile == openDoorTile) {
+            setBackgroundTileAtWorldPosition(startPosition, closedDoorTile);
+        }
 
         if (movementState == MovementState.WALKING || movementState == MovementState.IN_CANOE) {
             Collider2D portalCollider = Physics2D.OverlapCircle(transform.position, 0.3f, portalsLayer);
@@ -350,5 +363,10 @@ public class Player : MonoBehaviour {
     private Tile getBackgroundTileAtWorldPosition(Vector3 worldPosition) {
         Vector3Int walkTargetCandidateCell = backgroundTilemap.WorldToCell(worldPosition);
         return backgroundTilemap.GetTile<Tile>(walkTargetCandidateCell);
+    }
+
+    private void setBackgroundTileAtWorldPosition(Vector3 worldPosition, Tile tile) {
+        Vector3Int cellPosition = backgroundTilemap.WorldToCell(worldPosition);
+        backgroundTilemap.SetTile(cellPosition, tile);
     }
 }
