@@ -4,9 +4,15 @@ using UnityEngine;
 
 public class TransitionAnimationHandler : MonoBehaviour {
 
-    public Player player;
+    [SerializeField] Player player;
+    [SerializeField] AreaNameDisplay areaNameDisplay;
+
+    public void handleTransitionOutOfSceneStarted() {
+        areaNameDisplay.stopDisplay();
+    }
 
     public void handleTransitionIntoSceneCompleted() {
         player.onTransitionIntoSceneComplete();
+        areaNameDisplay.startDisplay();
     }
 }
