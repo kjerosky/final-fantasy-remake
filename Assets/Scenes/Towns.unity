@@ -183,6 +183,22 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 6739531730575931345, guid: fc1b8b45ad784422d979edcb72c55a4e, type: 3}
     - target: {fileID: 5493544971804496061, guid: 4650e10c3aefb49bb81a2af5abb10d9a, type: 3}
+      propertyPath: walkAreaOffsetMaxX
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5493544971804496061, guid: 4650e10c3aefb49bb81a2af5abb10d9a, type: 3}
+      propertyPath: walkAreaOffsetMaxY
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5493544971804496061, guid: 4650e10c3aefb49bb81a2af5abb10d9a, type: 3}
+      propertyPath: walkAreaOffsetMinX
+      value: -5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5493544971804496061, guid: 4650e10c3aefb49bb81a2af5abb10d9a, type: 3}
+      propertyPath: walkAreaOffsetMinY
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5493544971804496061, guid: 4650e10c3aefb49bb81a2af5abb10d9a, type: 3}
       propertyPath: dialog.lines.Array.data[0]
       value: My home is Pravoka, a beautiful port city far east of here.
       objectReference: {fileID: 0}
@@ -305,6 +321,22 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 638487034766302701, guid: c94b4a6d1afb341f6b54a70f8b9e5571, type: 3}
+    - target: {fileID: 5493544971804496061, guid: 4650e10c3aefb49bb81a2af5abb10d9a, type: 3}
+      propertyPath: walkAreaOffsetMaxX
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5493544971804496061, guid: 4650e10c3aefb49bb81a2af5abb10d9a, type: 3}
+      propertyPath: walkAreaOffsetMaxY
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5493544971804496061, guid: 4650e10c3aefb49bb81a2af5abb10d9a, type: 3}
+      propertyPath: walkAreaOffsetMinX
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5493544971804496061, guid: 4650e10c3aefb49bb81a2af5abb10d9a, type: 3}
+      propertyPath: walkAreaOffsetMinY
+      value: -3
+      objectReference: {fileID: 0}
     - target: {fileID: 5493544971804496061, guid: 4650e10c3aefb49bb81a2af5abb10d9a, type: 3}
       propertyPath: dialog.lines.Array.data[0]
       value: The king is sure that someday the Light Warriors will come to save the
@@ -4732,6 +4764,22 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 6387034083974017345, guid: adfbc7ff8977e425e996439251b898a4, type: 3}
     - target: {fileID: 5493544971804496061, guid: 4650e10c3aefb49bb81a2af5abb10d9a, type: 3}
+      propertyPath: walkAreaOffsetMaxX
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5493544971804496061, guid: 4650e10c3aefb49bb81a2af5abb10d9a, type: 3}
+      propertyPath: walkAreaOffsetMaxY
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5493544971804496061, guid: 4650e10c3aefb49bb81a2af5abb10d9a, type: 3}
+      propertyPath: walkAreaOffsetMinX
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5493544971804496061, guid: 4650e10c3aefb49bb81a2af5abb10d9a, type: 3}
+      propertyPath: walkAreaOffsetMinY
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5493544971804496061, guid: 4650e10c3aefb49bb81a2af5abb10d9a, type: 3}
       propertyPath: dialog.lines.Array.data[0]
       value: I am Arylon, the dancer!
       objectReference: {fileID: 0}
@@ -4956,6 +5004,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 837169225}
     m_Modifications:
+    - target: {fileID: 5493544971804496061, guid: 4650e10c3aefb49bb81a2af5abb10d9a, type: 3}
+      propertyPath: walkAreaOffsetMaxX
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5493544971804496061, guid: 4650e10c3aefb49bb81a2af5abb10d9a, type: 3}
+      propertyPath: walkAreaOffsetMaxY
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5493544971804496061, guid: 4650e10c3aefb49bb81a2af5abb10d9a, type: 3}
+      propertyPath: walkAreaOffsetMinX
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5493544971804496061, guid: 4650e10c3aefb49bb81a2af5abb10d9a, type: 3}
+      propertyPath: walkAreaOffsetMinY
+      value: -2
+      objectReference: {fileID: 0}
     - target: {fileID: 5493544971804496061, guid: 4650e10c3aefb49bb81a2af5abb10d9a, type: 3}
       propertyPath: dialog.lines.Array.data[0]
       value: Welcome to Cornelia, the city of dreams.
@@ -5257,6 +5321,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 837169225}
     m_Modifications:
+    - target: {fileID: 5493544971804496061, guid: 4650e10c3aefb49bb81a2af5abb10d9a, type: 3}
+      propertyPath: walkAreaOffsetMaxX
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5493544971804496061, guid: 4650e10c3aefb49bb81a2af5abb10d9a, type: 3}
+      propertyPath: walkAreaOffsetMaxY
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5493544971804496061, guid: 4650e10c3aefb49bb81a2af5abb10d9a, type: 3}
+      propertyPath: walkAreaOffsetMinX
+      value: -6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5493544971804496061, guid: 4650e10c3aefb49bb81a2af5abb10d9a, type: 3}
+      propertyPath: walkAreaOffsetMinY
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5493544971804496061, guid: 4650e10c3aefb49bb81a2af5abb10d9a, type: 3}
       propertyPath: dialog.lines.Array.data[0]
       value: Please, save the princess!
@@ -41506,6 +41586,22 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 638487034766302701, guid: c94b4a6d1afb341f6b54a70f8b9e5571, type: 3}
     - target: {fileID: 5493544971804496061, guid: 4650e10c3aefb49bb81a2af5abb10d9a, type: 3}
+      propertyPath: walkAreaOffsetMaxX
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5493544971804496061, guid: 4650e10c3aefb49bb81a2af5abb10d9a, type: 3}
+      propertyPath: walkAreaOffsetMaxY
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5493544971804496061, guid: 4650e10c3aefb49bb81a2af5abb10d9a, type: 3}
+      propertyPath: walkAreaOffsetMinX
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5493544971804496061, guid: 4650e10c3aefb49bb81a2af5abb10d9a, type: 3}
+      propertyPath: walkAreaOffsetMinY
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5493544971804496061, guid: 4650e10c3aefb49bb81a2af5abb10d9a, type: 3}
       propertyPath: dialog.lines.Array.data[0]
       value: Restore the crystals to grace...
       objectReference: {fileID: 0}
@@ -41623,6 +41719,22 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 3717973557463799681, guid: 93e72e963f23f4e619a5d69c1521209f, type: 3}
+    - target: {fileID: 5493544971804496061, guid: 4650e10c3aefb49bb81a2af5abb10d9a, type: 3}
+      propertyPath: walkAreaOffsetMaxX
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5493544971804496061, guid: 4650e10c3aefb49bb81a2af5abb10d9a, type: 3}
+      propertyPath: walkAreaOffsetMaxY
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5493544971804496061, guid: 4650e10c3aefb49bb81a2af5abb10d9a, type: 3}
+      propertyPath: walkAreaOffsetMinX
+      value: -4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5493544971804496061, guid: 4650e10c3aefb49bb81a2af5abb10d9a, type: 3}
+      propertyPath: walkAreaOffsetMinY
+      value: -1
+      objectReference: {fileID: 0}
     - target: {fileID: 5493544971804496061, guid: 4650e10c3aefb49bb81a2af5abb10d9a, type: 3}
       propertyPath: dialog.lines.Array.data[0]
       value: Please, save the princess!

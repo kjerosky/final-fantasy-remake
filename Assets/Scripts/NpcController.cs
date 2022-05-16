@@ -11,6 +11,10 @@ public class NpcController : MonoBehaviour, Interactable {
     [SerializeField] float moveSpeed;
     [SerializeField] float minTimeBetweenMoves;
     [SerializeField] float maxTimeBetweenMoves;
+    [SerializeField] float walkAreaOffsetMinX;
+    [SerializeField] float walkAreaOffsetMaxX;
+    [SerializeField] float walkAreaOffsetMinY;
+    [SerializeField] float walkAreaOffsetMaxY;
     [SerializeField] Dialog dialog;
     [SerializeField] LayerMask solidObjectsLayer;
     [SerializeField] LayerMask interactableLayer;
@@ -31,6 +35,11 @@ public class NpcController : MonoBehaviour, Interactable {
     private float previousAnimatorVertical;
     private bool previousAnimatorIsMoving;
 
+    private float walkAreaMinX;
+    private float walkAreaMaxX;
+    private float walkAreaMinY;
+    private float walkAreaMaxY;
+
     void Awake() {
         animator = GetComponent<CharacterAnimator>();
         animator.Horizontal = 0;
@@ -43,6 +52,11 @@ public class NpcController : MonoBehaviour, Interactable {
 
         previousPosition = transform.position;
         nextPosition = transform.position;
+
+        walkAreaMinX = transform.position.x + walkAreaOffsetMinX;
+        walkAreaMaxX = transform.position.x + walkAreaOffsetMaxX;
+        walkAreaMinY = transform.position.y + walkAreaOffsetMinY;
+        walkAreaMaxY = transform.position.y + walkAreaOffsetMaxY;
     }
 
     void Update() {
@@ -57,13 +71,42 @@ public class NpcController : MonoBehaviour, Interactable {
             timeToNextMove = determineTimeToNextMove();
 
             List<Vector3> moveDirectionCandidates = POSSIBLE_MOVE_DIRECTIONS
-                .Where(moveDirection => isWalkable(transform.position + moveDirection)).ToList();
+                .Where(moveDirection => isWalkable(transform.position + moveDirection))
+                .Where(moveDirection => determineIfMovingInDirectionIsInWalkArea(moveDirection))
+                .ToList();
             randomMoveDirection = moveDirectionCandidates[Random.Range(0, moveDirectionCandidates.Count)];
         } else {
             return;
         }
 
         StartCoroutine(move(randomMoveDirection));
+    }
+
+    void OnDrawGizmosSelected() {
+        if (!movesAround) {
+            return;
+        }
+
+        Vector3 upperLeft = transform.position + (walkAreaOffsetMinX * Vector3.right) + (walkAreaOffsetMaxY * Vector3.up);
+        Vector3 upperRight = transform.position + (walkAreaOffsetMaxX * Vector3.right) + (walkAreaOffsetMaxY * Vector3.up);
+        Vector3 lowerLeft = transform.position + (walkAreaOffsetMinX * Vector3.right) + (walkAreaOffsetMinY * Vector3.up);
+        Vector3 lowerRight = transform.position + (walkAreaOffsetMaxX * Vector3.right) + (walkAreaOffsetMinY * Vector3.up);
+
+        Gizmos.color = Color.white;
+        Gizmos.DrawLine(upperLeft, upperRight);
+        Gizmos.DrawLine(upperRight, lowerRight);
+        Gizmos.DrawLine(lowerRight, lowerLeft);
+        Gizmos.DrawLine(lowerLeft, upperLeft);
+    }
+
+    private bool determineIfMovingInDirectionIsInWalkArea(Vector3 direction) {
+        Vector3 destination = transform.position + direction;
+        return (
+            destination.x >= walkAreaMinX &&
+            destination.x <= walkAreaMaxX &&
+            destination.y >= walkAreaMinY &&
+            destination.y <= walkAreaMaxY
+        );
     }
 
     private float determineTimeToNextMove() {
