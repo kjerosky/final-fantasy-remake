@@ -1,31 +1,31 @@
 fileFormatVersion: 2
-guid: 6ce65707ad266478da137b919b9e942c
+guid: c94b4a6d1afb341f6b54a70f8b9e5571
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7179145564579747211
-    second: cornelia-woman-down-idle
+      213: 638487034766302701
+    second: ff1-cornelia-soldier_0
   - first:
-      213: 5978585806505790429
-    second: cornelia-woman-left-idle
+      213: 3747334968888040360
+    second: ff1-cornelia-soldier_1
   - first:
-      213: 2242565777422024618
-    second: cornelia-woman-up-idle
+      213: -5729024534159279218
+    second: ff1-cornelia-soldier_2
   - first:
-      213: 5962868520875829864
-    second: cornelia-woman-right-idle
+      213: -5301173735121341237
+    second: ff1-cornelia-soldier_3
   - first:
-      213: 6553689719046558208
-    second: cornelia-woman-down-moving
+      213: 4368407466458754854
+    second: ff1-cornelia-soldier_4
   - first:
-      213: -2936136875097245108
-    second: cornelia-woman-left-moving
+      213: -5216186145737377256
+    second: ff1-cornelia-soldier_5
   - first:
-      213: -2600988976424656773
-    second: cornelia-woman-up-moving
+      213: -705617997282882634
+    second: ff1-cornelia-soldier_6
   - first:
-      213: 2507170265071053613
-    second: cornelia-woman-right-moving
+      213: 8024176068287072928
+    second: ff1-cornelia-soldier_7
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -115,7 +115,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: cornelia-woman-down-idle
+      name: ff1-cornelia-soldier_0
       rect:
         serializedVersion: 2
         x: 0
@@ -123,20 +123,20 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b85d89faad271a360800000000000000
-      internalID: 7179145564579747211
+      spriteID: ded10f4439c5cd800800000000000000
+      internalID: 638487034766302701
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: cornelia-woman-left-idle
+      name: ff1-cornelia-soldier_1
       rect:
         serializedVersion: 2
         x: 16
@@ -144,20 +144,20 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ddb48f77d1438f250800000000000000
-      internalID: 5978585806505790429
+      spriteID: 8ab98facc45310430800000000000000
+      internalID: 3747334968888040360
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: cornelia-woman-up-idle
+      name: ff1-cornelia-soldier_2
       rect:
         serializedVersion: 2
         x: 32
@@ -165,20 +165,20 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: aafffa461b13f1f10800000000000000
-      internalID: 2242565777422024618
+      spriteID: e8b30f33a8a6e70b0800000000000000
+      internalID: -5729024534159279218
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: cornelia-woman-right-idle
+      name: ff1-cornelia-soldier_3
       rect:
         serializedVersion: 2
         x: 48
@@ -186,20 +186,20 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 86aa92db35d50c250800000000000000
-      internalID: 5962868520875829864
+      spriteID: bc4367123927e66b0800000000000000
+      internalID: -5301173735121341237
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: cornelia-woman-down-moving
+      name: ff1-cornelia-soldier_4
       rect:
         serializedVersion: 2
         x: 0
@@ -207,20 +207,20 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 00256e7931263fa50800000000000000
-      internalID: 6553689719046558208
+      spriteID: 62f20782273bf9c30800000000000000
+      internalID: 4368407466458754854
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: cornelia-woman-left-moving
+      name: ff1-cornelia-soldier_5
       rect:
         serializedVersion: 2
         x: 16
@@ -228,20 +228,20 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c4a37e3811fb047d0800000000000000
-      internalID: -2936136875097245108
+      spriteID: 81a720546526c97b0800000000000000
+      internalID: -5216186145737377256
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: cornelia-woman-up-moving
+      name: ff1-cornelia-soldier_6
       rect:
         serializedVersion: 2
         x: 32
@@ -249,20 +249,20 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b70608b7e4e67ebd0800000000000000
-      internalID: -2600988976424656773
+      spriteID: 6bbc4d48b242536f0800000000000000
+      internalID: -705617997282882634
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: cornelia-woman-right-moving
+      name: ff1-cornelia-soldier_7
       rect:
         serializedVersion: 2
         x: 48
@@ -270,14 +270,14 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d2b6bf092124bc220800000000000000
-      internalID: 2507170265071053613
+      spriteID: 0aa0175ce999b5f60800000000000000
+      internalID: 8024176068287072928
       vertices: []
       indices: 
       edges: []

@@ -1,31 +1,31 @@
 fileFormatVersion: 2
-guid: 6ce65707ad266478da137b919b9e942c
+guid: fc1b8b45ad784422d979edcb72c55a4e
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7179145564579747211
-    second: cornelia-woman-down-idle
+      213: 6739531730575931345
+    second: ff1-cornelia-man_0
   - first:
-      213: 5978585806505790429
-    second: cornelia-woman-left-idle
+      213: 4504397071375006628
+    second: ff1-cornelia-man_1
   - first:
-      213: 2242565777422024618
-    second: cornelia-woman-up-idle
+      213: -8496455708899583343
+    second: ff1-cornelia-man_2
   - first:
-      213: 5962868520875829864
-    second: cornelia-woman-right-idle
+      213: 6106637488243361754
+    second: ff1-cornelia-man_3
   - first:
-      213: 6553689719046558208
-    second: cornelia-woman-down-moving
+      213: -4273312041425776952
+    second: ff1-cornelia-man_4
   - first:
-      213: -2936136875097245108
-    second: cornelia-woman-left-moving
+      213: 4583233296505895945
+    second: ff1-cornelia-man_5
   - first:
-      213: -2600988976424656773
-    second: cornelia-woman-up-moving
+      213: 5443965010465600593
+    second: ff1-cornelia-man_6
   - first:
-      213: 2507170265071053613
-    second: cornelia-woman-right-moving
+      213: 879423834648802886
+    second: ff1-cornelia-man_7
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -115,7 +115,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: cornelia-woman-down-idle
+      name: ff1-cornelia-man_0
       rect:
         serializedVersion: 2
         x: 0
@@ -123,20 +123,20 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b85d89faad271a360800000000000000
-      internalID: 7179145564579747211
+      spriteID: 1d7b371c660a78d50800000000000000
+      internalID: 6739531730575931345
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: cornelia-woman-left-idle
+      name: ff1-cornelia-man_1
       rect:
         serializedVersion: 2
         x: 16
@@ -144,20 +144,20 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ddb48f77d1438f250800000000000000
-      internalID: 5978585806505790429
+      spriteID: 4abfd966545d28e30800000000000000
+      internalID: 4504397071375006628
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: cornelia-woman-up-idle
+      name: ff1-cornelia-man_2
       rect:
         serializedVersion: 2
         x: 32
@@ -165,20 +165,20 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: aafffa461b13f1f10800000000000000
-      internalID: 2242565777422024618
+      spriteID: 19a53358c86861a80800000000000000
+      internalID: -8496455708899583343
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: cornelia-woman-right-idle
+      name: ff1-cornelia-man_3
       rect:
         serializedVersion: 2
         x: 48
@@ -186,20 +186,20 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 86aa92db35d50c250800000000000000
-      internalID: 5962868520875829864
+      spriteID: ad744d2f0722fb450800000000000000
+      internalID: 6106637488243361754
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: cornelia-woman-down-moving
+      name: ff1-cornelia-man_4
       rect:
         serializedVersion: 2
         x: 0
@@ -207,20 +207,20 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 00256e7931263fa50800000000000000
-      internalID: 6553689719046558208
+      spriteID: 8ceca6cd65522b4c0800000000000000
+      internalID: -4273312041425776952
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: cornelia-woman-left-moving
+      name: ff1-cornelia-man_5
       rect:
         serializedVersion: 2
         x: 16
@@ -228,20 +228,20 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c4a37e3811fb047d0800000000000000
-      internalID: -2936136875097245108
+      spriteID: 90cf9f0766aea9f30800000000000000
+      internalID: 4583233296505895945
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: cornelia-woman-up-moving
+      name: ff1-cornelia-man_6
       rect:
         serializedVersion: 2
         x: 32
@@ -249,20 +249,20 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b70608b7e4e67ebd0800000000000000
-      internalID: -2600988976424656773
+      spriteID: 154357a6559dc8b40800000000000000
+      internalID: 5443965010465600593
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: cornelia-woman-right-moving
+      name: ff1-cornelia-man_7
       rect:
         serializedVersion: 2
         x: 48
@@ -270,14 +270,14 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d2b6bf092124bc220800000000000000
-      internalID: 2507170265071053613
+      spriteID: 646f0477157543c00800000000000000
+      internalID: 879423834648802886
       vertices: []
       indices: 
       edges: []

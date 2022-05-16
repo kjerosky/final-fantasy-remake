@@ -1,31 +1,31 @@
 fileFormatVersion: 2
-guid: 6ce65707ad266478da137b919b9e942c
+guid: adfbc7ff8977e425e996439251b898a4
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7179145564579747211
-    second: cornelia-woman-down-idle
+      213: 6387034083974017345
+    second: ff1-cornelia-dancer_0
   - first:
-      213: 5978585806505790429
-    second: cornelia-woman-left-idle
+      213: 712433424778815412
+    second: ff1-cornelia-dancer_1
   - first:
-      213: 2242565777422024618
-    second: cornelia-woman-up-idle
+      213: -4133242139251918234
+    second: ff1-cornelia-dancer_2
   - first:
-      213: 5962868520875829864
-    second: cornelia-woman-right-idle
+      213: 5796365533211407452
+    second: ff1-cornelia-dancer_3
   - first:
-      213: 6553689719046558208
-    second: cornelia-woman-down-moving
+      213: 2659216264740782999
+    second: ff1-cornelia-dancer_4
   - first:
-      213: -2936136875097245108
-    second: cornelia-woman-left-moving
+      213: 513463931424558451
+    second: ff1-cornelia-dancer_5
   - first:
-      213: -2600988976424656773
-    second: cornelia-woman-up-moving
+      213: 934523976112913989
+    second: ff1-cornelia-dancer_6
   - first:
-      213: 2507170265071053613
-    second: cornelia-woman-right-moving
+      213: 4525641635375753265
+    second: ff1-cornelia-dancer_7
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -115,7 +115,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: cornelia-woman-down-idle
+      name: ff1-cornelia-dancer_0
       rect:
         serializedVersion: 2
         x: 0
@@ -123,20 +123,20 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b85d89faad271a360800000000000000
-      internalID: 7179145564579747211
+      spriteID: 141759fc8ad43a850800000000000000
+      internalID: 6387034083974017345
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: cornelia-woman-left-idle
+      name: ff1-cornelia-dancer_1
       rect:
         serializedVersion: 2
         x: 16
@@ -144,20 +144,20 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ddb48f77d1438f250800000000000000
-      internalID: 5978585806505790429
+      spriteID: 4b76e0adc6213e900800000000000000
+      internalID: 712433424778815412
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: cornelia-woman-up-idle
+      name: ff1-cornelia-dancer_2
       rect:
         serializedVersion: 2
         x: 32
@@ -165,20 +165,20 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: aafffa461b13f1f10800000000000000
-      internalID: 2242565777422024618
+      spriteID: 66ab6375c26c3a6c0800000000000000
+      internalID: -4133242139251918234
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: cornelia-woman-right-idle
+      name: ff1-cornelia-dancer_3
       rect:
         serializedVersion: 2
         x: 48
@@ -186,20 +186,20 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 86aa92db35d50c250800000000000000
-      internalID: 5962868520875829864
+      spriteID: c543263fdb3d07050800000000000000
+      internalID: 5796365533211407452
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: cornelia-woman-down-moving
+      name: ff1-cornelia-dancer_4
       rect:
         serializedVersion: 2
         x: 0
@@ -207,20 +207,20 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 00256e7931263fa50800000000000000
-      internalID: 6553689719046558208
+      spriteID: 793c0d88a1f67e420800000000000000
+      internalID: 2659216264740782999
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: cornelia-woman-left-moving
+      name: ff1-cornelia-dancer_5
       rect:
         serializedVersion: 2
         x: 16
@@ -228,20 +228,20 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c4a37e3811fb047d0800000000000000
-      internalID: -2936136875097245108
+      spriteID: 37d4985a9b0302700800000000000000
+      internalID: 513463931424558451
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: cornelia-woman-up-moving
+      name: ff1-cornelia-dancer_6
       rect:
         serializedVersion: 2
         x: 32
@@ -249,20 +249,20 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b70608b7e4e67ebd0800000000000000
-      internalID: -2600988976424656773
+      spriteID: 54ebb4eda9818fc00800000000000000
+      internalID: 934523976112913989
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: cornelia-woman-right-moving
+      name: ff1-cornelia-dancer_7
       rect:
         serializedVersion: 2
         x: 48
@@ -270,14 +270,14 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d2b6bf092124bc220800000000000000
-      internalID: 2507170265071053613
+      spriteID: 1382a49e61f4ece30800000000000000
+      internalID: 4525641635375753265
       vertices: []
       indices: 
       edges: []
