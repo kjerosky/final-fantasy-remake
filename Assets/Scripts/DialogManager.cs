@@ -75,23 +75,17 @@ public class DialogManager : MonoBehaviour {
         isChangingAppearance = true;
 
         float dialogBoxAppearanceRate = 1 / boxAppearanceSeconds;
-        float lowerScaleBound = startScale;
-        float upperScaleBound = endScale;
-        if (startScale > endScale) {
-            dialogBoxAppearanceRate = -dialogBoxAppearanceRate;
-            lowerScaleBound = endScale;
-            upperScaleBound = startScale;
-        }
 
-        float dialogBoxScale = startScale;
-        while (dialogBoxScale != endScale) {
-            dialogBox.transform.localScale = new Vector3(dialogBoxScale, dialogBoxScale, dialogBoxScale);
-            dialogBoxScale += dialogBoxAppearanceRate * Time.deltaTime;
-            dialogBoxScale = Mathf.Clamp(dialogBoxScale, lowerScaleBound, upperScaleBound);
+        dialogBox.transform.localScale = new Vector3(startScale, startScale, startScale);
+
+        Vector3 targetScale = new Vector3(endScale, endScale, endScale);
+        while (dialogBox.transform.localScale != targetScale) {
+            dialogBox.transform.localScale = Vector3.MoveTowards(
+                dialogBox.transform.localScale, targetScale, dialogBoxAppearanceRate * Time.deltaTime
+            );
             yield return null;
         }
 
-        dialogBox.transform.localScale = new Vector3(endScale, endScale, endScale);
         isChangingAppearance = false;
     }
 

@@ -33,20 +33,19 @@ public class TransitionManager : MonoBehaviour {
 
     private IEnumerator changeBarScales(float startScale, float endScale) {
         float barScaleRate = 1 / transitionSeconds;
-        float lowerScaleBound = startScale;
-        float upperScaleBound = endScale;
-        if (startScale > endScale) {
-            barScaleRate = -barScaleRate;
-            lowerScaleBound = endScale;
-            upperScaleBound = startScale;
-        }
 
-        float barScale = startScale;
-        while (barScale != endScale) {
-            transitionTopBar.transform.localScale = new Vector3(1f, barScale, 1f);
-            transitionBottomBar.transform.localScale = new Vector3(1f, barScale, 1f);
-            barScale += barScaleRate * Time.deltaTime;
-            barScale = Mathf.Clamp(barScale, lowerScaleBound, upperScaleBound);
+        Vector3 startingScale = new Vector3(1f, startScale, 1f);
+        transitionTopBar.transform.localScale = startingScale;
+        transitionBottomBar.transform.localScale = startingScale;
+
+        Vector3 targetScale = new Vector3(1f, endScale, 1f);
+        while (transitionTopBar.transform.localScale != targetScale) {
+            transitionTopBar.transform.localScale = Vector3.MoveTowards(
+                transitionTopBar.transform.localScale, targetScale, barScaleRate * Time.deltaTime
+            );
+            transitionBottomBar.transform.localScale = Vector3.MoveTowards(
+                transitionBottomBar.transform.localScale, targetScale, barScaleRate * Time.deltaTime
+            );
             yield return null;
         }
 

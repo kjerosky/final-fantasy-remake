@@ -57,22 +57,15 @@ public class AreaNameDisplay : MonoBehaviour {
 
     private IEnumerator changeDisplayScale(float startScale, float endScale) {
         float displayAppearanceRate = 1 / appearanceSeconds;
-        float lowerScaleBound = startScale;
-        float upperScaleBound = endScale;
-        if (startScale > endScale) {
-            displayAppearanceRate = -displayAppearanceRate;
-            lowerScaleBound = endScale;
-            upperScaleBound = startScale;
-        }
 
-        float displayScale = startScale;
-        while (displayScale != endScale) {
-            display.transform.localScale = new Vector3(displayScale, displayScale, displayScale);
-            displayScale += displayAppearanceRate * Time.deltaTime;
-            displayScale = Mathf.Clamp(displayScale, lowerScaleBound, upperScaleBound);
+        display.transform.localScale = new Vector3(startScale, startScale, startScale);
+
+        Vector3 targetScale = new Vector3(endScale, endScale, endScale);
+        while (display.transform.localScale != targetScale) {
+            display.transform.localScale = Vector3.MoveTowards(
+                display.transform.localScale, targetScale, displayAppearanceRate * Time.deltaTime
+            );
             yield return null;
         }
-
-        display.transform.localScale = new Vector3(displayScale, displayScale, displayScale);
     }
 }

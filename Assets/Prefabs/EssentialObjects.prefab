@@ -607,7 +607,6 @@ GameObject:
   - component: {fileID: 7478749217130512593}
   - component: {fileID: 4594803142887750039}
   - component: {fileID: 6494021013553243510}
-  - component: {fileID: 9015045279192706827}
   m_Layer: 0
   m_Name: UI Canvas
   m_TagString: Untagged
@@ -698,22 +697,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &9015045279192706827
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4677228796966451456}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a5cc7882f5424a0da28dbb049a5a92f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  displaySeconds: 2
-  appearanceSeconds: 0.15
-  display: {fileID: 7524662856771767910}
-  displayText: {fileID: 2437732980571870981}
 --- !u!1 &4776280599539765686
 GameObject:
   m_ObjectHideFlags: 0
@@ -839,6 +822,7 @@ GameObject:
   - component: {fileID: 5073768207581095794}
   - component: {fileID: 5685604621761316490}
   - component: {fileID: 2818329046820244171}
+  - component: {fileID: 615316066937417949}
   m_Layer: 0
   m_Name: GameController
   m_TagString: Untagged
@@ -888,7 +872,7 @@ MonoBehaviour:
   dialogBox: {fileID: 2933459038093055787}
   dialogText: {fileID: 9099797222357236638}
   lettersPerSecond: 40
-  boxAppearanceSeconds: 0.25
+  boxAppearanceSeconds: 0.15
 --- !u!114 &2818329046820244171
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -905,6 +889,22 @@ MonoBehaviour:
   transitionTopBar: {fileID: 4450530176611229205}
   transitionBottomBar: {fileID: 573818913264266051}
   transitionSeconds: 1.25
+--- !u!114 &615316066937417949
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8370515405340937193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a5cc7882f5424a0da28dbb049a5a92f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  displaySeconds: 2
+  appearanceSeconds: 0.15
+  display: {fileID: 7524662856771767910}
+  displayText: {fileID: 2437732980571870981}
 --- !u!1 &8851208167298972639
 GameObject:
   m_ObjectHideFlags: 0
