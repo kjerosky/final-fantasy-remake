@@ -52,7 +52,7 @@ public class Player : MonoBehaviour {
 
         spriteRenderer = GetComponent<SpriteRenderer>();
 
-        controlsEnabled = false;
+        controlsEnabled = true;
         movementState = MovementState.WALKING;
 
         movementStateToSpeed = new Dictionary<MovementState, float>();
@@ -94,10 +94,6 @@ public class Player : MonoBehaviour {
         if (controlsEnabled && !isMoving) {
             checkPlayerInput();
         }
-    }
-
-    public void onTransitionIntoSceneComplete() {
-        controlsEnabled = true;
     }
 
     public void onAirshipTakeoffComplete() {
@@ -288,7 +284,6 @@ public class Player : MonoBehaviour {
         if (movementState == MovementState.WALKING || movementState == MovementState.IN_CANOE) {
             Collider2D portalCollider = Physics2D.OverlapCircle(transform.position, 0.3f, portalsLayer);
             if (portalCollider != null) {
-                controlsEnabled = false;
                 portalCollider.GetComponent<Portal>().OnPlayerTriggered(this);
             }
         }

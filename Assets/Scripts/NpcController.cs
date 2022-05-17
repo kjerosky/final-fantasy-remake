@@ -87,10 +87,10 @@ public class NpcController : MonoBehaviour, Interactable {
             return;
         }
 
-        Vector3 upperLeft = transform.position + (walkAreaOffsetMinX * Vector3.right) + (walkAreaOffsetMaxY * Vector3.up);
-        Vector3 upperRight = transform.position + (walkAreaOffsetMaxX * Vector3.right) + (walkAreaOffsetMaxY * Vector3.up);
-        Vector3 lowerLeft = transform.position + (walkAreaOffsetMinX * Vector3.right) + (walkAreaOffsetMinY * Vector3.up);
-        Vector3 lowerRight = transform.position + (walkAreaOffsetMaxX * Vector3.right) + (walkAreaOffsetMinY * Vector3.up);
+        Vector3 upperLeft = transform.position + ((walkAreaOffsetMinX - 0.5f) * Vector3.right) + ((walkAreaOffsetMaxY + 0.5f) * Vector3.up);
+        Vector3 upperRight = transform.position + ((walkAreaOffsetMaxX + 0.5f) * Vector3.right) + ((walkAreaOffsetMaxY + 0.5f) * Vector3.up);
+        Vector3 lowerLeft = transform.position + ((walkAreaOffsetMinX - 0.5f) * Vector3.right) + ((walkAreaOffsetMinY - 0.5f) * Vector3.up);
+        Vector3 lowerRight = transform.position + ((walkAreaOffsetMaxX + 0.5f) * Vector3.right) + ((walkAreaOffsetMinY - 0.5f) * Vector3.up);
 
         Gizmos.color = Color.white;
         Gizmos.DrawLine(upperLeft, upperRight);

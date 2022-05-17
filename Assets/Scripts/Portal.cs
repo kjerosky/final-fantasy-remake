@@ -15,11 +15,11 @@ public class Portal : MonoBehaviour {
     }
 
     private IEnumerator switchScene(Player player) {
-        LevelLoader levelLoader = FindObjectOfType<LevelLoader>();
+        TransitionManager transitionManager = FindObjectOfType<TransitionManager>();
 
         DontDestroyOnLoad(gameObject);
 
-        yield return levelLoader.transitionOutOfScene();
+        yield return transitionManager.startTransition();
         yield return SceneManager.LoadSceneAsync(sceneIndexToLoad);
 
         Portal destinationPortal = FindObjectsOfType<Portal>().First(portal =>
@@ -28,7 +28,7 @@ public class Portal : MonoBehaviour {
         );
         player.handleSceneLoaded(destinationPortal.spawnPoint.position);
 
-        yield return levelLoader.transitionIntoScene();
+        yield return transitionManager.endTransition();
 
         Destroy(gameObject);
     }

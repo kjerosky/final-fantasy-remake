@@ -13,6 +13,16 @@ public class AreaNameDisplay : MonoBehaviour {
 
     private Coroutine sequencePlaying;
 
+    void Start() {
+        TransitionManager transitionManager = FindObjectOfType<TransitionManager>();
+        transitionManager.OnStartTransition += () => {
+            stopDisplay();
+        };
+        transitionManager.OnEndTransition += () => {
+            startDisplay();
+        };
+    }
+
     public void stopDisplay() {
         if (sequencePlaying != null) {
             StopCoroutine(sequencePlaying);
