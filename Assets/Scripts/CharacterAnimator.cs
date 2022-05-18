@@ -56,7 +56,7 @@ public class CharacterAnimator : MonoBehaviour {
         if (IsMoving) {
             currentAnimator.handleUpdate();
         } else {
-            spriteRenderer.sprite = currentAnimator.Frames[0];
+            spriteRenderer.sprite = currentAnimator.frames[0];
         }
 
         wasPreviouslyMoving = IsMoving;

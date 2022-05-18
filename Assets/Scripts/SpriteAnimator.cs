@@ -4,11 +4,9 @@ using UnityEngine;
 
 public class SpriteAnimator {
 
-    public List<Sprite> Frames => frames;
-
     private SpriteRenderer spriteRenderer;
-    private List<Sprite> frames;
-    private float frameTime;
+    public List<Sprite> frames { get; set; }
+    public float frameTime { get; set; }
 
     private int currentFrame;
     private float timeInCurrentFrame;

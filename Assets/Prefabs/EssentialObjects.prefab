@@ -228,7 +228,8 @@ GameObject:
   - component: {fileID: 3302406472380957379}
   - component: {fileID: 3302406472380957378}
   - component: {fileID: 3302406472380957436}
-  - component: {fileID: 3302406472380957437}
+  - component: {fileID: 815193084072071604}
+  - component: {fileID: 7336550312217508446}
   - component: {fileID: 2838015764187795683}
   - component: {fileID: 5414151372620926147}
   m_Layer: 9
@@ -293,7 +294,7 @@ SpriteRenderer:
   m_SortingLayerID: -1610551559
   m_SortingLayer: 6
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 60eedf8362f56408f98c20f0168e609e, type: 3}
+  m_Sprite: {fileID: 2878625904635142853, guid: 6aa054d7cde494eac863decb1da84751, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -333,25 +334,75 @@ MonoBehaviour:
   claimedMovePositionPrefab: {fileID: 8768446628316541724, guid: f1c94881df4b84724a5ce83a9179959d, type: 3}
   openDoorTile: {fileID: 11400000, guid: e04ae1133cf6c47f39a6944346362d80, type: 2}
   closedDoorTile: {fileID: 11400000, guid: 136ae3dbed5e0429790aa989a6312d2c, type: 2}
---- !u!95 &3302406472380957437
-Animator:
-  serializedVersion: 3
+--- !u!114 &815193084072071604
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3302406472380957377}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 265468344a98c43738d71c7ff9ab0ee4, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa2d7b797a99242e5b039d370ee91783, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerSpritesType: 0
+  walkFrameTime: 0.125
+  canoeFrameTime: 0.125
+  shipFrameTime: 0.25
+  airshipFrameTime: 0.25
+--- !u!114 &7336550312217508446
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3302406472380957377}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adff36b109ef047ca9242c70fc156c9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fighterWalkUpFrames:
+  - {fileID: 860458263509419401, guid: 6aa054d7cde494eac863decb1da84751, type: 3}
+  - {fileID: 6638778250142773795, guid: 6aa054d7cde494eac863decb1da84751, type: 3}
+  fighterWalkDownFrames:
+  - {fileID: 2878625904635142853, guid: 6aa054d7cde494eac863decb1da84751, type: 3}
+  - {fileID: -7792687266163381394, guid: 6aa054d7cde494eac863decb1da84751, type: 3}
+  fighterWalkLeftFrames:
+  - {fileID: 2909181419420606928, guid: 6aa054d7cde494eac863decb1da84751, type: 3}
+  - {fileID: -3866563842720150369, guid: 6aa054d7cde494eac863decb1da84751, type: 3}
+  fighterWalkRightFrames:
+  - {fileID: -7475692092081021004, guid: 6aa054d7cde494eac863decb1da84751, type: 3}
+  - {fileID: 3560240882915624175, guid: 6aa054d7cde494eac863decb1da84751, type: 3}
+  thiefWalkUpFrames:
+  - {fileID: 3307358337576573031, guid: 9c5204ef6a2174175b0b5d2d4149f437, type: 3}
+  - {fileID: 6027731486628813684, guid: 9c5204ef6a2174175b0b5d2d4149f437, type: 3}
+  thiefWalkDownFrames:
+  - {fileID: 4067957303899402320, guid: 9c5204ef6a2174175b0b5d2d4149f437, type: 3}
+  - {fileID: 5394954602876547944, guid: 9c5204ef6a2174175b0b5d2d4149f437, type: 3}
+  thiefWalkLeftFrames:
+  - {fileID: 7332887125321853202, guid: 9c5204ef6a2174175b0b5d2d4149f437, type: 3}
+  - {fileID: -7306907199838594305, guid: 9c5204ef6a2174175b0b5d2d4149f437, type: 3}
+  thiefWalkRightFrames:
+  - {fileID: -2293590102763612727, guid: 9c5204ef6a2174175b0b5d2d4149f437, type: 3}
+  - {fileID: 8829460827871029237, guid: 9c5204ef6a2174175b0b5d2d4149f437, type: 3}
+  monkWalkUpFrames: []
+  monkWalkDownFrames: []
+  monkWalkLeftFrames: []
+  monkWalkRightFrames: []
+  redMageWalkUpFrames: []
+  redMageWalkDownFrames: []
+  redMageWalkLeftFrames: []
+  redMageWalkRightFrames: []
+  whiteMageWalkUpFrames: []
+  whiteMageWalkDownFrames: []
+  whiteMageWalkLeftFrames: []
+  whiteMageWalkRightFrames: []
+  blackMageWalkUpFrames: []
+  blackMageWalkDownFrames: []
+  blackMageWalkLeftFrames: []
+  blackMageWalkRightFrames: []
 --- !u!114 &2838015764187795683
 MonoBehaviour:
   m_ObjectHideFlags: 0
