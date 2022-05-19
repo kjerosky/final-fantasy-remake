@@ -351,7 +351,7 @@ MonoBehaviour:
   playerSpritesType: 0
   walkFrameTime: 0.125
   canoeFrameTime: 0.125
-  shipFrameTime: 0.25
+  shipFrameTime: 0.0625
   airshipFrameTime: 0.25
 --- !u!114 &7336550312217508446
 MonoBehaviour:
@@ -417,6 +417,18 @@ MonoBehaviour:
   canoeWalkRightFrames:
   - {fileID: 3196864067457547721, guid: 116adb638f0b143398ca1fd2e1194543, type: 3}
   - {fileID: 5389629307636312548, guid: 116adb638f0b143398ca1fd2e1194543, type: 3}
+  shipMoveUpFrames:
+  - {fileID: 2560456987978080395, guid: e1bb255d6ff4f4154b0a169ae2d4b684, type: 3}
+  - {fileID: 8831390769183704162, guid: e1bb255d6ff4f4154b0a169ae2d4b684, type: 3}
+  shipMoveDownFrames:
+  - {fileID: 8955758690004214430, guid: e1bb255d6ff4f4154b0a169ae2d4b684, type: 3}
+  - {fileID: -6880915645260913438, guid: e1bb255d6ff4f4154b0a169ae2d4b684, type: 3}
+  shipMoveLeftFrames:
+  - {fileID: -4322565999105603754, guid: e1bb255d6ff4f4154b0a169ae2d4b684, type: 3}
+  - {fileID: -2246153188821507145, guid: e1bb255d6ff4f4154b0a169ae2d4b684, type: 3}
+  shipMoveRightFrames:
+  - {fileID: 7678231660495215184, guid: e1bb255d6ff4f4154b0a169ae2d4b684, type: 3}
+  - {fileID: 4926084128815937341, guid: e1bb255d6ff4f4154b0a169ae2d4b684, type: 3}
 --- !u!114 &2838015764187795683
 MonoBehaviour:
   m_ObjectHideFlags: 0

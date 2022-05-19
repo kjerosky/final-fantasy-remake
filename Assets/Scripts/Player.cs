@@ -36,7 +36,6 @@ public class Player : MonoBehaviour {
     private WorldMapTileMovementData worldMapTileMovementData;
     private SpriteRenderer spriteRenderer;
     private PlayerAnimator animator;
-    // private Animator shipAnimator;
     // private Animator airshipAnimator;
 
     private bool controlsEnabled;
@@ -83,7 +82,6 @@ public class Player : MonoBehaviour {
             GameObject shipObject = GameObject.Find("Ship");
             ship = shipObject.GetComponent<Transform>();
             ship.gameObject.SetActive(hasShip);
-            // resetShipAnimation();
 
             GameObject airshipObject = GameObject.Find("Airship");
             airship = airshipObject.GetComponent<Transform>();
@@ -191,10 +189,7 @@ public class Player : MonoBehaviour {
             return;
         }
 
-        if (movementState == MovementState.IN_SHIP) {
-            // shipAnimator.SetFloat("Horizontal", facingDirection.x);
-            // shipAnimator.SetFloat("Vertical", facingDirection.y);
-        } else if (movementState == MovementState.IN_AIRSHIP) {
+        if (movementState == MovementState.IN_AIRSHIP) {
             // airshipAnimator.SetFloat("Horizontal", facingDirection.x);
             // airshipAnimator.SetFloat("Vertical", facingDirection.y);
         }
@@ -232,6 +227,7 @@ public class Player : MonoBehaviour {
                     canMove = true;
                 } else if (ship.gameObject.activeSelf && targetPosition == ship.position) {
                     movementState = MovementState.WALKING;
+                    animator.PlayerSpritesType = PlayerSpritesType.FIGHTER; //TODO MAKE THIS THE CURRENT PLAYER TYPE!!!
                     canMove = true;
                 }
             } break;
@@ -241,11 +237,11 @@ public class Player : MonoBehaviour {
                     canMove = true;
                 } else if (worldMapTileMovementData.isShipDockingTile(targetTile)) {
                     movementState = MovementState.WALKING;
-                    // disembarkFromShip();
+                    disembarkFromShip();
                     canMove = true;
                 } else if (hasCanoe && worldMapTileMovementData.isCanoeMovableTile(targetTile)) {
-                    movementState = MovementState.IN_CANOE;
-                    // disembarkFromShip();
+                    movementState = MovementState.WALKING;
+                    disembarkFromShip();
                     canMove = true;
                 }
             } break;
@@ -272,7 +268,6 @@ public class Player : MonoBehaviour {
         GameObject claimedMoveDestination = Instantiate(claimedMovePositionPrefab, newPosition, Quaternion.identity);
         isMoving = true;
         animator.IsMoving = true;
-        // animator.SetBool("isWalking", true);
 
         while (transform.position != newPosition) {
             transform.position = Vector3.MoveTowards(transform.position, newPosition, moveSpeed * Time.deltaTime);
@@ -298,14 +293,10 @@ public class Player : MonoBehaviour {
             yield break;
         }
 
-        // if (movementState == MovementState.IN_SHIP) {
-        //     shipAnimator.SetBool("isMoving", false);
-        // } else if (movementState != MovementState.IN_AIRSHIP && transform.position == ship.position) {
-        //     movementState = MovementState.IN_SHIP;
-        //     spriteRenderer.enabled = false;
-        //     ship.parent = transform;
-        //     shipAnimator.SetBool("isOnShip", true);
-        // }
+        if (movementState != MovementState.IN_AIRSHIP && ship.gameObject.activeSelf && transform.position == ship.position) {
+            movementState = MovementState.IN_SHIP;
+            boardShip();
+        }
 
         bool isOnCanoeTile = false;
         Tile backgroundTileAtPlayerPosition = getBackgroundTileAtWorldPosition(transform.position);
@@ -348,19 +339,20 @@ public class Player : MonoBehaviour {
         }
     }
 
-    private void disembarkFromShip() {
-        spriteRenderer.enabled = true;
-        ship.parent = null;
-        resetShipAnimation();
+    private void boardShip() {
+        animator.PlayerSpritesType = PlayerSpritesType.SHIP;
+        animator.Horizontal = -1f;
+        animator.Vertical = 0f;
+        animator.IsMoving = false;
 
-        // animator.SetBool("isWalking", true);
+        ship.gameObject.SetActive(false);
     }
 
-    private void resetShipAnimation() {
-        // shipAnimator.SetFloat("Horizontal", -1);
-        // shipAnimator.SetFloat("Vertical", 0);
-        // shipAnimator.SetBool("isOnShip", false);
-        // shipAnimator.SetBool("isMoving", false);
+    private void disembarkFromShip() {
+        animator.PlayerSpritesType = PlayerSpritesType.FIGHTER; //TODO MAKE THIS THE CURRENT PLAYER TYPE!!!
+
+        ship.position = transform.position;
+        ship.gameObject.SetActive(true);
     }
 
     private Tile getBackgroundTileAtWorldPosition(Vector3 worldPosition) {
