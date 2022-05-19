@@ -28,6 +28,8 @@ public class Player : MonoBehaviour {
     public GameObject claimedMovePositionPrefab;
     [SerializeField] Tile openDoorTile;
     [SerializeField] Tile closedDoorTile;
+    [SerializeField] bool hasShip;
+    [SerializeField] bool hasAirship;
 
     private Transform ship;
     private Transform airship;
@@ -78,14 +80,14 @@ public class Player : MonoBehaviour {
 
         isOnWorldMap = SceneManager.GetActiveScene().name == "WorldMap";
         if (isOnWorldMap) {
-            // GameObject shipObject = GameObject.Find("Ship");
-            // ship = shipObject.GetComponent<Transform>();
-            // shipAnimator = shipObject.GetComponent<Animator>();
+            GameObject shipObject = GameObject.Find("Ship");
+            ship = shipObject.GetComponent<Transform>();
+            ship.gameObject.SetActive(hasShip);
             // resetShipAnimation();
 
-            // GameObject airshipObject = GameObject.Find("Airship");
-            // airship = airshipObject.GetComponent<Transform>();
-            // airshipAnimator = airshipObject.GetComponent<Animator>();
+            GameObject airshipObject = GameObject.Find("Airship");
+            airship = airshipObject.GetComponent<Transform>();
+            airship.gameObject.SetActive(hasAirship);
         }
     }
 
@@ -215,24 +217,20 @@ public class Player : MonoBehaviour {
                 if (
                     worldMapTileMovementData.isWalkableLand(targetTile) ||
                     (hasCanoe && worldMapTileMovementData.isCanoeMovableTile(targetTile)) ||
-                    targetPosition == ship.position
+                    (ship.gameObject.activeSelf && targetPosition == ship.position)
                 ) {
-                    // animator.SetBool("isWalking", true);
                     canMove = true;
                 }
             } break;
 
             case MovementState.IN_CANOE: {
                 if (worldMapTileMovementData.isCanoeMovableTile(targetTile)) {
-                    // animator.SetBool("isWalking", true);
                     canMove = true;
                 } else if (worldMapTileMovementData.isWalkableLand(targetTile)) {
-                    // animator.SetBool("isWalking", true);
-                    // animator.SetBool("isInCanoe", false);
                     movementState = MovementState.WALKING;
+                    animator.PlayerSpritesType = PlayerSpritesType.FIGHTER; //TODO MAKE THIS THE CURRENT PLAYER TYPE!!!
                     canMove = true;
-                } else if (targetPosition == ship.position) {
-                    // animator.SetBool("isWalking", true);
+                } else if (ship.gameObject.activeSelf && targetPosition == ship.position) {
                     movementState = MovementState.WALKING;
                     canMove = true;
                 }
@@ -240,7 +238,6 @@ public class Player : MonoBehaviour {
 
             case MovementState.IN_SHIP: {
                 if (worldMapTileMovementData.isShipMovableTile(targetTile)) {
-                    // shipAnimator.SetBool("isMoving", true);
                     canMove = true;
                 } else if (worldMapTileMovementData.isShipDockingTile(targetTile)) {
                     movementState = MovementState.WALKING;
@@ -316,7 +313,9 @@ public class Player : MonoBehaviour {
             isOnCanoeTile = worldMapTileMovementData.isCanoeMovableTile(backgroundTileAtPlayerPosition);
         }
 
-        // animator.SetBool("isInCanoe", isOnCanoeTile);
+        if (isOnCanoeTile && animator.PlayerSpritesType != PlayerSpritesType.CANOE) {
+            animator.PlayerSpritesType = PlayerSpritesType.CANOE;
+        }
         if (movementState != MovementState.IN_AIRSHIP && isOnCanoeTile) {
             movementState = MovementState.IN_CANOE;
         }

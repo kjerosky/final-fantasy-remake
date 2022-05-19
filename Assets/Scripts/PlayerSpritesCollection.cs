@@ -34,6 +34,11 @@ public class PlayerSpritesCollection : MonoBehaviour {
     [SerializeField] List<Sprite> blackMageWalkLeftFrames;
     [SerializeField] List<Sprite> blackMageWalkRightFrames;
 
+    [SerializeField] List<Sprite> canoeWalkUpFrames;
+    [SerializeField] List<Sprite> canoeWalkDownFrames;
+    [SerializeField] List<Sprite> canoeWalkLeftFrames;
+    [SerializeField] List<Sprite> canoeWalkRightFrames;
+
     private Dictionary<PlayerSpritesType, List<List<Sprite>>> typeToSpritesList;
 
     void Awake() {
@@ -80,6 +85,13 @@ public class PlayerSpritesCollection : MonoBehaviour {
         blackMageSpritesList.Add(blackMageWalkLeftFrames);
         blackMageSpritesList.Add(blackMageWalkRightFrames);
         typeToSpritesList.Add(PlayerSpritesType.BLACK_MAGE, blackMageSpritesList);
+
+        List<List<Sprite>> canoeSpritesList = new List<List<Sprite>>();
+        canoeSpritesList.Add(canoeWalkUpFrames);
+        canoeSpritesList.Add(canoeWalkDownFrames);
+        canoeSpritesList.Add(canoeWalkLeftFrames);
+        canoeSpritesList.Add(canoeWalkRightFrames);
+        typeToSpritesList.Add(PlayerSpritesType.CANOE, canoeSpritesList);
     }
 
     public List<List<Sprite>> getSpritesForType(PlayerSpritesType playerSpritesType) {

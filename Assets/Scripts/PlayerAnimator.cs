@@ -69,6 +69,8 @@ public class PlayerAnimator : MonoBehaviour {
         moveDownAnimator.frameTime = frameTime;
         moveLeftAnimator.frameTime = frameTime;
         moveRightAnimator.frameTime = frameTime;
+
+        currentAnimator.restart();
     }
 
     void Update() {

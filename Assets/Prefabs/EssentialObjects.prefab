@@ -334,6 +334,8 @@ MonoBehaviour:
   claimedMovePositionPrefab: {fileID: 8768446628316541724, guid: f1c94881df4b84724a5ce83a9179959d, type: 3}
   openDoorTile: {fileID: 11400000, guid: e04ae1133cf6c47f39a6944346362d80, type: 2}
   closedDoorTile: {fileID: 11400000, guid: 136ae3dbed5e0429790aa989a6312d2c, type: 2}
+  hasShip: 1
+  hasAirship: 1
 --- !u!114 &815193084072071604
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -403,6 +405,18 @@ MonoBehaviour:
   blackMageWalkDownFrames: []
   blackMageWalkLeftFrames: []
   blackMageWalkRightFrames: []
+  canoeWalkUpFrames:
+  - {fileID: 8616892356439531072, guid: 116adb638f0b143398ca1fd2e1194543, type: 3}
+  - {fileID: -3080086411490146588, guid: 116adb638f0b143398ca1fd2e1194543, type: 3}
+  canoeWalkDownFrames:
+  - {fileID: 8616892356439531072, guid: 116adb638f0b143398ca1fd2e1194543, type: 3}
+  - {fileID: -3080086411490146588, guid: 116adb638f0b143398ca1fd2e1194543, type: 3}
+  canoeWalkLeftFrames:
+  - {fileID: 5389629307636312548, guid: 116adb638f0b143398ca1fd2e1194543, type: 3}
+  - {fileID: 3196864067457547721, guid: 116adb638f0b143398ca1fd2e1194543, type: 3}
+  canoeWalkRightFrames:
+  - {fileID: 3196864067457547721, guid: 116adb638f0b143398ca1fd2e1194543, type: 3}
+  - {fileID: 5389629307636312548, guid: 116adb638f0b143398ca1fd2e1194543, type: 3}
 --- !u!114 &2838015764187795683
 MonoBehaviour:
   m_ObjectHideFlags: 0
