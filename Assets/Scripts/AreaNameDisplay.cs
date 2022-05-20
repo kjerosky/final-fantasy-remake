@@ -56,7 +56,7 @@ public class AreaNameDisplay : MonoBehaviour {
     }
 
     private IEnumerator changeDisplayScale(float startScale, float endScale) {
-        float displayAppearanceRate = 1 / appearanceSeconds;
+        float displayAppearanceRate = Mathf.Abs(endScale - startScale) / appearanceSeconds;
 
         display.transform.localScale = new Vector3(startScale, startScale, startScale);
 

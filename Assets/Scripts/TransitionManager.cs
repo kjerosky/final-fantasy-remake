@@ -32,7 +32,7 @@ public class TransitionManager : MonoBehaviour {
     }
 
     private IEnumerator changeBarScales(float startScale, float endScale) {
-        float barScaleRate = 1 / transitionSeconds;
+        float barScaleRate = Mathf.Abs(endScale - startScale) / transitionSeconds;
 
         Vector3 startingScale = new Vector3(1f, startScale, 1f);
         transitionTopBar.transform.localScale = startingScale;

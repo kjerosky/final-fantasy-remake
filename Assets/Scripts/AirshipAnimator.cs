@@ -102,7 +102,7 @@ public class AirshipAnimator : MonoBehaviour {
         currentAnimator = operationAnimator;
         currentAnimator.restart();
 
-        float heightChangeRate = Mathf.Abs(startHeight - endHeight) / operationChangeSeconds;
+        float heightChangeRate = Mathf.Abs(endHeight - startHeight) / operationChangeSeconds;
 
         transform.localPosition = new Vector3(0f, startHeight, 0f);
         Vector3 targetPosition = new Vector3(0f, endHeight, 0f);

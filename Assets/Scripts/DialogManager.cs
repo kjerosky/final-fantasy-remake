@@ -74,7 +74,7 @@ public class DialogManager : MonoBehaviour {
     private IEnumerator changeDialogBoxAppearance(float startScale, float endScale) {
         isChangingAppearance = true;
 
-        float dialogBoxAppearanceRate = 1 / boxAppearanceSeconds;
+        float dialogBoxAppearanceRate = Mathf.Abs(endScale - startScale) / boxAppearanceSeconds;
 
         dialogBox.transform.localScale = new Vector3(startScale, startScale, startScale);
 
