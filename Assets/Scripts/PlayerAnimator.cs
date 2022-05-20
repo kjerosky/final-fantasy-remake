@@ -30,6 +30,7 @@ public class PlayerAnimator : MonoBehaviour {
     private SpriteAnimator moveRightAnimator;
 
     private SpriteAnimator currentAnimator;
+    private AirshipAnimator airshipAnimator;
 
     private bool wasPreviouslyMoving;
 
@@ -47,6 +48,10 @@ public class PlayerAnimator : MonoBehaviour {
         handleSpritesTypeChange();
 
         wasPreviouslyMoving = false;
+    }
+
+    public void signalAirshipToLand() {
+        airshipAnimator?.land();
     }
 
     private void handleSpritesTypeChange() {
@@ -71,6 +76,14 @@ public class PlayerAnimator : MonoBehaviour {
         moveRightAnimator.frameTime = frameTime;
 
         currentAnimator.restart();
+
+        if (playerSpritesType == PlayerSpritesType.AIRSHIP) {
+            Horizontal = 1f;
+            Vertical = 0f;
+
+            airshipAnimator = FindObjectOfType<AirshipAnimator>();
+            airshipAnimator?.takeoff();
+        }
     }
 
     void Update() {
@@ -94,6 +107,8 @@ public class PlayerAnimator : MonoBehaviour {
         } else {
             spriteRenderer.sprite = currentAnimator.frames[0];
         }
+
+        airshipAnimator?.updateFacing(Horizontal, Vertical);
 
         wasPreviouslyMoving = IsMoving;
     }

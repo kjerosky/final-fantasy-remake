@@ -36,7 +36,6 @@ public class Player : MonoBehaviour {
     private WorldMapTileMovementData worldMapTileMovementData;
     private SpriteRenderer spriteRenderer;
     private PlayerAnimator animator;
-    // private Animator airshipAnimator;
 
     private bool controlsEnabled;
     private MovementState movementState;
@@ -86,6 +85,22 @@ public class Player : MonoBehaviour {
             GameObject airshipObject = GameObject.Find("Airship");
             airship = airshipObject.GetComponent<Transform>();
             airship.gameObject.SetActive(hasAirship);
+            if (airship != null) {
+                AirshipAnimator airshipAnimator = FindObjectOfType<AirshipAnimator>();
+                airshipAnimator.OnEndTakeoff += () => {
+                    controlsEnabled = true;
+                };
+                airshipAnimator.OnEndLanding += () => {
+                    animator.PlayerSpritesType = PlayerSpritesType.FIGHTER; //TODO MAKE THIS THE CURRENT PLAYER TYPE!!!
+                    animator.Horizontal = 0;
+                    animator.Vertical = -1;
+                    animator.IsMoving = false;
+
+                    airship.parent = null;
+                    movementState = MovementState.WALKING;
+                    controlsEnabled = true;
+                };
+            }
         }
     }
 
@@ -96,7 +111,7 @@ public class Player : MonoBehaviour {
     }
 
     public void onAirshipTakeoffComplete() {
-        controlsEnabled = true;
+        // controlsEnabled = true;
     }
 
     public void onAirshipLandingComplete() {
@@ -110,7 +125,7 @@ public class Player : MonoBehaviour {
     }
 
     public void onAirshipShakingComplete() {
-        controlsEnabled = true;
+        //controlsEnabled = true;
     }
 
     private void checkPlayerInput() {
@@ -127,27 +142,22 @@ public class Player : MonoBehaviour {
 
         if (isOnWorldMap && interactButtonWasPressed) {
             if (movementState == MovementState.WALKING && transform.position == airship.position) {
-                // animator.SetBool("isOnAirship", true);
+                movementState = MovementState.IN_AIRSHIP;
+                animator.PlayerSpritesType = PlayerSpritesType.AIRSHIP;
 
-                // airshipAnimator.SetBool("playerIsOnAirship", true);
-                // airshipAnimator.SetFloat("Horizontal", 1);
-                // airshipAnimator.SetFloat("Vertical", 0);
+                airship.parent = transform;
 
-                // airship.parent = transform;
-                // movementState = MovementState.IN_AIRSHIP;
-                // controlsEnabled = false;
+                controlsEnabled = false;
                 return;
             } else if (movementState == MovementState.IN_AIRSHIP) {
-                // Tile currentTile = getBackgroundTileAtWorldPosition(airship.position);
-                // if (currentTile != null && worldMapTileMovementData.isAirshipLandable(currentTile)) {
-                //     airshipAnimator.SetBool("playerIsOnAirship", false);
-                // } else {
+                Tile currentTile = getBackgroundTileAtWorldPosition(airship.position);
+                if (currentTile != null && worldMapTileMovementData.isAirshipLandable(currentTile)) {
+                    animator.signalAirshipToLand();
+                }// else {
                 //     airshipAnimator.SetTrigger("Shake");
                 // }
 
-                // airshipAnimator.SetFloat("Horizontal", 1);
-                // airshipAnimator.SetFloat("Vertical", 0);
-                // controlsEnabled = false;
+                controlsEnabled = false;
                 return;
             }
         }
@@ -187,11 +197,6 @@ public class Player : MonoBehaviour {
         if (!isOnWorldMap) {
             StartCoroutine(moveTowardsPosition(moveToPosition));
             return;
-        }
-
-        if (movementState == MovementState.IN_AIRSHIP) {
-            // airshipAnimator.SetFloat("Horizontal", facingDirection.x);
-            // airshipAnimator.SetFloat("Vertical", facingDirection.y);
         }
 
         if (checkAndProcessWorldMapMovability(moveToPosition)) {
@@ -304,11 +309,13 @@ public class Player : MonoBehaviour {
             isOnCanoeTile = worldMapTileMovementData.isCanoeMovableTile(backgroundTileAtPlayerPosition);
         }
 
-        if (isOnCanoeTile && animator.PlayerSpritesType != PlayerSpritesType.CANOE) {
-            animator.PlayerSpritesType = PlayerSpritesType.CANOE;
-        }
-        if (movementState != MovementState.IN_AIRSHIP && isOnCanoeTile) {
+        if (
+            isOnCanoeTile &&
+            movementState != MovementState.IN_AIRSHIP &&
+            animator.PlayerSpritesType != PlayerSpritesType.CANOE
+        ) {
             movementState = MovementState.IN_CANOE;
+            animator.PlayerSpritesType = PlayerSpritesType.CANOE;
         }
 
         adjustPlayerPositionWithWrapping();

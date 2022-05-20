@@ -44,6 +44,8 @@ public class PlayerSpritesCollection : MonoBehaviour {
     [SerializeField] List<Sprite> shipMoveLeftFrames;
     [SerializeField] List<Sprite> shipMoveRightFrames;
 
+    [SerializeField] List<Sprite> airshipShadowFrames;
+
     private Dictionary<PlayerSpritesType, List<List<Sprite>>> typeToSpritesList;
 
     void Awake() {
@@ -104,6 +106,13 @@ public class PlayerSpritesCollection : MonoBehaviour {
         shipSpritesList.Add(shipMoveLeftFrames);
         shipSpritesList.Add(shipMoveRightFrames);
         typeToSpritesList.Add(PlayerSpritesType.SHIP, shipSpritesList);
+
+        typeToSpritesList.Add(PlayerSpritesType.AIRSHIP, new List<List<Sprite>>() {
+            airshipShadowFrames,
+            airshipShadowFrames,
+            airshipShadowFrames,
+            airshipShadowFrames
+        });
     }
 
     public List<List<Sprite>> getSpritesForType(PlayerSpritesType playerSpritesType) {
