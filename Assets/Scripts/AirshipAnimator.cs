@@ -6,9 +6,9 @@ using UnityEngine;
 
 public class AirshipAnimator : MonoBehaviour {
 
-    [SerializeField] float operationHeight;
-    [SerializeField] float operationChangeSeconds;
-    [SerializeField] float operationChangeFrameTime;
+    [SerializeField] float operatingElevation;
+    [SerializeField] float elevationChangeSeconds;
+    [SerializeField] float elevationChangeFrameTime;
     [SerializeField] float moveFrameTime;
     [SerializeField] AnimationCurve shakeAnimationCurve;
     [SerializeField] float shakeTime;
@@ -28,7 +28,7 @@ public class AirshipAnimator : MonoBehaviour {
     private SpriteRenderer spriteRenderer;
 
     private SpriteAnimator onGroundAnimator;
-    private SpriteAnimator operationAnimator;
+    private SpriteAnimator transitionAnimator;
     private SpriteAnimator moveUpAnimator;
     private SpriteAnimator moveDownAnimator;
     private SpriteAnimator moveLeftAnimator;
@@ -36,15 +36,15 @@ public class AirshipAnimator : MonoBehaviour {
 
     private SpriteAnimator currentAnimator;
 
-    private bool canMove;
+    private AirshipAnimatorState state;
 
     void Start() {
         spriteRenderer = GetComponent<SpriteRenderer>();
 
-        canMove = false;
+        state = AirshipAnimatorState.ON_GROUND;
 
         onGroundAnimator = new SpriteAnimator(spriteRenderer, moveRightFrames.Take(1).ToList(), 0f);
-        operationAnimator = new SpriteAnimator(spriteRenderer, moveRightFrames, operationChangeFrameTime);
+        transitionAnimator = new SpriteAnimator(spriteRenderer, moveRightFrames, elevationChangeFrameTime);
         moveUpAnimator = new SpriteAnimator(spriteRenderer, moveUpFrames, moveFrameTime);
         moveDownAnimator = new SpriteAnimator(spriteRenderer, moveDownFrames, moveFrameTime);
         moveLeftAnimator = new SpriteAnimator(spriteRenderer, moveLeftFrames, moveFrameTime);
@@ -55,22 +55,42 @@ public class AirshipAnimator : MonoBehaviour {
     }
 
     void Update() {
-        if (!canMove) {
-            if (currentAnimator != onGroundAnimator) {
-                currentAnimator.handleUpdate();
-            }
-
+        if (state == AirshipAnimatorState.ON_GROUND) {
             return;
-        }
+        } else if (state == AirshipAnimatorState.MOVING) {
+            SpriteAnimator previousAnimator = currentAnimator;
+            currentAnimator = determineMoveAnimatorFromFacing();
 
-        SpriteAnimator previousAnimator = currentAnimator;
-        currentAnimator = determineMoveAnimatorFromFacing();
-
-        if (currentAnimator != previousAnimator) {
-            currentAnimator.restart();
+            if (currentAnimator != previousAnimator) {
+                currentAnimator.restart();
+            }
         }
 
         currentAnimator.handleUpdate();
+    }
+
+    public void animateTakeoff() {
+        setupTransition();
+        StartCoroutine(changeElevation(0f, operatingElevation));
+    }
+
+    public void animateLanding() {
+        setupTransition();
+        StartCoroutine(changeElevation(operatingElevation, 0f));
+    }
+
+    public void animateShake() {
+        setupTransition();
+        StartCoroutine(shake());
+    }
+
+    private void setupTransition() {
+        Horizontal = 1f;
+        Vertical = 0f;
+        state = AirshipAnimatorState.TRANSITIONING;
+
+        currentAnimator = determineMoveAnimatorFromFacing();
+        currentAnimator.restart();
     }
 
     private SpriteAnimator determineMoveAnimatorFromFacing() {
@@ -85,41 +105,8 @@ public class AirshipAnimator : MonoBehaviour {
         }
     }
 
-    public void animateTakeoff() {
-        Horizontal = 1f;
-        Vertical = 0f;
-        canMove = false;
-
-        currentAnimator = determineMoveAnimatorFromFacing();
-        currentAnimator.restart();
-
-        StartCoroutine(changeOperationHeight(0f, operationHeight));
-    }
-
-    public void animateLanding() {
-        Horizontal = 1f;
-        Vertical = 0f;
-        canMove = false;
-
-        currentAnimator = determineMoveAnimatorFromFacing();
-        currentAnimator.restart();
-
-        StartCoroutine(changeOperationHeight(operationHeight, 0f));
-    }
-
-    public void animateShake() {
-        Horizontal = 1f;
-        Vertical = 0f;
-        canMove = false;
-
-        currentAnimator = determineMoveAnimatorFromFacing();
-        currentAnimator.restart();
-
-        StartCoroutine(shake());
-    }
-
     public void updateFacing(float horizontal, float vertical) {
-        if (!canMove) {
+        if (state != AirshipAnimatorState.MOVING) {
             return;
         }
 
@@ -127,27 +114,28 @@ public class AirshipAnimator : MonoBehaviour {
         Vertical = vertical;
     }
 
-    private IEnumerator changeOperationHeight(float startHeight, float endHeight) {
+    private IEnumerator changeElevation(float startElevation, float endElevation) {
         Horizontal = 1f;
         Vertical = 0f;
-        currentAnimator = operationAnimator;
+        currentAnimator = transitionAnimator;
         currentAnimator.restart();
 
-        float heightChangeRate = Mathf.Abs(endHeight - startHeight) / operationChangeSeconds;
+        float elevationChangeRate = Mathf.Abs(endElevation - startElevation) / elevationChangeSeconds;
 
-        transform.localPosition = new Vector3(0f, startHeight, 0f);
-        Vector3 targetPosition = new Vector3(0f, endHeight, 0f);
+        transform.localPosition = new Vector3(0f, startElevation, 0f);
+        Vector3 targetPosition = new Vector3(0f, endElevation, 0f);
         while (transform.localPosition != targetPosition) {
             transform.localPosition = Vector3.MoveTowards(
-                transform.localPosition, targetPosition, heightChangeRate * Time.deltaTime
+                transform.localPosition, targetPosition, elevationChangeRate * Time.deltaTime
             );
             yield return null;
         }
 
-        if (endHeight > 0f) {
-            canMove = true;
+        if (endElevation > 0f) {
+            state = AirshipAnimatorState.MOVING;
             OnEndTakeoff?.Invoke();
         } else {
+            state = AirshipAnimatorState.ON_GROUND;
             currentAnimator = onGroundAnimator;
             currentAnimator.restart();
 
@@ -170,6 +158,12 @@ public class AirshipAnimator : MonoBehaviour {
 
         transform.localPosition = basePosition;
         OnEndShake?.Invoke();
-        canMove = true;
+        state = AirshipAnimatorState.MOVING;
     }
+}
+
+public enum AirshipAnimatorState {
+    ON_GROUND,
+    TRANSITIONING,
+    MOVING
 }
