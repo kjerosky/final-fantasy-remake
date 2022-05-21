@@ -43,6 +43,7 @@ public class Player : MonoBehaviour {
     private bool isMoving;
     private Vector3 facingDirection;
     private bool isOnWorldMap;
+    private PlayerSpritesType playerSpritesType;
 
     void Start() {
         Vector3 defaultScenePosition = FindObjectOfType<EssentialObjectsLoader>().DefaultPlayerPosition;
@@ -62,6 +63,8 @@ public class Player : MonoBehaviour {
         movementStateToSpeed.Add(MovementState.IN_AIRSHIP, airshipSpeed);
 
         isMoving = false;
+
+        playerSpritesType = PlayerSpritesType.FIGHTER;
     }
 
     public void handleSceneLoaded(Vector3 newPlayerPosition) {
@@ -91,7 +94,7 @@ public class Player : MonoBehaviour {
                     controlsEnabled = true;
                 };
                 airshipAnimator.OnEndLanding += () => {
-                    animator.PlayerSpritesType = PlayerSpritesType.FIGHTER; //TODO MAKE THIS THE CURRENT PLAYER TYPE!!!
+                    animator.PlayerSpritesType = playerSpritesType;
                     animator.Horizontal = 0;
                     animator.Vertical = -1;
                     animator.IsMoving = false;
@@ -239,11 +242,11 @@ public class Player : MonoBehaviour {
                     canMove = true;
                 } else if (worldMapTileMovementData.isWalkableLand(targetTile)) {
                     movementState = MovementState.WALKING;
-                    animator.PlayerSpritesType = PlayerSpritesType.FIGHTER; //TODO MAKE THIS THE CURRENT PLAYER TYPE!!!
+                    animator.PlayerSpritesType = playerSpritesType;
                     canMove = true;
                 } else if (ship.gameObject.activeSelf && targetPosition == ship.position) {
                     movementState = MovementState.WALKING;
-                    animator.PlayerSpritesType = PlayerSpritesType.FIGHTER; //TODO MAKE THIS THE CURRENT PLAYER TYPE!!!
+                    animator.PlayerSpritesType = playerSpritesType;
                     canMove = true;
                 }
             } break;
@@ -368,7 +371,7 @@ public class Player : MonoBehaviour {
     }
 
     private void disembarkFromShip() {
-        animator.PlayerSpritesType = PlayerSpritesType.FIGHTER; //TODO MAKE THIS THE CURRENT PLAYER TYPE!!!
+        animator.PlayerSpritesType = playerSpritesType;
 
         ship.parent = null;
         ship.gameObject.SetActive(true);
