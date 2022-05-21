@@ -97,6 +97,8 @@ public class Player : MonoBehaviour {
                     animator.IsMoving = false;
 
                     airship.parent = null;
+                    SceneManager.MoveGameObjectToScene(airship.gameObject, SceneManager.GetActiveScene());
+
                     movementState = MovementState.WALKING;
                     controlsEnabled = true;
                 };
@@ -361,14 +363,16 @@ public class Player : MonoBehaviour {
         animator.Vertical = 0f;
         animator.IsMoving = false;
 
+        ship.parent = transform;
         ship.gameObject.SetActive(false);
     }
 
     private void disembarkFromShip() {
         animator.PlayerSpritesType = PlayerSpritesType.FIGHTER; //TODO MAKE THIS THE CURRENT PLAYER TYPE!!!
 
-        ship.position = transform.position;
+        ship.parent = null;
         ship.gameObject.SetActive(true);
+        SceneManager.MoveGameObjectToScene(ship.gameObject, SceneManager.GetActiveScene());
     }
 
     private Tile getBackgroundTileAtWorldPosition(Vector3 worldPosition) {
