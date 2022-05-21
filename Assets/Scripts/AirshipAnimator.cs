@@ -10,6 +10,9 @@ public class AirshipAnimator : MonoBehaviour {
     [SerializeField] float operationChangeSeconds;
     [SerializeField] float operationChangeFrameTime;
     [SerializeField] float moveFrameTime;
+    [SerializeField] AnimationCurve shakeAnimationCurve;
+    [SerializeField] float shakeTime;
+    [SerializeField] float shakeAmplitude;
     [SerializeField] List<Sprite> moveUpFrames;
     [SerializeField] List<Sprite> moveDownFrames;
     [SerializeField] List<Sprite> moveLeftFrames;
@@ -20,6 +23,7 @@ public class AirshipAnimator : MonoBehaviour {
 
     public event Action OnEndTakeoff;
     public event Action OnEndLanding;
+    public event Action OnEndShake;
 
     private SpriteRenderer spriteRenderer;
 
@@ -60,15 +64,7 @@ public class AirshipAnimator : MonoBehaviour {
         }
 
         SpriteAnimator previousAnimator = currentAnimator;
-        if (Horizontal == -1) {
-            currentAnimator = moveLeftAnimator;
-        } else if (Horizontal == 1) {
-            currentAnimator = moveRightAnimator;
-        } else if (Vertical == 1) {
-            currentAnimator = moveUpAnimator;
-        } else if (Vertical == -1) {
-            currentAnimator = moveDownAnimator;
-        }
+        currentAnimator = determineMoveAnimatorFromFacing();
 
         if (currentAnimator != previousAnimator) {
             currentAnimator.restart();
@@ -77,14 +73,49 @@ public class AirshipAnimator : MonoBehaviour {
         currentAnimator.handleUpdate();
     }
 
-    public void takeoff() {
+    private SpriteAnimator determineMoveAnimatorFromFacing() {
+        if (Horizontal == -1) {
+            return moveLeftAnimator;
+        } else if (Horizontal == 1) {
+            return moveRightAnimator;
+        } else if (Vertical == 1) {
+            return moveUpAnimator;
+        } else {
+            return moveDownAnimator;
+        }
+    }
+
+    public void animateTakeoff() {
+        Horizontal = 1f;
+        Vertical = 0f;
         canMove = false;
+
+        currentAnimator = determineMoveAnimatorFromFacing();
+        currentAnimator.restart();
+
         StartCoroutine(changeOperationHeight(0f, operationHeight));
     }
 
-    public void land() {
+    public void animateLanding() {
+        Horizontal = 1f;
+        Vertical = 0f;
         canMove = false;
+
+        currentAnimator = determineMoveAnimatorFromFacing();
+        currentAnimator.restart();
+
         StartCoroutine(changeOperationHeight(operationHeight, 0f));
+    }
+
+    public void animateShake() {
+        Horizontal = 1f;
+        Vertical = 0f;
+        canMove = false;
+
+        currentAnimator = determineMoveAnimatorFromFacing();
+        currentAnimator.restart();
+
+        StartCoroutine(shake());
     }
 
     public void updateFacing(float horizontal, float vertical) {
@@ -122,5 +153,23 @@ public class AirshipAnimator : MonoBehaviour {
 
             OnEndLanding?.Invoke();
         }
+    }
+
+    private IEnumerator shake() {
+        Vector3 basePosition = transform.localPosition;
+
+        float accumulatedTime = 0f;
+        while (accumulatedTime < shakeTime) {
+            float currentNormalizedTime = Mathf.InverseLerp(0f, shakeTime, accumulatedTime);
+            float normalizedShakeAmount = shakeAnimationCurve.Evaluate(currentNormalizedTime);
+            transform.localPosition = basePosition + shakeAmplitude * normalizedShakeAmount * Vector3.up;
+
+            accumulatedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        transform.localPosition = basePosition;
+        OnEndShake?.Invoke();
+        canMove = true;
     }
 }

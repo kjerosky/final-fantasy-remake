@@ -85,7 +85,7 @@ public class Player : MonoBehaviour {
             GameObject airshipObject = GameObject.Find("Airship");
             airship = airshipObject.GetComponent<Transform>();
             airship.gameObject.SetActive(hasAirship);
-            if (airship != null) {
+            if (airship != null && airship.gameObject.activeSelf) {
                 AirshipAnimator airshipAnimator = FindObjectOfType<AirshipAnimator>();
                 airshipAnimator.OnEndTakeoff += () => {
                     controlsEnabled = true;
@@ -98,6 +98,9 @@ public class Player : MonoBehaviour {
 
                     airship.parent = null;
                     movementState = MovementState.WALKING;
+                    controlsEnabled = true;
+                };
+                airshipAnimator.OnEndShake += () => {
                     controlsEnabled = true;
                 };
             }
@@ -141,7 +144,11 @@ public class Player : MonoBehaviour {
         bool interactButtonWasPressed = Input.GetKeyDown(KeyCode.Space);
 
         if (isOnWorldMap && interactButtonWasPressed) {
-            if (movementState == MovementState.WALKING && transform.position == airship.position) {
+            if (
+                movementState == MovementState.WALKING &&
+                airship.gameObject.activeSelf &&
+                transform.position == airship.position
+            ) {
                 movementState = MovementState.IN_AIRSHIP;
                 animator.PlayerSpritesType = PlayerSpritesType.AIRSHIP;
 
@@ -153,9 +160,11 @@ public class Player : MonoBehaviour {
                 Tile currentTile = getBackgroundTileAtWorldPosition(airship.position);
                 if (currentTile != null && worldMapTileMovementData.isAirshipLandable(currentTile)) {
                     animator.signalAirshipToLand();
-                }// else {
-                //     airshipAnimator.SetTrigger("Shake");
-                // }
+                } else {
+                    animator.Horizontal = 1f;
+                    animator.Vertical = 0f;
+                    animator.signalAirshipToShake();
+                }
 
                 controlsEnabled = false;
                 return;

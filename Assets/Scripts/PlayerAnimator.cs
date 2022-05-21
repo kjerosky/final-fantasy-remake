@@ -51,7 +51,11 @@ public class PlayerAnimator : MonoBehaviour {
     }
 
     public void signalAirshipToLand() {
-        airshipAnimator?.land();
+        airshipAnimator?.animateLanding();
+    }
+
+    public void signalAirshipToShake() {
+        airshipAnimator?.animateShake();
     }
 
     private void handleSpritesTypeChange() {
@@ -82,7 +86,7 @@ public class PlayerAnimator : MonoBehaviour {
             Vertical = 0f;
 
             airshipAnimator = FindObjectOfType<AirshipAnimator>();
-            airshipAnimator?.takeoff();
+            airshipAnimator?.animateTakeoff();
         }
     }
 
