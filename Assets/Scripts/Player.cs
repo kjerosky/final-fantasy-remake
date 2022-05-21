@@ -118,34 +118,7 @@ public class Player : MonoBehaviour {
         }
     }
 
-    public void onAirshipTakeoffComplete() {
-        // controlsEnabled = true;
-    }
-
-    public void onAirshipLandingComplete() {
-        // animator.SetBool("isOnAirship", false);
-        // animator.SetFloat("Horizontal", 0);
-        // animator.SetFloat("Vertical", -1);
-
-        // airship.parent = null;
-        // movementState = MovementState.WALKING;
-        // controlsEnabled = true;
-    }
-
-    public void onAirshipShakingComplete() {
-        //controlsEnabled = true;
-    }
-
     private void checkPlayerInput() {
-        //TODO REMOVE THIS DEBUG
-        if (Input.GetKeyDown(KeyCode.J)) {
-            if (animator.PlayerSpritesType == PlayerSpritesType.FIGHTER) {
-                animator.PlayerSpritesType = PlayerSpritesType.THIEF;
-            } else {
-                animator.PlayerSpritesType = PlayerSpritesType.FIGHTER;
-            }
-        }
-
         bool interactButtonWasPressed = Input.GetKeyDown(KeyCode.Space);
 
         if (isOnWorldMap && interactButtonWasPressed) {
