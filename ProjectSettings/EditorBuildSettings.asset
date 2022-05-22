@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Cornelia.unity
     guid: 91515173befde4fac94f71db8e91380b
+  - enabled: 1
+    path: Assets/Scenes/Cornelia Castle - 1F.unity
+    guid: e7180fda1c60348e0ab34af9951f978c
   m_configObjects: {}

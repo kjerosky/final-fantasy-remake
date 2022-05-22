@@ -36,5 +36,6 @@ public class Portal : MonoBehaviour {
 
 public enum PortalDestination {
     NOT_SPECIFIED,
-    CORNELIA
+    CORNELIA,
+    CORNELIA_CASTLE_1F
 }
