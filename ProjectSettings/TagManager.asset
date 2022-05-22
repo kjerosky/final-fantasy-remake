@@ -15,7 +15,7 @@ TagManager:
   - SolidObjects
   - Portals
   - Player
-  - 
+  - Doors
   - 
   - 
   - 
@@ -52,6 +52,9 @@ TagManager:
     locked: 0
   - name: Vehicles
     uniqueID: 1757394665
+    locked: 0
+  - name: Doors
+    uniqueID: 259475099
     locked: 0
   - name: Characters
     uniqueID: 440415301

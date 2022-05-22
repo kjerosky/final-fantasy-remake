@@ -292,7 +292,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1610551559
-  m_SortingLayer: 6
+  m_SortingLayer: 7
   m_SortingOrder: 0
   m_Sprite: {fileID: 2878625904635142853, guid: 6aa054d7cde494eac863decb1da84751, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -331,6 +331,9 @@ MonoBehaviour:
   portalsLayer:
     serializedVersion: 2
     m_Bits: 256
+  doorsLayer:
+    serializedVersion: 2
+    m_Bits: 1024
   claimedMovePositionPrefab: {fileID: 8768446628316541724, guid: f1c94881df4b84724a5ce83a9179959d, type: 3}
   openDoorTile: {fileID: 11400000, guid: e04ae1133cf6c47f39a6944346362d80, type: 2}
   closedDoorTile: {fileID: 11400000, guid: 136ae3dbed5e0429790aa989a6312d2c, type: 2}

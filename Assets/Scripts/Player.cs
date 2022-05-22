@@ -25,6 +25,7 @@ public class Player : MonoBehaviour {
     public LayerMask interactableLayer;
     public LayerMask solidObjectsLayer;
     public LayerMask portalsLayer;
+    [SerializeField] LayerMask doorsLayer;
     public GameObject claimedMovePositionPrefab;
     [SerializeField] Tile openDoorTile;
     [SerializeField] Tile closedDoorTile;
@@ -247,12 +248,10 @@ public class Player : MonoBehaviour {
     }
 
     private IEnumerator moveTowardsPosition(Vector3 newPosition) {
-        Vector3 startPosition = transform.position;
-        Tile startTile = getBackgroundTileAtWorldPosition(startPosition);
-        Tile destinationTile = getBackgroundTileAtWorldPosition(newPosition);
-
-        if (destinationTile == closedDoorTile) {
-            setBackgroundTileAtWorldPosition(newPosition, openDoorTile);
+        Collider2D doorColliderAtStartPosition = Physics2D.OverlapCircle(transform.position, 0.3f, doorsLayer);
+        Collider2D doorColliderAtNewPosition = Physics2D.OverlapCircle(newPosition, 0.3f, doorsLayer);
+        if (doorColliderAtNewPosition != null) {
+            doorColliderAtNewPosition.GetComponent<Door>()?.open();
         }
 
         float moveSpeed = movementStateToSpeed[movementState];
@@ -270,8 +269,8 @@ public class Player : MonoBehaviour {
         isMoving = false;
         animator.IsMoving = false;
 
-        if (startTile == openDoorTile) {
-            setBackgroundTileAtWorldPosition(startPosition, closedDoorTile);
+        if (doorColliderAtStartPosition != null) {
+            doorColliderAtStartPosition.GetComponent<Door>()?.closeIfInitiatorExited(newPosition);
         }
 
         if (movementState == MovementState.WALKING || movementState == MovementState.IN_CANOE) {
@@ -354,10 +353,5 @@ public class Player : MonoBehaviour {
     private Tile getBackgroundTileAtWorldPosition(Vector3 worldPosition) {
         Vector3Int walkTargetCandidateCell = backgroundTilemap.WorldToCell(worldPosition);
         return backgroundTilemap.GetTile<Tile>(walkTargetCandidateCell);
-    }
-
-    private void setBackgroundTileAtWorldPosition(Vector3 worldPosition, Tile tile) {
-        Vector3Int cellPosition = backgroundTilemap.WorldToCell(worldPosition);
-        backgroundTilemap.SetTile(cellPosition, tile);
     }
 }
