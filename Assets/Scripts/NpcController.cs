@@ -74,6 +74,10 @@ public class NpcController : MonoBehaviour, Interactable {
                 .Where(moveDirection => isWalkable(transform.position + moveDirection))
                 .Where(moveDirection => determineIfMovingInDirectionIsInWalkArea(moveDirection))
                 .ToList();
+            if (!moveDirectionCandidates.Any()) {
+                return;
+            }
+
             randomMoveDirection = moveDirectionCandidates[Random.Range(0, moveDirectionCandidates.Count)];
         } else {
             return;
