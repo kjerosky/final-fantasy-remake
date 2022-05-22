@@ -18,9 +18,11 @@ public class Door : MonoBehaviour {
         spriteRenderer.sprite = doorOpenedSprite;
     }
 
-    public void closeIfInitiatorExited(Vector3 initiatorPosition) {
-        if (initiatorPosition == closeDoorTrigger.position) {
-            spriteRenderer.sprite = doorClosedSprite;
-        }
+    public bool willCloseWithInitiatorPosition(Vector3 initiatorPosition) {
+        return initiatorPosition == closeDoorTrigger.position;
+    }
+
+    public void close() {
+        spriteRenderer.sprite = doorClosedSprite;
     }
 }

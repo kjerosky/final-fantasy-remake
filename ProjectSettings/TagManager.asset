@@ -62,3 +62,6 @@ TagManager:
   - name: Player
     uniqueID: 2684415737
     locked: 0
+  - name: RoomsCover
+    uniqueID: 1314259793
+    locked: 0

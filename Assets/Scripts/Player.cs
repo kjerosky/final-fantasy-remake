@@ -37,6 +37,7 @@ public class Player : MonoBehaviour {
     private WorldMapTileMovementData worldMapTileMovementData;
     private SpriteRenderer spriteRenderer;
     private PlayerAnimator animator;
+    private Tilemap roomsCoverTilemap;
 
     private bool controlsEnabled;
     private MovementState movementState;
@@ -72,6 +73,7 @@ public class Player : MonoBehaviour {
         transform.position = newPlayerPosition;
 
         backgroundTilemap = GameObject.Find("Background").GetComponent<Tilemap>();
+        roomsCoverTilemap = GameObject.Find("RoomsCover")?.GetComponent<Tilemap>();
 
         animator = GetComponent<PlayerAnimator>();
         animator.Horizontal = 0f;
@@ -252,6 +254,7 @@ public class Player : MonoBehaviour {
         Collider2D doorColliderAtNewPosition = Physics2D.OverlapCircle(newPosition, 0.3f, doorsLayer);
         if (doorColliderAtNewPosition != null) {
             doorColliderAtNewPosition.GetComponent<Door>()?.open();
+            roomsCoverTilemap?.gameObject.SetActive(false);
         }
 
         float moveSpeed = movementStateToSpeed[movementState];
@@ -270,7 +273,11 @@ public class Player : MonoBehaviour {
         animator.IsMoving = false;
 
         if (doorColliderAtStartPosition != null) {
-            doorColliderAtStartPosition.GetComponent<Door>()?.closeIfInitiatorExited(newPosition);
+            Door door = doorColliderAtStartPosition.GetComponent<Door>();
+            if (door != null && door.willCloseWithInitiatorPosition(newPosition)) {
+                door.close();
+                roomsCoverTilemap?.gameObject.SetActive(true);
+            }
         }
 
         if (movementState == MovementState.WALKING || movementState == MovementState.IN_CANOE) {
