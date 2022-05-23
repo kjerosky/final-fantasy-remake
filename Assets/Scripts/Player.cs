@@ -21,7 +21,6 @@ public class Player : MonoBehaviour {
     public float shipSpeed = 8.0f;
     public float airshipSpeed = 16.0f;
     public bool hasCanoe = false;
-    public Tilemap backgroundTilemap;
     public LayerMask interactableLayer;
     public LayerMask solidObjectsLayer;
     public LayerMask portalsLayer;
@@ -31,12 +30,15 @@ public class Player : MonoBehaviour {
     [SerializeField] Tile closedDoorTile;
     [SerializeField] bool hasShip;
     [SerializeField] bool hasAirship;
+    [SerializeField] bool hasMysticKey;
+    [SerializeField] GameObject interactionIcon;
 
     private Transform ship;
     private Transform airship;
     private WorldMapTileMovementData worldMapTileMovementData;
     private SpriteRenderer spriteRenderer;
     private PlayerAnimator animator;
+    private Tilemap backgroundTilemap;
     private Tilemap roomsCoverTilemap;
 
     private bool controlsEnabled;
@@ -46,6 +48,8 @@ public class Player : MonoBehaviour {
     private Vector3 facingDirection;
     private bool isOnWorldMap;
     private PlayerSpritesType playerSpritesType;
+
+    public bool HasMysticKey => hasMysticKey;
 
     void Start() {
         Vector3 defaultScenePosition = FindObjectOfType<EssentialObjectsLoader>().DefaultPlayerPosition;
@@ -67,6 +71,8 @@ public class Player : MonoBehaviour {
         isMoving = false;
 
         playerSpritesType = PlayerSpritesType.FIGHTER;
+
+        interactionIcon.SetActive(false);
     }
 
     public void handleSceneLoaded(Vector3 newPlayerPosition) {
@@ -117,8 +123,25 @@ public class Player : MonoBehaviour {
 
     public void handleUpdate() {
         if (controlsEnabled && !isMoving) {
+            interactionIcon.SetActive(isFacingInteractable());
+
             checkPlayerInput();
         }
+    }
+
+    private bool isFacingInteractable() {
+        bool isFacingInteractable = false;
+
+        Vector2 facingTarget = transform.position + facingDirection;
+        Collider2D interactionCollider = Physics2D.OverlapCircle(
+            facingTarget, 0.3f, interactableLayer | doorsLayer
+        );
+        if (interactionCollider != null) {
+            Interactable interactable = interactionCollider.GetComponent<Interactable>();
+            isFacingInteractable = interactable != null && interactable.isCurrentlyInteractable();
+        }
+
+        return isFacingInteractable;
     }
 
     private void checkPlayerInput() {
@@ -154,9 +177,12 @@ public class Player : MonoBehaviour {
 
         if (interactButtonWasPressed) {
             Vector2 interactionTarget = transform.position + facingDirection;
-            Collider2D interactionCollider = Physics2D.OverlapCircle(interactionTarget, 0.3f, interactableLayer);
+            Collider2D interactionCollider = Physics2D.OverlapCircle(
+                interactionTarget, 0.3f, interactableLayer | doorsLayer
+            );
             if (interactionCollider != null) {
                 interactionCollider.GetComponent<Interactable>()?.interact(transform);
+                interactionIcon.SetActive(false);
                 return;
             }
         }
@@ -184,7 +210,7 @@ public class Player : MonoBehaviour {
             return;
         }
 
-        if (isLockedDoor(moveToPosition)) {
+        if (!hasMysticKey && isLockedDoor(moveToPosition)) {
             return;
         }
 
@@ -265,6 +291,8 @@ public class Player : MonoBehaviour {
     }
 
     private IEnumerator moveTowardsPosition(Vector3 newPosition) {
+        interactionIcon.SetActive(false);
+
         Collider2D doorColliderAtStartPosition = Physics2D.OverlapCircle(transform.position, 0.3f, doorsLayer);
         Collider2D doorColliderAtNewPosition = Physics2D.OverlapCircle(newPosition, 0.3f, doorsLayer);
         if (doorColliderAtNewPosition != null) {

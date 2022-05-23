@@ -157,6 +157,10 @@ public class NpcController : MonoBehaviour, Interactable {
         return !Physics2D.OverlapCircle(targetPosition, 0.3f, solidObjectsLayer | interactableLayer | playerLayer);
     }
 
+    public bool isCurrentlyInteractable() {
+        return true;
+    }
+
     public void interact(Transform initiator) {
         if (dialogManager == null) {
             dialogManager = FindObjectOfType<DialogManager>();

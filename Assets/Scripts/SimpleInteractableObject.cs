@@ -8,6 +8,10 @@ public class SimpleInteractableObject : MonoBehaviour, Interactable {
 
     private DialogManager dialogManager;
 
+    public bool isCurrentlyInteractable() {
+        return true;
+    }
+
     public void interact(Transform initiator) {
         if (dialogManager == null) {
             dialogManager = FindObjectOfType<DialogManager>();

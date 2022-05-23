@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Door : MonoBehaviour {
+public class Door : MonoBehaviour, Interactable {
 
     [SerializeField] bool isLocked;
+    [SerializeField] Dialog lockedDialog;
     [SerializeField] float lockedHueRotationSeconds;
     [SerializeField] [Range(0f, 1f)] float lockedColorSaturation;
     [SerializeField] Sprite doorClosedSprite;
@@ -12,8 +13,10 @@ public class Door : MonoBehaviour {
     [SerializeField] Transform closeDoorTrigger;
 
     private SpriteRenderer spriteRenderer;
+    private DialogManager dialogManager;
 
     private float lockedColorHue;
+    private bool isOpen;
 
     public bool IsLocked => isLocked;
 
@@ -21,6 +24,7 @@ public class Door : MonoBehaviour {
         spriteRenderer = GetComponent<SpriteRenderer>();
 
         lockedColorHue = 0;
+        isOpen = false;
     }
 
     void Update() {
@@ -60,6 +64,7 @@ public class Door : MonoBehaviour {
 
     public void open() {
         spriteRenderer.sprite = doorOpenedSprite;
+        isOpen = true;
     }
 
     public bool willCloseWithInitiatorPosition(Vector3 initiatorPosition) {
@@ -68,5 +73,23 @@ public class Door : MonoBehaviour {
 
     public void close() {
         spriteRenderer.sprite = doorClosedSprite;
+        isOpen = false;
+    }
+
+    public bool isCurrentlyInteractable() {
+        bool playerHasMysticKey = FindObjectOfType<Player>().HasMysticKey;
+        return !playerHasMysticKey && isLocked && !isOpen;
+    }
+
+    public void interact(Transform initiator) {
+        if (!isCurrentlyInteractable()) {
+            return;
+        }
+
+        if (dialogManager == null) {
+            dialogManager = FindObjectOfType<DialogManager>();
+        }
+
+        StartCoroutine(dialogManager.showDialog(lockedDialog));
     }
 }
