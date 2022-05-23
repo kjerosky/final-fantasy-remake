@@ -184,6 +184,10 @@ public class Player : MonoBehaviour {
             return;
         }
 
+        if (isLockedDoor(moveToPosition)) {
+            return;
+        }
+
         if (!isOnWorldMap) {
             StartCoroutine(moveTowardsPosition(moveToPosition));
             return;
@@ -196,6 +200,17 @@ public class Player : MonoBehaviour {
 
     private bool isWalkable(Vector3 targetPosition) {
         return !Physics2D.OverlapCircle(targetPosition, 0.3f, solidObjectsLayer | interactableLayer);
+    }
+
+    private bool isLockedDoor(Vector3 targetPosition) {
+        bool isLocked = false;
+
+        Collider2D door = Physics2D.OverlapCircle(targetPosition, 0.3f, doorsLayer);
+        if (door != null) {
+            isLocked = door.GetComponent<Door>().IsLocked;
+        }
+
+        return isLocked;
     }
 
     private bool checkAndProcessWorldMapMovability(Vector3 targetPosition) {
@@ -253,7 +268,7 @@ public class Player : MonoBehaviour {
         Collider2D doorColliderAtStartPosition = Physics2D.OverlapCircle(transform.position, 0.3f, doorsLayer);
         Collider2D doorColliderAtNewPosition = Physics2D.OverlapCircle(newPosition, 0.3f, doorsLayer);
         if (doorColliderAtNewPosition != null) {
-            doorColliderAtNewPosition.GetComponent<Door>()?.open();
+            doorColliderAtNewPosition.GetComponent<Door>().open();
             roomsCoverTilemap?.gameObject.SetActive(false);
         }
 

@@ -15,6 +15,8 @@ public class Door : MonoBehaviour {
 
     private float lockedColorHue;
 
+    public bool IsLocked => isLocked;
+
     void Start() {
         spriteRenderer = GetComponent<SpriteRenderer>();
 
