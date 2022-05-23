@@ -127,6 +127,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a10fb365758a947499777356299e3175, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isLocked: 0
+  lockedHueRotationSeconds: 2.5
+  lockedColorSaturation: 0.5
   doorClosedSprite: {fileID: -4081758862500574046, guid: 8a22ff42241a54cdeb5f21a2ae38bcc9, type: 3}
   doorOpenedSprite: {fileID: -4854742081746387546, guid: 8a22ff42241a54cdeb5f21a2ae38bcc9, type: 3}
   closeDoorTrigger: {fileID: 1326610526499554098}
