@@ -43098,6 +43098,71 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1326610527234202262, guid: c5629253082324e7f8d2ed41462b3ad0, type: 3}
   m_PrefabInstance: {fileID: 1681012466}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1992333087
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1307612443467393403, guid: 5dbc7aa2083e54afb8d50c137d18235b, type: 3}
+      propertyPath: destination
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1307612443467393403, guid: 5dbc7aa2083e54afb8d50c137d18235b, type: 3}
+      propertyPath: sceneIndexToLoad
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7234242842104912369, guid: 5dbc7aa2083e54afb8d50c137d18235b, type: 3}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7234242842104912369, guid: 5dbc7aa2083e54afb8d50c137d18235b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 7234242842104912369, guid: 5dbc7aa2083e54afb8d50c137d18235b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 33
+      objectReference: {fileID: 0}
+    - target: {fileID: 7234242842104912369, guid: 5dbc7aa2083e54afb8d50c137d18235b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7234242842104912369, guid: 5dbc7aa2083e54afb8d50c137d18235b, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7234242842104912369, guid: 5dbc7aa2083e54afb8d50c137d18235b, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7234242842104912369, guid: 5dbc7aa2083e54afb8d50c137d18235b, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7234242842104912369, guid: 5dbc7aa2083e54afb8d50c137d18235b, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7234242842104912369, guid: 5dbc7aa2083e54afb8d50c137d18235b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7234242842104912369, guid: 5dbc7aa2083e54afb8d50c137d18235b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7234242842104912369, guid: 5dbc7aa2083e54afb8d50c137d18235b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9019496481752261704, guid: 5dbc7aa2083e54afb8d50c137d18235b, type: 3}
+      propertyPath: m_Name
+      value: StairsPortal
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 5dbc7aa2083e54afb8d50c137d18235b, type: 3}
 --- !u!1 &2021569672
 GameObject:
   m_ObjectHideFlags: 0
