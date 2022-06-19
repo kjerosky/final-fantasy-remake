@@ -568,7 +568,7 @@ GameObject:
   - component: {fileID: 3302406472409529635}
   - component: {fileID: 3302406472409529633}
   m_Layer: 0
-  m_Name: Main Camera
+  m_Name: PlayerCamera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -989,6 +989,8 @@ GameObject:
   - component: {fileID: 5685604621761316490}
   - component: {fileID: 2818329046820244171}
   - component: {fileID: 615316066937417949}
+  - component: {fileID: 3221453094124575708}
+  - component: {fileID: 2537536028785162136}
   m_Layer: 0
   m_Name: GameController
   m_TagString: Untagged
@@ -1071,6 +1073,32 @@ MonoBehaviour:
   appearanceSeconds: 0.15
   display: {fileID: 7524662856771767910}
   displayText: {fileID: 2437732980571870981}
+--- !u!114 &3221453094124575708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8370515405340937193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84a2625428c464f07bf033f93cd31200, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  battleTransitionManager: {fileID: 2537536028785162136}
+--- !u!114 &2537536028785162136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8370515405340937193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 335892e77c2034f059a0c46bc08933fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 3302406472380957436}
 --- !u!1 &8851208167298972639
 GameObject:
   m_ObjectHideFlags: 0

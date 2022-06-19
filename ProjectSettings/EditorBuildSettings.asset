@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/WorldMap.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
+    path: Assets/Scenes/Battle.unity
+    guid: ccb72f597389e437b94f745998057886
+  - enabled: 1
     path: Assets/Scenes/Cornelia.unity
     guid: 91515173befde4fac94f71db8e91380b
   - enabled: 1

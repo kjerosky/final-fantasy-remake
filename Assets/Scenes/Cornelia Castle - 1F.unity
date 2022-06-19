@@ -43111,7 +43111,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1307612443467393403, guid: 5dbc7aa2083e54afb8d50c137d18235b, type: 3}
       propertyPath: sceneIndexToLoad
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7234242842104912369, guid: 5dbc7aa2083e54afb8d50c137d18235b, type: 3}
       propertyPath: m_RootOrder

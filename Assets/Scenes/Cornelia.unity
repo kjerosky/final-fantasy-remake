@@ -184,11 +184,11 @@ PrefabInstance:
       objectReference: {fileID: 6739531730575931345, guid: fc1b8b45ad784422d979edcb72c55a4e, type: 3}
     - target: {fileID: 5493544971804496061, guid: 4650e10c3aefb49bb81a2af5abb10d9a, type: 3}
       propertyPath: walkAreaOffsetMaxX
-      value: 4
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5493544971804496061, guid: 4650e10c3aefb49bb81a2af5abb10d9a, type: 3}
       propertyPath: walkAreaOffsetMaxY
-      value: 5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5493544971804496061, guid: 4650e10c3aefb49bb81a2af5abb10d9a, type: 3}
       propertyPath: walkAreaOffsetMinX
@@ -196,7 +196,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5493544971804496061, guid: 4650e10c3aefb49bb81a2af5abb10d9a, type: 3}
       propertyPath: walkAreaOffsetMinY
-      value: -1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5493544971804496061, guid: 4650e10c3aefb49bb81a2af5abb10d9a, type: 3}
       propertyPath: dialog.lines.Array.data[0]

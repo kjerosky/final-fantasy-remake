@@ -75,6 +75,16 @@ public class Player : MonoBehaviour {
         interactionIcon.SetActive(false);
     }
 
+    public void handleBattleSceneUnloaded() {
+        backgroundTilemap = GameObject.Find("Background").GetComponent<Tilemap>();
+        roomsCoverTilemap = GameObject.Find("RoomsCover")?.GetComponent<Tilemap>();
+
+        if (isOnWorldMap) {
+            ship = GameObject.Find("Ship").transform;
+            airship = GameObject.Find("Airship").transform;
+        }
+    }
+
     public void handleSceneLoaded(Vector3 newPlayerPosition) {
         transform.position = newPlayerPosition;
 
@@ -145,6 +155,11 @@ public class Player : MonoBehaviour {
     }
 
     private void checkPlayerInput() {
+        //TODO REMOVE THIS TEMPORARY CODE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        if (Input.GetKeyDown(KeyCode.B)) {
+            FindObjectOfType<BattleTransitionManager>().transitionIntoBattle();
+        }
+
         bool interactButtonWasPressed = Input.GetKeyDown(KeyCode.Space);
 
         if (isOnWorldMap && interactButtonWasPressed) {

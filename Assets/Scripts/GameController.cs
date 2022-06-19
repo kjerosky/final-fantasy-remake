@@ -7,19 +7,25 @@ public class GameController : MonoBehaviour {
     private enum GameState {
         ROAMING,
         DIALOG,
-        SCENE_TRANSITION
+        SCENE_TRANSITION,
+        BATTLE_TRANSITION,
+        BATTLE
     };
 
     public Player player;
 
     private DialogManager dialogManager;
     private TransitionManager transitionManager;
+    private BattleTransitionManager battleTransitionManager;
+    private BattleManager battleManager;
 
     private GameState state;
 
     void Start() {
         dialogManager = GetComponent<DialogManager>();
         transitionManager = GetComponent<TransitionManager>();
+        battleTransitionManager = GetComponent<BattleTransitionManager>();
+        battleManager = GetComponent<BattleManager>();
 
         state = GameState.SCENE_TRANSITION;
 
@@ -38,6 +44,22 @@ public class GameController : MonoBehaviour {
         transitionManager.OnEndTransition += () => {
             state = GameState.ROAMING;
         };
+
+        battleTransitionManager.OnStartTransitionIntoBattle += () => {
+            state = GameState.BATTLE_TRANSITION;
+        };
+
+        battleTransitionManager.OnEndTransitionIntoBattle += () => {
+            state = GameState.BATTLE;
+        };
+
+        battleTransitionManager.OnStartTransitionOutOfBattle += () => {
+            state = GameState.BATTLE_TRANSITION;
+        };
+
+        battleTransitionManager.OnEndTransitionOutOfBattle += () => {
+            state = GameState.ROAMING;
+        };
     }
 
     void Update() {
@@ -45,6 +67,8 @@ public class GameController : MonoBehaviour {
             player.handleUpdate();
         } else if (state == GameState.DIALOG) {
             dialogManager.handleUpdate();
+        } else if (state == GameState.BATTLE) {
+            battleManager.handleUpdate();
         }
     }
 }
