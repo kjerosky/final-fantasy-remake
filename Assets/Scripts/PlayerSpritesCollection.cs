@@ -2,116 +2,74 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerSpritesCollection : MonoBehaviour {
-
-    [SerializeField] List<Sprite> fighterWalkUpFrames;
-    [SerializeField] List<Sprite> fighterWalkDownFrames;
-    [SerializeField] List<Sprite> fighterWalkLeftFrames;
-    [SerializeField] List<Sprite> fighterWalkRightFrames;
-
-    [SerializeField] List<Sprite> thiefWalkUpFrames;
-    [SerializeField] List<Sprite> thiefWalkDownFrames;
-    [SerializeField] List<Sprite> thiefWalkLeftFrames;
-    [SerializeField] List<Sprite> thiefWalkRightFrames;
-
-    [SerializeField] List<Sprite> monkWalkUpFrames;
-    [SerializeField] List<Sprite> monkWalkDownFrames;
-    [SerializeField] List<Sprite> monkWalkLeftFrames;
-    [SerializeField] List<Sprite> monkWalkRightFrames;
-
-    [SerializeField] List<Sprite> redMageWalkUpFrames;
-    [SerializeField] List<Sprite> redMageWalkDownFrames;
-    [SerializeField] List<Sprite> redMageWalkLeftFrames;
-    [SerializeField] List<Sprite> redMageWalkRightFrames;
-
-    [SerializeField] List<Sprite> whiteMageWalkUpFrames;
-    [SerializeField] List<Sprite> whiteMageWalkDownFrames;
-    [SerializeField] List<Sprite> whiteMageWalkLeftFrames;
-    [SerializeField] List<Sprite> whiteMageWalkRightFrames;
-
-    [SerializeField] List<Sprite> blackMageWalkUpFrames;
-    [SerializeField] List<Sprite> blackMageWalkDownFrames;
-    [SerializeField] List<Sprite> blackMageWalkLeftFrames;
-    [SerializeField] List<Sprite> blackMageWalkRightFrames;
-
-    [SerializeField] List<Sprite> canoeWalkUpFrames;
-    [SerializeField] List<Sprite> canoeWalkDownFrames;
-    [SerializeField] List<Sprite> canoeWalkLeftFrames;
-    [SerializeField] List<Sprite> canoeWalkRightFrames;
-
-    [SerializeField] List<Sprite> shipMoveUpFrames;
-    [SerializeField] List<Sprite> shipMoveDownFrames;
-    [SerializeField] List<Sprite> shipMoveLeftFrames;
-    [SerializeField] List<Sprite> shipMoveRightFrames;
-
-    [SerializeField] List<Sprite> airshipShadowFrames;
+public class PlayerSpritesCollection {
 
     private Dictionary<PlayerSpritesType, List<List<Sprite>>> typeToSpritesList;
 
-    void Awake() {
+    public PlayerSpritesCollection(PlayerSprites playerSprites) {
         typeToSpritesList = new Dictionary<PlayerSpritesType, List<List<Sprite>>>();
 
         List<List<Sprite>> fighterSpritesList = new List<List<Sprite>>();
-        fighterSpritesList.Add(fighterWalkUpFrames);
-        fighterSpritesList.Add(fighterWalkDownFrames);
-        fighterSpritesList.Add(fighterWalkLeftFrames);
-        fighterSpritesList.Add(fighterWalkRightFrames);
+        fighterSpritesList.Add(playerSprites.FighterWalkUpFrames);
+        fighterSpritesList.Add(playerSprites.FighterWalkDownFrames);
+        fighterSpritesList.Add(playerSprites.FighterWalkLeftFrames);
+        fighterSpritesList.Add(playerSprites.FighterWalkRightFrames);
         typeToSpritesList.Add(PlayerSpritesType.FIGHTER, fighterSpritesList);
 
         List<List<Sprite>> thiefSpritesList = new List<List<Sprite>>();
-        thiefSpritesList.Add(thiefWalkUpFrames);
-        thiefSpritesList.Add(thiefWalkDownFrames);
-        thiefSpritesList.Add(thiefWalkLeftFrames);
-        thiefSpritesList.Add(thiefWalkRightFrames);
+        thiefSpritesList.Add(playerSprites.ThiefWalkUpFrames);
+        thiefSpritesList.Add(playerSprites.ThiefWalkDownFrames);
+        thiefSpritesList.Add(playerSprites.ThiefWalkLeftFrames);
+        thiefSpritesList.Add(playerSprites.ThiefWalkRightFrames);
         typeToSpritesList.Add(PlayerSpritesType.THIEF, thiefSpritesList);
 
         List<List<Sprite>> monkSpritesList = new List<List<Sprite>>();
-        monkSpritesList.Add(monkWalkUpFrames);
-        monkSpritesList.Add(monkWalkDownFrames);
-        monkSpritesList.Add(monkWalkLeftFrames);
-        monkSpritesList.Add(monkWalkRightFrames);
+        monkSpritesList.Add(playerSprites.MonkWalkUpFrames);
+        monkSpritesList.Add(playerSprites.MonkWalkDownFrames);
+        monkSpritesList.Add(playerSprites.MonkWalkLeftFrames);
+        monkSpritesList.Add(playerSprites.MonkWalkRightFrames);
         typeToSpritesList.Add(PlayerSpritesType.MONK, monkSpritesList);
 
         List<List<Sprite>> redMageSpritesList = new List<List<Sprite>>();
-        redMageSpritesList.Add(redMageWalkUpFrames);
-        redMageSpritesList.Add(redMageWalkDownFrames);
-        redMageSpritesList.Add(redMageWalkLeftFrames);
-        redMageSpritesList.Add(redMageWalkRightFrames);
+        redMageSpritesList.Add(playerSprites.RedMageWalkUpFrames);
+        redMageSpritesList.Add(playerSprites.RedMageWalkDownFrames);
+        redMageSpritesList.Add(playerSprites.RedMageWalkLeftFrames);
+        redMageSpritesList.Add(playerSprites.RedMageWalkRightFrames);
         typeToSpritesList.Add(PlayerSpritesType.RED_MAGE, redMageSpritesList);
 
         List<List<Sprite>> whiteMageSpritesList = new List<List<Sprite>>();
-        whiteMageSpritesList.Add(whiteMageWalkUpFrames);
-        whiteMageSpritesList.Add(whiteMageWalkDownFrames);
-        whiteMageSpritesList.Add(whiteMageWalkLeftFrames);
-        whiteMageSpritesList.Add(whiteMageWalkRightFrames);
+        whiteMageSpritesList.Add(playerSprites.WhiteMageWalkUpFrames);
+        whiteMageSpritesList.Add(playerSprites.WhiteMageWalkDownFrames);
+        whiteMageSpritesList.Add(playerSprites.WhiteMageWalkLeftFrames);
+        whiteMageSpritesList.Add(playerSprites.WhiteMageWalkRightFrames);
         typeToSpritesList.Add(PlayerSpritesType.WHITE_MAGE, whiteMageSpritesList);
 
         List<List<Sprite>> blackMageSpritesList = new List<List<Sprite>>();
-        blackMageSpritesList.Add(blackMageWalkUpFrames);
-        blackMageSpritesList.Add(blackMageWalkDownFrames);
-        blackMageSpritesList.Add(blackMageWalkLeftFrames);
-        blackMageSpritesList.Add(blackMageWalkRightFrames);
+        blackMageSpritesList.Add(playerSprites.BlackMageWalkUpFrames);
+        blackMageSpritesList.Add(playerSprites.BlackMageWalkDownFrames);
+        blackMageSpritesList.Add(playerSprites.BlackMageWalkLeftFrames);
+        blackMageSpritesList.Add(playerSprites.BlackMageWalkRightFrames);
         typeToSpritesList.Add(PlayerSpritesType.BLACK_MAGE, blackMageSpritesList);
 
         List<List<Sprite>> canoeSpritesList = new List<List<Sprite>>();
-        canoeSpritesList.Add(canoeWalkUpFrames);
-        canoeSpritesList.Add(canoeWalkDownFrames);
-        canoeSpritesList.Add(canoeWalkLeftFrames);
-        canoeSpritesList.Add(canoeWalkRightFrames);
+        canoeSpritesList.Add(playerSprites.CanoeWalkUpFrames);
+        canoeSpritesList.Add(playerSprites.CanoeWalkDownFrames);
+        canoeSpritesList.Add(playerSprites.CanoeWalkLeftFrames);
+        canoeSpritesList.Add(playerSprites.CanoeWalkRightFrames);
         typeToSpritesList.Add(PlayerSpritesType.CANOE, canoeSpritesList);
 
         List<List<Sprite>> shipSpritesList = new List<List<Sprite>>();
-        shipSpritesList.Add(shipMoveUpFrames);
-        shipSpritesList.Add(shipMoveDownFrames);
-        shipSpritesList.Add(shipMoveLeftFrames);
-        shipSpritesList.Add(shipMoveRightFrames);
+        shipSpritesList.Add(playerSprites.ShipMoveUpFrames);
+        shipSpritesList.Add(playerSprites.ShipMoveDownFrames);
+        shipSpritesList.Add(playerSprites.ShipMoveLeftFrames);
+        shipSpritesList.Add(playerSprites.ShipMoveRightFrames);
         typeToSpritesList.Add(PlayerSpritesType.SHIP, shipSpritesList);
 
         typeToSpritesList.Add(PlayerSpritesType.AIRSHIP, new List<List<Sprite>>() {
-            airshipShadowFrames,
-            airshipShadowFrames,
-            airshipShadowFrames,
-            airshipShadowFrames
+            playerSprites.AirshipShadowFrames,
+            playerSprites.AirshipShadowFrames,
+            playerSprites.AirshipShadowFrames,
+            playerSprites.AirshipShadowFrames
         });
     }
 

@@ -2,13 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerAnimator : MonoBehaviour {
-
-    [SerializeField] PlayerSpritesType playerSpritesType;
-    [SerializeField] float walkFrameTime;
-    [SerializeField] float canoeFrameTime;
-    [SerializeField] float shipFrameTime;
-    [SerializeField] float airshipFrameTime;
+public class PlayerAnimator {
 
     public float Horizontal { get; set; }
     public float Vertical { get; set; }
@@ -20,9 +14,17 @@ public class PlayerAnimator : MonoBehaviour {
             handleSpritesTypeChange();
         }
     }
+    public AirshipAnimator AirshipAnimator {
+        set {
+            airshipAnimator = value;
+        }
+    }
 
     private SpriteRenderer spriteRenderer;
+
     private PlayerSpritesCollection playerSpritesCollection;
+
+    private PlayerSpritesType playerSpritesType;
 
     private SpriteAnimator moveUpAnimator;
     private SpriteAnimator moveDownAnimator;
@@ -34,9 +36,22 @@ public class PlayerAnimator : MonoBehaviour {
 
     private bool wasPreviouslyMoving;
 
-    void Start() {
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        playerSpritesCollection = GetComponent<PlayerSpritesCollection>();
+    private PlayerSprites playerSprites;
+    private float walkFrameTime;
+    private float canoeFrameTime;
+    private float shipFrameTime;
+    private float airshipFrameTime;
+
+    public PlayerAnimator(SpriteRenderer spriteRenderer, PlayerAnimatorParameters playerAnimatorParameters) {
+        this.spriteRenderer = spriteRenderer;
+
+        playerSprites = playerAnimatorParameters.PlayerSprites;
+        walkFrameTime = playerAnimatorParameters.WalkFrameTime;
+        canoeFrameTime = playerAnimatorParameters.CanoeFrameTime;
+        shipFrameTime = playerAnimatorParameters.ShipFrameTime;
+        airshipFrameTime = playerAnimatorParameters.AirshipFrameTime;
+
+        playerSpritesCollection = new PlayerSpritesCollection(playerSprites);
 
         moveUpAnimator = new SpriteAnimator(spriteRenderer, null, 1f);
         moveDownAnimator = new SpriteAnimator(spriteRenderer, null, 1f);
@@ -45,6 +60,7 @@ public class PlayerAnimator : MonoBehaviour {
 
         currentAnimator = moveDownAnimator;
 
+        playerSpritesType = PlayerSpritesType.FIGHTER;
         handleSpritesTypeChange();
 
         wasPreviouslyMoving = false;
@@ -85,12 +101,11 @@ public class PlayerAnimator : MonoBehaviour {
             Horizontal = 1f;
             Vertical = 0f;
 
-            airshipAnimator = FindObjectOfType<AirshipAnimator>();
             airshipAnimator?.animateTakeoff();
         }
     }
 
-    void Update() {
+    public void handleUpdate() {
         SpriteAnimator previousAnimator = currentAnimator;
         if (Horizontal == -1) {
             currentAnimator = moveLeftAnimator;

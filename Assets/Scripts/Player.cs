@@ -32,6 +32,7 @@ public class Player : MonoBehaviour {
     [SerializeField] bool hasAirship;
     [SerializeField] bool hasMysticKey;
     [SerializeField] GameObject interactionIcon;
+    [SerializeField] PlayerAnimatorParameters playerAnimatorParameters;
 
     private Transform ship;
     private Transform airship;
@@ -47,17 +48,32 @@ public class Player : MonoBehaviour {
     private bool isMoving;
     private Vector3 facingDirection;
     private bool isOnWorldMap;
-    private PlayerSpritesType playerSpritesType;
+    private PlayerSpritesType displayedCharacterType;
+
+    //TODO REMOVE THIS TEMPORARY CODE!!!!!!!!!!!!!!!!!!!!!!!!!
+    private PlayerSpritesType[] TEMP_characterTypes = new PlayerSpritesType[] {
+        PlayerSpritesType.FIGHTER,
+        PlayerSpritesType.THIEF,
+        PlayerSpritesType.MONK,
+        PlayerSpritesType.RED_MAGE,
+        PlayerSpritesType.WHITE_MAGE,
+        PlayerSpritesType.BLACK_MAGE
+    };
+    private int TEMP_currentCharacterTypeIndex = 0;
 
     public bool HasMysticKey => hasMysticKey;
 
     void Start() {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+
+        displayedCharacterType = TEMP_characterTypes[TEMP_currentCharacterTypeIndex];
+        animator = new PlayerAnimator(spriteRenderer, playerAnimatorParameters);
+        animator.PlayerSpritesType = displayedCharacterType;
+
         Vector3 defaultScenePosition = FindObjectOfType<EssentialObjectsLoader>().DefaultPlayerPosition;
         handleSceneLoaded(defaultScenePosition);
 
         worldMapTileMovementData = GetComponent<WorldMapTileMovementData>();
-
-        spriteRenderer = GetComponent<SpriteRenderer>();
 
         controlsEnabled = true;
         movementState = MovementState.WALKING;
@@ -70,8 +86,6 @@ public class Player : MonoBehaviour {
 
         isMoving = false;
 
-        playerSpritesType = PlayerSpritesType.FIGHTER;
-
         interactionIcon.SetActive(false);
     }
 
@@ -82,6 +96,7 @@ public class Player : MonoBehaviour {
         if (isOnWorldMap) {
             ship = GameObject.Find("Ship").transform;
             airship = GameObject.Find("Airship").transform;
+            animator.AirshipAnimator = GameObject.FindObjectOfType<AirshipAnimator>();
         }
     }
 
@@ -91,7 +106,6 @@ public class Player : MonoBehaviour {
         backgroundTilemap = GameObject.Find("Background").GetComponent<Tilemap>();
         roomsCoverTilemap = GameObject.Find("RoomsCover")?.GetComponent<Tilemap>();
 
-        animator = GetComponent<PlayerAnimator>();
         animator.Horizontal = 0f;
         animator.Vertical = -1f;
         animator.IsMoving = false;
@@ -107,13 +121,14 @@ public class Player : MonoBehaviour {
             GameObject airshipObject = GameObject.Find("Airship");
             airship = airshipObject.GetComponent<Transform>();
             airship.gameObject.SetActive(hasAirship);
+            animator.AirshipAnimator = GameObject.FindObjectOfType<AirshipAnimator>();
             if (airship != null && airship.gameObject.activeSelf) {
                 AirshipAnimator airshipAnimator = FindObjectOfType<AirshipAnimator>();
                 airshipAnimator.OnEndTakeoff += () => {
                     controlsEnabled = true;
                 };
                 airshipAnimator.OnEndLanding += () => {
-                    animator.PlayerSpritesType = playerSpritesType;
+                    animator.PlayerSpritesType = displayedCharacterType;
                     animator.Horizontal = 0;
                     animator.Vertical = -1;
                     animator.IsMoving = false;
@@ -137,6 +152,8 @@ public class Player : MonoBehaviour {
 
             checkPlayerInput();
         }
+
+        animator.handleUpdate();
     }
 
     private bool isFacingInteractable() {
@@ -158,6 +175,15 @@ public class Player : MonoBehaviour {
         //TODO REMOVE THIS TEMPORARY CODE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         if (Input.GetKeyDown(KeyCode.B)) {
             FindObjectOfType<BattleTransitionManager>().transitionIntoBattle();
+        } else if (Input.GetKeyDown(KeyCode.Q)) {
+            TEMP_currentCharacterTypeIndex = (TEMP_currentCharacterTypeIndex - 1 >= 0) ?
+                TEMP_currentCharacterTypeIndex - 1 : TEMP_characterTypes.Length - 1;
+            displayedCharacterType = TEMP_characterTypes[TEMP_currentCharacterTypeIndex];
+            animator.PlayerSpritesType = displayedCharacterType;
+        } else if (Input.GetKeyDown(KeyCode.E)) {
+            TEMP_currentCharacterTypeIndex = (TEMP_currentCharacterTypeIndex + 1) % TEMP_characterTypes.Length;
+            displayedCharacterType = TEMP_characterTypes[TEMP_currentCharacterTypeIndex];
+            animator.PlayerSpritesType = displayedCharacterType;
         }
 
         bool interactButtonWasPressed = Input.GetKeyDown(KeyCode.Space);
@@ -274,11 +300,11 @@ public class Player : MonoBehaviour {
                     canMove = true;
                 } else if (worldMapTileMovementData.isWalkableLand(targetTile)) {
                     movementState = MovementState.WALKING;
-                    animator.PlayerSpritesType = playerSpritesType;
+                    animator.PlayerSpritesType = displayedCharacterType;
                     canMove = true;
                 } else if (ship.gameObject.activeSelf && targetPosition == ship.position) {
                     movementState = MovementState.WALKING;
-                    animator.PlayerSpritesType = playerSpritesType;
+                    animator.PlayerSpritesType = displayedCharacterType;
                     canMove = true;
                 }
             } break;
@@ -408,7 +434,7 @@ public class Player : MonoBehaviour {
     }
 
     private void disembarkFromShip() {
-        animator.PlayerSpritesType = playerSpritesType;
+        animator.PlayerSpritesType = displayedCharacterType;
 
         ship.parent = null;
         ship.gameObject.SetActive(true);
