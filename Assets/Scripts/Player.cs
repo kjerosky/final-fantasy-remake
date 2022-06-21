@@ -33,6 +33,7 @@ public class Player : MonoBehaviour {
     [SerializeField] bool hasMysticKey;
     [SerializeField] GameObject interactionIcon;
     [SerializeField] PlayerAnimatorParameters playerAnimatorParameters;
+    [SerializeField] PartyInfo partyInfo;
 
     private Transform ship;
     private Transform airship;
@@ -50,23 +51,14 @@ public class Player : MonoBehaviour {
     private bool isOnWorldMap;
     private PlayerSpritesType displayedCharacterType;
 
-    //TODO REMOVE THIS TEMPORARY CODE!!!!!!!!!!!!!!!!!!!!!!!!!
-    private PlayerSpritesType[] TEMP_characterTypes = new PlayerSpritesType[] {
-        PlayerSpritesType.FIGHTER,
-        PlayerSpritesType.THIEF,
-        PlayerSpritesType.MONK,
-        PlayerSpritesType.RED_MAGE,
-        PlayerSpritesType.WHITE_MAGE,
-        PlayerSpritesType.BLACK_MAGE
-    };
-    private int TEMP_currentCharacterTypeIndex = 0;
+    private int displayedCharacterPosition = 0;
 
     public bool HasMysticKey => hasMysticKey;
 
     void Start() {
         spriteRenderer = GetComponent<SpriteRenderer>();
 
-        displayedCharacterType = TEMP_characterTypes[TEMP_currentCharacterTypeIndex];
+        displayedCharacterType = partyInfo.getTypeAtPosition(displayedCharacterPosition);
         animator = new PlayerAnimator(spriteRenderer, playerAnimatorParameters);
         animator.PlayerSpritesType = displayedCharacterType;
 
@@ -176,13 +168,13 @@ public class Player : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.B)) {
             FindObjectOfType<BattleTransitionManager>().transitionIntoBattle();
         } else if (Input.GetKeyDown(KeyCode.Q)) {
-            TEMP_currentCharacterTypeIndex = (TEMP_currentCharacterTypeIndex - 1 >= 0) ?
-                TEMP_currentCharacterTypeIndex - 1 : TEMP_characterTypes.Length - 1;
-            displayedCharacterType = TEMP_characterTypes[TEMP_currentCharacterTypeIndex];
+            displayedCharacterPosition = (displayedCharacterPosition - 1 >= 0) ?
+                displayedCharacterPosition - 1 : partyInfo.getPartySize() - 1;
+            displayedCharacterType = partyInfo.getTypeAtPosition(displayedCharacterPosition);
             animator.PlayerSpritesType = displayedCharacterType;
         } else if (Input.GetKeyDown(KeyCode.E)) {
-            TEMP_currentCharacterTypeIndex = (TEMP_currentCharacterTypeIndex + 1) % TEMP_characterTypes.Length;
-            displayedCharacterType = TEMP_characterTypes[TEMP_currentCharacterTypeIndex];
+            displayedCharacterPosition = (displayedCharacterPosition + 1) % partyInfo.getPartySize();
+            displayedCharacterType = partyInfo.getTypeAtPosition(displayedCharacterPosition);
             animator.PlayerSpritesType = displayedCharacterType;
         }
 
