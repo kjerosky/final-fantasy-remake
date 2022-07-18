@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40083385c4c4744a1bf6783adbc2cdea, type: 3}
+  m_Name: Fighter
+  m_EditorClassIdentifier: 
+  hp: 35
+  strength: 20
+  agility: 5
+  intelligence: 1
+  vitality: 10
+  luck: 5
+  hitPercent: 10
+  magicDefense: 15
+  battleSpriteStanding: {fileID: 898486986203314846, guid: eb24be06c60054d9ca557354d30f6fa4, type: 3}
