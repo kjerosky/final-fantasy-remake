@@ -16,7 +16,11 @@ public class PlayerUnitBase : ScriptableObject {
 
     [SerializeField] Sprite battleSpriteStanding;
 
+    [SerializeField] List<BattleMenuCommand> battleMenuCommands;
+
     public int Hp => hp;
 
     public Sprite BattleSpriteStanding => battleSpriteStanding;
+
+    public List<BattleMenuCommand> BattleMenuCommands => battleMenuCommands;
 }

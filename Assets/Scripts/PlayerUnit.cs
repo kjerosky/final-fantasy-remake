@@ -12,6 +12,8 @@ public class PlayerUnit {
     public int MaxHp => maxHp;
     public int CurrentHp => currentHp;
 
+    public List<BattleMenuCommand> BattleMenuCommands => unitBase.BattleMenuCommands;
+
     public PlayerUnit(PlayerUnitBase unitBase) {
         this.unitBase = unitBase;
         maxHp = unitBase.Hp;

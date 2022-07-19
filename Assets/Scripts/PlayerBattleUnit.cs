@@ -11,6 +11,8 @@ public class PlayerBattleUnit : MonoBehaviour {
 
     private PlayerUnit playerUnit;
 
+    public List<BattleMenuCommand> BattleMenuCommands => playerUnit.BattleMenuCommands;
+
     public void setup() {
         playerUnit = new PlayerUnit(playerUnitBase);
 
