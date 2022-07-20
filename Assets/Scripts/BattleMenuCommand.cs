@@ -9,6 +9,7 @@ public class BattleMenuCommand : ScriptableObject {
     [SerializeField] PlayerUnitCommand command;
 
     public string Text => text;
+    public PlayerUnitCommand Command => command;
 }
 
 public enum PlayerUnitCommand {
