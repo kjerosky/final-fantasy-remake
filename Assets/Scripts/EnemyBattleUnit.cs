@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class EnemyBattleUnit : MonoBehaviour {
 
@@ -33,5 +34,14 @@ public class EnemyBattleUnit : MonoBehaviour {
         enemyUnit.takeDamage(attackingPlayerUnit);
 
         yield return hpInfo.setHpSmooth(enemyUnit.CurrentHp, enemyUnit.MaxHp, takeDamageSeconds);
+    }
+
+    public IEnumerator die(float fadeOutSeconds) {
+        hpInfo.gameObject.SetActive(false);
+
+        yield return enemyUnitImage
+            .DOFade(0f, fadeOutSeconds)
+            .SetEase(Ease.Linear)
+            .WaitForCompletion();
     }
 }

@@ -9,6 +9,7 @@ public class BattleSystem : MonoBehaviour {
     [SerializeField] EnemyBattleUnit enemyUnitSmall1;
     [SerializeField] EnemyBattleUnit enemyUnitSmall2;
     [SerializeField] BattleMenu battleMenu;
+    [SerializeField] float enemyDeathFadeOutSeconds;
 
     private BattleState state;
 
@@ -136,7 +137,9 @@ public class BattleSystem : MonoBehaviour {
         yield return targetEnemy.takeDamagePhysical(currentPlayerBattleUnit);
 
         if (targetEnemy.CurrentHp <= 0) {
-            //TODO COROUTINE TO FADE OUT ENEMY
+            yield return targetEnemy.die(enemyDeathFadeOutSeconds);
+
+            targetEnemy.gameObject.SetActive(false);
         }
 
         activateNextUnit();

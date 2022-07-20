@@ -902,6 +902,7 @@ MonoBehaviour:
   enemyUnitSmall1: {fileID: 1850186341}
   enemyUnitSmall2: {fileID: 603421189}
   battleMenu: {fileID: 1669748316}
+  enemyDeathFadeOutSeconds: 0.4
 --- !u!114 &603421189 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 400010294122574526, guid: fc4e6e37d39114eda99a8e5056d1b950, type: 3}
