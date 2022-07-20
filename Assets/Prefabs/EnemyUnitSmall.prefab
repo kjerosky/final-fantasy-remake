@@ -332,6 +332,7 @@ MonoBehaviour:
   hpInfo: {fileID: 400010293257626665}
   enemyUnitImage: {fileID: 400010293332720842}
   selectionCursor: {fileID: 1911045768887202046}
+  takeDamageSeconds: 1
 --- !u!1 &400010294322382831
 GameObject:
   m_ObjectHideFlags: 0

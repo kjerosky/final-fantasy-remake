@@ -48,6 +48,7 @@ public class BattleSystem : MonoBehaviour {
 
         currentSelectedMenuCommandIndex = 0;
         battleMenu.setSelectedCommand(currentSelectedMenuCommandIndex);
+        battleMenu.setShowingCommandsMenu(true);
 
         state = BattleState.PLAYER_SELECT_ACTION;
     }
@@ -108,7 +109,7 @@ public class BattleSystem : MonoBehaviour {
         }
 
         if (Input.GetKeyDown(KeyCode.Return)) {
-            //TODO EXECUTE COMMAND
+            executeCommand();
         } else if (Input.GetKeyDown(KeyCode.Escape)) {
             if (chosenCommand == PlayerUnitCommand.ATTACK) {
                 activeEnemyBattleUnits.ForEach(enemy => enemy.setSelected(false));
@@ -116,6 +117,29 @@ public class BattleSystem : MonoBehaviour {
                 state = BattleState.PLAYER_SELECT_ACTION;
             }
         }
+    }
+
+    private void executeCommand() {
+        if (chosenCommand == PlayerUnitCommand.ATTACK) {
+            StartCoroutine(performAttack());
+        }
+    }
+
+    private IEnumerator performAttack() {
+        state = BattleState.BUSY;
+
+        battleMenu.brightenCommandCursor(currentSelectedMenuCommandIndex);
+        battleMenu.setShowingCommandsMenu(false);
+        activeEnemyBattleUnits.ForEach(enemy => enemy.setSelected(false));
+
+        EnemyBattleUnit targetEnemy = activeEnemyBattleUnits[currentSelectedEnemyBattleUnitIndex];
+        yield return targetEnemy.takeDamagePhysical(currentPlayerBattleUnit);
+
+        if (targetEnemy.CurrentHp <= 0) {
+            //TODO COROUTINE TO FADE OUT ENEMY
+        }
+
+        activateNextUnit();
     }
 }
 

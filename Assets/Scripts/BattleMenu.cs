@@ -1,10 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BattleMenu : MonoBehaviour {
 
     [SerializeField] List<MenuCommand> menuCommands;
+
+    private Image commandMenuBackground;
+
+    void Awake() {
+        commandMenuBackground = GetComponent<Image>();
+    }
 
     public void initializeCommands(List<BattleMenuCommand> commands) {
         for (int i = 0; i < menuCommands.Count; i++) {
@@ -27,5 +34,10 @@ public class BattleMenu : MonoBehaviour {
 
     public void brightenCommandCursor(int commandIndex) {
         menuCommands[commandIndex].brightenCursor();
+    }
+
+    public void setShowingCommandsMenu(bool isShowing) {
+        commandMenuBackground.enabled = isShowing;
+        menuCommands.ForEach(menuCommand => menuCommand.gameObject.SetActive(isShowing));
     }
 }

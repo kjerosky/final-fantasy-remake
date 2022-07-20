@@ -9,8 +9,11 @@ public class EnemyBattleUnit : MonoBehaviour {
     [SerializeField] HpInfo hpInfo;
     [SerializeField] Image enemyUnitImage;
     [SerializeField] SelectionCursor selectionCursor;
+    [SerializeField] float takeDamageSeconds;
 
     private EnemyUnit enemyUnit;
+
+    public int CurrentHp => enemyUnit.CurrentHp;
 
     public void setup() {
         enemyUnit = new EnemyUnit(enemyUnitBase);
@@ -24,5 +27,11 @@ public class EnemyBattleUnit : MonoBehaviour {
 
     public void setSelected(bool isSelected) {
         selectionCursor.setShowing(isSelected);
+    }
+
+    public IEnumerator takeDamagePhysical(PlayerBattleUnit attackingPlayerUnit) {
+        enemyUnit.takeDamage(attackingPlayerUnit);
+
+        yield return hpInfo.setHpSmooth(enemyUnit.CurrentHp, enemyUnit.MaxHp, takeDamageSeconds);
     }
 }
