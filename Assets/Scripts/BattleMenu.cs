@@ -20,4 +20,12 @@ public class BattleMenu : MonoBehaviour {
             menuCommands[i].setSelected(i == selectedCommandIndex);
         }
     }
+
+    public void dimCommandCursor(int commandIndex) {
+        menuCommands[commandIndex].dimCursor();
+    }
+
+    public void brightenCommandCursor(int commandIndex) {
+        menuCommands[commandIndex].brightenCursor();
+    }
 }

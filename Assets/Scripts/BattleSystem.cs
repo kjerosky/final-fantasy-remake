@@ -84,10 +84,9 @@ public class BattleSystem : MonoBehaviour {
             chosenCommand = currentPlayerBattleUnit.BattleMenuCommands[currentSelectedMenuCommandIndex].Command;
 
             if (chosenCommand == PlayerUnitCommand.ATTACK) {
+                battleMenu.dimCommandCursor(currentSelectedMenuCommandIndex);
                 preparePlayerSelectSingleTarget();
             }
-        } else if (Input.GetKeyDown(KeyCode.Escape)) {
-            //TODO BACK OUT
         }
     }
 
@@ -111,7 +110,11 @@ public class BattleSystem : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.Return)) {
             //TODO EXECUTE COMMAND
         } else if (Input.GetKeyDown(KeyCode.Escape)) {
-            //TODO BACK OUT
+            if (chosenCommand == PlayerUnitCommand.ATTACK) {
+                activeEnemyBattleUnits.ForEach(enemy => enemy.setSelected(false));
+                battleMenu.brightenCommandCursor(currentSelectedMenuCommandIndex);
+                state = BattleState.PLAYER_SELECT_ACTION;
+            }
         }
     }
 }

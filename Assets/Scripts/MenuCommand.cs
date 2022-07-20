@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class MenuCommand : MonoBehaviour {
 
-    [SerializeField] GameObject selectionCursor;
+    [SerializeField] SelectionCursor selectionCursor;
 
     private Text text;
 
@@ -18,6 +18,14 @@ public class MenuCommand : MonoBehaviour {
     }
 
     public void setSelected(bool isSelected) {
-        selectionCursor.SetActive(isSelected);
+        selectionCursor.setShowing(isSelected);
+    }
+
+    public void dimCursor() {
+        selectionCursor.dim();
+    }
+
+    public void brightenCursor() {
+        selectionCursor.brighten();
     }
 }

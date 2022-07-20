@@ -8,7 +8,7 @@ public class EnemyBattleUnit : MonoBehaviour {
     [SerializeField] EnemyUnitBase enemyUnitBase;
     [SerializeField] HpInfo hpInfo;
     [SerializeField] Image enemyUnitImage;
-    [SerializeField] GameObject selectionCursor;
+    [SerializeField] SelectionCursor selectionCursor;
 
     private EnemyUnit enemyUnit;
 
@@ -18,9 +18,11 @@ public class EnemyBattleUnit : MonoBehaviour {
         hpInfo.setHp(enemyUnit.CurrentHp, enemyUnit.MaxHp);
 
         enemyUnitImage.sprite = enemyUnitBase.BattleSprite;
+
+        setSelected(false);
     }
 
     public void setSelected(bool isSelected) {
-        selectionCursor.SetActive(isSelected);
+        selectionCursor.setShowing(isSelected);
     }
 }
