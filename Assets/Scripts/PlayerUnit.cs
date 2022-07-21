@@ -19,4 +19,13 @@ public class PlayerUnit {
         maxHp = unitBase.Hp;
         currentHp = maxHp;
     }
+
+    public int takeDamage(EnemyBattleUnit attackingEnemyUnit) {
+        //TODO REPLACE THIS WITH PROPERLY DETERMINED DAMAGE
+        int TEMP_damageTaken = 5;
+
+        currentHp = Mathf.Max(0, currentHp - TEMP_damageTaken);
+
+        return TEMP_damageTaken;
+    }
 }

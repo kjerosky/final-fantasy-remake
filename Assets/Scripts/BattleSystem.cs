@@ -14,6 +14,7 @@ public class BattleSystem : MonoBehaviour {
     private BattleState state;
 
     private PlayerBattleUnit currentPlayerBattleUnit;
+    private EnemyBattleUnit currentEnemyBattleUnit;
 
     private int currentMenuCommandsCount;
     private int currentSelectedMenuCommandIndex;
@@ -21,6 +22,7 @@ public class BattleSystem : MonoBehaviour {
 
     private List<EnemyBattleUnit> activeEnemyBattleUnits;
     private int currentSelectedEnemyBattleUnitIndex;
+    private bool TEMP_isEnemyTurn;
 
     void Start() {
         state = BattleState.START;
@@ -29,6 +31,7 @@ public class BattleSystem : MonoBehaviour {
         enemyUnitSmall1.setup();
         enemyUnitSmall2.setup();
 
+        TEMP_isEnemyTurn = true;
         activateNextUnit();
     }
 
@@ -37,11 +40,20 @@ public class BattleSystem : MonoBehaviour {
             handlePlayerSelectAction();
         } else if (state == BattleState.PLAYER_SELECT_SINGLE_TARGET) {
             handlePlayerSelectSingleTarget();
+        } else if (state == BattleState.ENEMY_ACTION) {
+            handleEnemyAction();
         }
     }
 
     private void activateNextUnit() {
         currentPlayerBattleUnit = playerUnit1;
+        currentEnemyBattleUnit = enemyUnitSmall1;
+
+        TEMP_isEnemyTurn = !TEMP_isEnemyTurn;
+        if (TEMP_isEnemyTurn) {
+            state = BattleState.ENEMY_ACTION;
+            return;
+        }
 
         List<BattleMenuCommand> menuCommands = currentPlayerBattleUnit.BattleMenuCommands;
         battleMenu.initializeCommands(menuCommands);
@@ -120,6 +132,10 @@ public class BattleSystem : MonoBehaviour {
         }
     }
 
+    private void handleEnemyAction() {
+        StartCoroutine(performEnemyAttack());
+    }
+
     private void executeCommand() {
         if (chosenCommand == PlayerUnitCommand.ATTACK) {
             StartCoroutine(performAttack());
@@ -141,6 +157,15 @@ public class BattleSystem : MonoBehaviour {
 
             targetEnemy.gameObject.SetActive(false);
         }
+
+        activateNextUnit();
+    }
+
+    private IEnumerator performEnemyAttack() {
+        state = BattleState.BUSY;
+
+        PlayerBattleUnit targetPlayerUnit = currentPlayerBattleUnit;
+        yield return targetPlayerUnit.takeDamagePhysical(currentEnemyBattleUnit);
 
         activateNextUnit();
     }
