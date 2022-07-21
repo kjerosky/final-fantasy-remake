@@ -6,16 +6,19 @@ using UnityEngine.UI;
 public class PlayerUnit : Unit {
 
     private PlayerUnitBase unitBase;
+    private string name;
     private int currentHp;
     private int maxHp;
 
+    public string Name => name;
     public int CurrentHp => currentHp;
     public int MaxHp => maxHp;
     public Sprite BattleIdleSprite => unitBase.BattleSpriteStanding;
     public List<BattleMenuCommand> BattleMenuCommands => unitBase.BattleMenuCommands;
 
-    public PlayerUnit(PlayerUnitBase unitBase) {
+    public PlayerUnit(PlayerUnitBase unitBase, string name) {
         this.unitBase = unitBase;
+        this.name = name;
         maxHp = unitBase.Hp;
         currentHp = maxHp;
     }

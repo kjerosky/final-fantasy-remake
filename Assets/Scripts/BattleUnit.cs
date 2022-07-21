@@ -9,6 +9,7 @@ public class BattleUnit : MonoBehaviour {
     [SerializeField] HpInfo hpInfo;
     [SerializeField] Image unitImage;
     [SerializeField] SelectionCursor selectionCursor;
+    [SerializeField] Text nameText;
     [SerializeField] RectTransform damageNumbers;
     [SerializeField] float damageNumbersFirstPopOffsetY;
     [SerializeField] float damageNumbersSecondPopOffsetY;
@@ -30,6 +31,10 @@ public class BattleUnit : MonoBehaviour {
     public void setup(Unit unit, bool isEnemyUnit) {
         this.unit = unit;
         this.isEnemyUnit = isEnemyUnit;
+
+        if (nameText != null) {
+            nameText.text = unit.Name;
+        }
 
         hpInfo.setHp(unit.CurrentHp, unit.MaxHp);
 

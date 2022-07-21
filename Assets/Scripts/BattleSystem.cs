@@ -31,7 +31,7 @@ public class BattleSystem : MonoBehaviour {
     void Start() {
         state = BattleState.START;
 
-        playerUnit1.setup(new PlayerUnit(playerUnitBase1), false);
+        playerUnit1.setup(new PlayerUnit(playerUnitBase1, "Abraham"), false);
         enemyUnitSmall1.setup(new EnemyUnit(enemyUnitBase1), true);
         enemyUnitSmall2.setup(new EnemyUnit(enemyUnitBase2), true);
 

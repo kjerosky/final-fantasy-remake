@@ -10,6 +10,7 @@ public class EnemyUnit : Unit {
     private int currentHp;
     private int maxHp;
 
+    public string Name => unitBase.name;
     public int CurrentHp => currentHp;
     public int MaxHp => maxHp;
     public Sprite BattleIdleSprite => unitBase.BattleSprite;

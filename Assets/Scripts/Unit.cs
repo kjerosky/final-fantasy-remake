@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public interface Unit {
+    public string Name { get; }
     public int CurrentHp { get; }
     public int MaxHp { get; }
     public Sprite BattleIdleSprite { get; }
