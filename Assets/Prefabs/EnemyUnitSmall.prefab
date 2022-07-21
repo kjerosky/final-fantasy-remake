@@ -332,6 +332,7 @@ MonoBehaviour:
   hpInfo: {fileID: 400010293257626665}
   unitImage: {fileID: 400010293332720842}
   selectionCursor: {fileID: 1911045768887202046}
+  nameText: {fileID: 0}
   damageNumbers: {fileID: 8623126366083581080}
   damageNumbersFirstPopOffsetY: 80
   damageNumbersSecondPopOffsetY: 20

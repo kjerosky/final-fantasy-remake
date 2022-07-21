@@ -18,10 +18,15 @@ public class BattleUnit : MonoBehaviour {
     private Unit unit;
     private float damageNumbersStartAnchorPosY;
     private bool isEnemyUnit;
+    private int teamMemberIndex;
 
     public int CurrentHp => unit.CurrentHp;
     public List<BattleMenuCommand> BattleMenuCommands => unit.BattleMenuCommands;
     public bool IsEnemyUnit => isEnemyUnit;
+    public int TeamMemberIndex {
+        get => teamMemberIndex;
+        set => teamMemberIndex = value;
+    }
 
 
     void Awake() {

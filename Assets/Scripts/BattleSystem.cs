@@ -32,8 +32,12 @@ public class BattleSystem : MonoBehaviour {
         state = BattleState.START;
 
         playerUnit1.setup(new PlayerUnit(playerUnitBase1, "Abraham"), false);
+        playerUnit1.TeamMemberIndex = 0;
+
         enemyUnitSmall1.setup(new EnemyUnit(enemyUnitBase1), true);
         enemyUnitSmall2.setup(new EnemyUnit(enemyUnitBase2), true);
+        enemyUnitSmall1.TeamMemberIndex = 0;
+        enemyUnitSmall2.TeamMemberIndex = 1;
 
         unitActionQueue = new List<BattleUnit>() {
             playerUnit1,
