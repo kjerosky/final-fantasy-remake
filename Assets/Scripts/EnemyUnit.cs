@@ -21,6 +21,19 @@ public class EnemyUnit : Unit {
         currentHp = maxHp;
     }
 
+    public IEnumerator beforeDealingDamage(Image unitImage) {
+        for (int i = 0; i < 2; i++) {
+            yield return unitImage
+                .DOColor(Color.black, 0.1f)
+                .SetEase(Ease.Linear)
+                .WaitForCompletion();
+            yield return unitImage
+                .DOColor(Color.white, 0.1f)
+                .SetEase(Ease.Linear)
+                .WaitForCompletion();
+        }
+    }
+
     public int takeDamage(BattleUnit attackingUnit) {
         //TODO REPLACE THIS WITH PROPERLY DETERMINED DAMAGE
         int TEMP_damageTaken = 5;

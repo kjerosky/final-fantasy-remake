@@ -18,24 +18,29 @@ public class BattleSystem : MonoBehaviour {
 
     private BattleState state;
 
-    private BattleUnit currentBattleUnit;
-
     private int currentMenuCommandsCount;
     private int currentSelectedMenuCommandIndex;
     private PlayerUnitCommand chosenCommand;
 
     private List<BattleUnit> activeEnemyBattleUnits;
     private int currentSelectedEnemyBattleUnitIndex;
-    private bool TEMP_isEnemyTurn;
+
+    private List<BattleUnit> unitActionQueue;
+    private BattleUnit currentBattleUnit;
 
     void Start() {
         state = BattleState.START;
 
-        playerUnit1.setup(new PlayerUnit(playerUnitBase1));
-        enemyUnitSmall1.setup(new EnemyUnit(enemyUnitBase1));
-        enemyUnitSmall2.setup(new EnemyUnit(enemyUnitBase2));
+        playerUnit1.setup(new PlayerUnit(playerUnitBase1), false);
+        enemyUnitSmall1.setup(new EnemyUnit(enemyUnitBase1), true);
+        enemyUnitSmall2.setup(new EnemyUnit(enemyUnitBase2), true);
 
-        TEMP_isEnemyTurn = true;
+        unitActionQueue = new List<BattleUnit>() {
+            playerUnit1,
+            enemyUnitSmall1,
+            enemyUnitSmall2
+        };
+
         activateNextUnit();
     }
 
@@ -50,14 +55,37 @@ public class BattleSystem : MonoBehaviour {
     }
 
     private void activateNextUnit() {
-        TEMP_isEnemyTurn = !TEMP_isEnemyTurn;
-        if (TEMP_isEnemyTurn) {
-            currentBattleUnit = enemyUnitSmall1;
-            state = BattleState.ENEMY_ACTION;
+        activeEnemyBattleUnits = new List<BattleUnit>() {
+            enemyUnitSmall1,
+            enemyUnitSmall2
+        }
+            .Where(unit => unit.gameObject.activeSelf)
+            .ToList();
+        if (activeEnemyBattleUnits.Count <= 0) {
+            state = BattleState.PLAYER_WON;
             return;
         }
 
-        currentBattleUnit = playerUnit1;
+        List<BattleUnit> alivePlayerUnits = new List<BattleUnit>() {
+            playerUnit1
+        }
+            .Where(unit => unit.CurrentHp > 0)
+            .ToList();
+        if (alivePlayerUnits.Count <= 0) {
+            state = BattleState.PLAYER_LOST;
+            return;
+        }
+
+        if (currentBattleUnit != null) {
+            unitActionQueue.RemoveAt(0);
+            unitActionQueue.Add(currentBattleUnit);
+        }
+        currentBattleUnit = unitActionQueue[0];
+
+        if (currentBattleUnit.IsEnemyUnit) {
+            state = BattleState.ENEMY_ACTION;
+            return;
+        }
 
         List<BattleMenuCommand> menuCommands = currentBattleUnit.BattleMenuCommands;
         battleMenu.initializeCommands(menuCommands);
@@ -71,13 +99,6 @@ public class BattleSystem : MonoBehaviour {
     }
 
     private void preparePlayerSelectSingleTarget() {
-        activeEnemyBattleUnits = new List<BattleUnit>() {
-            enemyUnitSmall1,
-            enemyUnitSmall2
-        }
-            .Where(unit => unit.gameObject.activeSelf)
-            .ToList();
-
         currentSelectedEnemyBattleUnitIndex = 0;
 
         state = BattleState.PLAYER_SELECT_SINGLE_TARGET;
@@ -160,6 +181,7 @@ public class BattleSystem : MonoBehaviour {
             yield return targetEnemy.die(enemyDeathFadeOutSeconds);
 
             targetEnemy.gameObject.SetActive(false);
+            unitActionQueue.Remove(targetEnemy);
         }
 
         activateNextUnit();
@@ -168,10 +190,21 @@ public class BattleSystem : MonoBehaviour {
     private IEnumerator performEnemyAttack() {
         state = BattleState.BUSY;
 
+        yield return new WaitForSeconds(0.5f);
+        yield return currentBattleUnit.beforeAttacking();
+
         BattleUnit targetPlayerUnit = playerUnit1;
         yield return targetPlayerUnit.takeDamagePhysical(currentBattleUnit);
 
         activateNextUnit();
+    }
+
+    private void handlePlayerLost() {
+        //TODO
+    }
+
+    private void handlePlayerWon() {
+        //TODO
     }
 }
 
@@ -180,5 +213,7 @@ public enum BattleState {
     PLAYER_SELECT_ACTION,
     PLAYER_SELECT_SINGLE_TARGET,
     ENEMY_ACTION,
+    PLAYER_LOST,
+    PLAYER_WON,
     BUSY
 }

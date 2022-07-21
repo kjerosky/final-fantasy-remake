@@ -9,6 +9,7 @@ public interface Unit {
     public Sprite BattleIdleSprite { get; }
     public List<BattleMenuCommand> BattleMenuCommands { get; }
 
+    public IEnumerator beforeDealingDamage(Image unitImage);
     public int takeDamage(BattleUnit attackingUnit);
     public IEnumerator die(float transitionSeconds, Image unitImage, HpInfo unitHpInfo);
 }

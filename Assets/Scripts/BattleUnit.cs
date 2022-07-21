@@ -16,17 +16,20 @@ public class BattleUnit : MonoBehaviour {
 
     private Unit unit;
     private float damageNumbersStartAnchorPosY;
+    private bool isEnemyUnit;
 
     public int CurrentHp => unit.CurrentHp;
     public List<BattleMenuCommand> BattleMenuCommands => unit.BattleMenuCommands;
+    public bool IsEnemyUnit => isEnemyUnit;
 
 
     void Awake() {
         damageNumbersStartAnchorPosY = damageNumbers.anchoredPosition.y;
     }
 
-    public void setup(Unit unit) {
+    public void setup(Unit unit, bool isEnemyUnit) {
         this.unit = unit;
+        this.isEnemyUnit = isEnemyUnit;
 
         hpInfo.setHp(unit.CurrentHp, unit.MaxHp);
 
@@ -37,6 +40,10 @@ public class BattleUnit : MonoBehaviour {
 
     public void setSelected(bool isSelected) {
         selectionCursor.setShowing(isSelected);
+    }
+
+    public IEnumerator beforeAttacking() {
+        yield return unit.beforeDealingDamage(unitImage);
     }
 
     public IEnumerator takeDamagePhysical(BattleUnit attackingUnit) {

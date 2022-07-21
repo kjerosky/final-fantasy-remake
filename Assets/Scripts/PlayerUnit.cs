@@ -20,6 +20,11 @@ public class PlayerUnit : Unit {
         currentHp = maxHp;
     }
 
+    public IEnumerator beforeDealingDamage(Image unitImage) {
+        //TODO
+        yield return null;
+    }
+
     public int takeDamage(BattleUnit attackingUnit) {
         //TODO REPLACE THIS WITH PROPERLY DETERMINED DAMAGE
         int TEMP_damageTaken = 5;
