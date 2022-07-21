@@ -6,6 +6,9 @@ using UnityEngine;
 public class BattleSystem : MonoBehaviour {
 
     [SerializeField] BattleUnit playerUnit1;
+    [SerializeField] BattleUnit playerUnit2;
+    [SerializeField] BattleUnit playerUnit3;
+    [SerializeField] BattleUnit playerUnit4;
     [SerializeField] BattleUnit enemyUnitSmall1;
     [SerializeField] BattleUnit enemyUnitSmall2;
     [SerializeField] BattleMenu battleMenu;
@@ -13,6 +16,9 @@ public class BattleSystem : MonoBehaviour {
 
     //TODO REMOVE THESE TEMPORARY FIELDS
     [SerializeField] PlayerUnitBase playerUnitBase1;
+    [SerializeField] PlayerUnitBase playerUnitBase2;
+    [SerializeField] PlayerUnitBase playerUnitBase3;
+    [SerializeField] PlayerUnitBase playerUnitBase4;
     [SerializeField] EnemyUnitBase enemyUnitBase1;
     [SerializeField] EnemyUnitBase enemyUnitBase2;
 
@@ -25,6 +31,8 @@ public class BattleSystem : MonoBehaviour {
     private List<BattleUnit> activeEnemyBattleUnits;
     private int currentSelectedEnemyBattleUnitIndex;
 
+    private List<BattleUnit> alivePlayerUnits;
+
     private List<BattleUnit> unitActionQueue;
     private BattleUnit currentBattleUnit;
 
@@ -32,7 +40,13 @@ public class BattleSystem : MonoBehaviour {
         state = BattleState.START;
 
         playerUnit1.setup(new PlayerUnit(playerUnitBase1, "Abraham"), false);
+        playerUnit2.setup(new PlayerUnit(playerUnitBase2, "Bobby"), false);
+        playerUnit3.setup(new PlayerUnit(playerUnitBase3, "Carly"), false);
+        playerUnit4.setup(new PlayerUnit(playerUnitBase4, "Diana"), false);
         playerUnit1.TeamMemberIndex = 0;
+        playerUnit2.TeamMemberIndex = 1;
+        playerUnit3.TeamMemberIndex = 2;
+        playerUnit4.TeamMemberIndex = 3;
 
         enemyUnitSmall1.setup(new EnemyUnit(enemyUnitBase1), true);
         enemyUnitSmall2.setup(new EnemyUnit(enemyUnitBase2), true);
@@ -42,7 +56,10 @@ public class BattleSystem : MonoBehaviour {
         unitActionQueue = new List<BattleUnit>() {
             playerUnit1,
             enemyUnitSmall1,
-            enemyUnitSmall2
+            playerUnit2,
+            enemyUnitSmall2,
+            playerUnit3,
+            playerUnit4
         };
 
         activateNextUnit();
@@ -70,8 +87,11 @@ public class BattleSystem : MonoBehaviour {
             return;
         }
 
-        List<BattleUnit> alivePlayerUnits = new List<BattleUnit>() {
-            playerUnit1
+        alivePlayerUnits = new List<BattleUnit>() {
+            playerUnit1,
+            playerUnit2,
+            playerUnit3,
+            playerUnit4
         }
             .Where(unit => unit.CurrentHp > 0)
             .ToList();
@@ -197,7 +217,8 @@ public class BattleSystem : MonoBehaviour {
         yield return new WaitForSeconds(0.5f);
         yield return currentBattleUnit.beforeAttacking();
 
-        BattleUnit targetPlayerUnit = playerUnit1;
+        int randomAlivePlayerUnitIndex = Random.Range(0, alivePlayerUnits.Count);
+        BattleUnit targetPlayerUnit = alivePlayerUnits[randomAlivePlayerUnitIndex];
         yield return targetPlayerUnit.takeDamagePhysical(currentBattleUnit);
 
         activateNextUnit();
