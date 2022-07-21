@@ -5,31 +5,35 @@ using UnityEngine;
 
 public class BattleSystem : MonoBehaviour {
 
-    [SerializeField] PlayerBattleUnit playerUnit1;
-    [SerializeField] EnemyBattleUnit enemyUnitSmall1;
-    [SerializeField] EnemyBattleUnit enemyUnitSmall2;
+    [SerializeField] BattleUnit playerUnit1;
+    [SerializeField] BattleUnit enemyUnitSmall1;
+    [SerializeField] BattleUnit enemyUnitSmall2;
     [SerializeField] BattleMenu battleMenu;
     [SerializeField] float enemyDeathFadeOutSeconds;
 
+    //TODO REMOVE THESE TEMPORARY FIELDS
+    [SerializeField] PlayerUnitBase playerUnitBase1;
+    [SerializeField] EnemyUnitBase enemyUnitBase1;
+    [SerializeField] EnemyUnitBase enemyUnitBase2;
+
     private BattleState state;
 
-    private PlayerBattleUnit currentPlayerBattleUnit;
-    private EnemyBattleUnit currentEnemyBattleUnit;
+    private BattleUnit currentBattleUnit;
 
     private int currentMenuCommandsCount;
     private int currentSelectedMenuCommandIndex;
     private PlayerUnitCommand chosenCommand;
 
-    private List<EnemyBattleUnit> activeEnemyBattleUnits;
+    private List<BattleUnit> activeEnemyBattleUnits;
     private int currentSelectedEnemyBattleUnitIndex;
     private bool TEMP_isEnemyTurn;
 
     void Start() {
         state = BattleState.START;
 
-        playerUnit1.setup();
-        enemyUnitSmall1.setup();
-        enemyUnitSmall2.setup();
+        playerUnit1.setup(new PlayerUnit(playerUnitBase1));
+        enemyUnitSmall1.setup(new EnemyUnit(enemyUnitBase1));
+        enemyUnitSmall2.setup(new EnemyUnit(enemyUnitBase2));
 
         TEMP_isEnemyTurn = true;
         activateNextUnit();
@@ -46,16 +50,16 @@ public class BattleSystem : MonoBehaviour {
     }
 
     private void activateNextUnit() {
-        currentPlayerBattleUnit = playerUnit1;
-        currentEnemyBattleUnit = enemyUnitSmall1;
-
         TEMP_isEnemyTurn = !TEMP_isEnemyTurn;
         if (TEMP_isEnemyTurn) {
+            currentBattleUnit = enemyUnitSmall1;
             state = BattleState.ENEMY_ACTION;
             return;
         }
 
-        List<BattleMenuCommand> menuCommands = currentPlayerBattleUnit.BattleMenuCommands;
+        currentBattleUnit = playerUnit1;
+
+        List<BattleMenuCommand> menuCommands = currentBattleUnit.BattleMenuCommands;
         battleMenu.initializeCommands(menuCommands);
         currentMenuCommandsCount = menuCommands.Count;
 
@@ -67,7 +71,7 @@ public class BattleSystem : MonoBehaviour {
     }
 
     private void preparePlayerSelectSingleTarget() {
-        activeEnemyBattleUnits = new List<EnemyBattleUnit>() {
+        activeEnemyBattleUnits = new List<BattleUnit>() {
             enemyUnitSmall1,
             enemyUnitSmall2
         }
@@ -95,7 +99,7 @@ public class BattleSystem : MonoBehaviour {
         battleMenu.setSelectedCommand(currentSelectedMenuCommandIndex);
 
         if (Input.GetKeyDown(KeyCode.Return)) {
-            chosenCommand = currentPlayerBattleUnit.BattleMenuCommands[currentSelectedMenuCommandIndex].Command;
+            chosenCommand = currentBattleUnit.BattleMenuCommands[currentSelectedMenuCommandIndex].Command;
 
             if (chosenCommand == PlayerUnitCommand.ATTACK) {
                 battleMenu.dimCommandCursor(currentSelectedMenuCommandIndex);
@@ -149,8 +153,8 @@ public class BattleSystem : MonoBehaviour {
         battleMenu.setShowingCommandsMenu(false);
         activeEnemyBattleUnits.ForEach(enemy => enemy.setSelected(false));
 
-        EnemyBattleUnit targetEnemy = activeEnemyBattleUnits[currentSelectedEnemyBattleUnitIndex];
-        yield return targetEnemy.takeDamagePhysical(currentPlayerBattleUnit);
+        BattleUnit targetEnemy = activeEnemyBattleUnits[currentSelectedEnemyBattleUnitIndex];
+        yield return targetEnemy.takeDamagePhysical(currentBattleUnit);
 
         if (targetEnemy.CurrentHp <= 0) {
             yield return targetEnemy.die(enemyDeathFadeOutSeconds);
@@ -164,8 +168,8 @@ public class BattleSystem : MonoBehaviour {
     private IEnumerator performEnemyAttack() {
         state = BattleState.BUSY;
 
-        PlayerBattleUnit targetPlayerUnit = currentPlayerBattleUnit;
-        yield return targetPlayerUnit.takeDamagePhysical(currentEnemyBattleUnit);
+        BattleUnit targetPlayerUnit = playerUnit1;
+        yield return targetPlayerUnit.takeDamagePhysical(currentBattleUnit);
 
         activateNextUnit();
     }

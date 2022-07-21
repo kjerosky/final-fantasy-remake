@@ -4,45 +4,53 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 
-public class PlayerBattleUnit : MonoBehaviour {
+public class BattleUnit : MonoBehaviour {
 
-    [SerializeField] PlayerUnitBase playerUnitBase;
     [SerializeField] HpInfo hpInfo;
-    [SerializeField] Image playerUnitImage;
+    [SerializeField] Image unitImage;
+    [SerializeField] SelectionCursor selectionCursor;
     [SerializeField] RectTransform damageNumbers;
     [SerializeField] float damageNumbersFirstPopOffsetY;
     [SerializeField] float damageNumbersSecondPopOffsetY;
     [SerializeField] float takeDamageSeconds;
 
-    private PlayerUnit playerUnit;
+    private Unit unit;
     private float damageNumbersStartAnchorPosY;
 
-    public List<BattleMenuCommand> BattleMenuCommands => playerUnit.BattleMenuCommands;
+    public int CurrentHp => unit.CurrentHp;
+    public List<BattleMenuCommand> BattleMenuCommands => unit.BattleMenuCommands;
+
 
     void Awake() {
         damageNumbersStartAnchorPosY = damageNumbers.anchoredPosition.y;
     }
 
-    public void setup() {
-        playerUnit = new PlayerUnit(playerUnitBase);
+    public void setup(Unit unit) {
+        this.unit = unit;
 
-        hpInfo.setHp(playerUnit.CurrentHp, playerUnit.MaxHp);
+        hpInfo.setHp(unit.CurrentHp, unit.MaxHp);
 
-        playerUnitImage.sprite = playerUnitBase.BattleSpriteStanding;
+        unitImage.sprite = unit.BattleIdleSprite;
+
+        setSelected(false);
     }
 
-    public IEnumerator takeDamagePhysical(EnemyBattleUnit attackingEnemyUnit) {
-        int damageTaken = playerUnit.takeDamage(attackingEnemyUnit);
+    public void setSelected(bool isSelected) {
+        selectionCursor.setShowing(isSelected);
+    }
+
+    public IEnumerator takeDamagePhysical(BattleUnit attackingUnit) {
+        int damageTaken = unit.takeDamage(attackingUnit);
 
         damageNumbers.gameObject.SetActive(true);
         damageNumbers.GetComponent<Text>().text = damageTaken + "";
 
         Sequence damageNumbersBouncing = DOTween.Sequence()
             .Append(damageNumbers
-                .DOAnchorPosY(damageNumbersStartAnchorPosY + damageNumbersFirstPopOffsetY, takeDamageSeconds / 4)
+                .DOAnchorPosY(damageNumbersStartAnchorPosY + damageNumbersFirstPopOffsetY, takeDamageSeconds / 5)
                 .SetEase(Ease.OutQuad)
             ).Append(damageNumbers
-                .DOAnchorPosY(damageNumbersStartAnchorPosY, takeDamageSeconds / 4)
+                .DOAnchorPosY(damageNumbersStartAnchorPosY, takeDamageSeconds / 5)
                 .SetEase(Ease.InQuad)
             ).Append(damageNumbers
                 .DOAnchorPosY(damageNumbersStartAnchorPosY + damageNumbersSecondPopOffsetY, takeDamageSeconds / 8)
@@ -53,8 +61,13 @@ public class PlayerBattleUnit : MonoBehaviour {
             );
         damageNumbersBouncing.Play();
 
-        yield return hpInfo.setHpSmooth(playerUnit.CurrentHp, playerUnit.MaxHp, takeDamageSeconds);
+        yield return hpInfo.setHpSmooth(unit.CurrentHp, unit.MaxHp, takeDamageSeconds);
 
         damageNumbers.gameObject.SetActive(false);
     }
+
+    public IEnumerator die(float transitionSeconds) {
+        yield return unit.die(transitionSeconds, unitImage, hpInfo);
+    }
+
 }
