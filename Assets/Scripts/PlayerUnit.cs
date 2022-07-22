@@ -14,6 +14,7 @@ public class PlayerUnit : Unit {
     public int CurrentHp => currentHp;
     public int MaxHp => maxHp;
     public Sprite BattleIdleSprite => unitBase.BattleSpriteStanding;
+    public Sprite UnitActionQueueSprite => unitBase.UnitActionQueueSprite;
     public List<BattleMenuCommand> BattleMenuCommands => unitBase.BattleMenuCommands;
 
     public PlayerUnit(PlayerUnitBase unitBase, string name) {

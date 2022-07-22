@@ -21,6 +21,7 @@ public class BattleUnit : MonoBehaviour {
     private int teamMemberIndex;
 
     public int CurrentHp => unit.CurrentHp;
+    public Sprite UnitActionQueueSprite => unit.UnitActionQueueSprite;
     public List<BattleMenuCommand> BattleMenuCommands => unit.BattleMenuCommands;
     public bool IsEnemyUnit => isEnemyUnit;
     public int TeamMemberIndex {

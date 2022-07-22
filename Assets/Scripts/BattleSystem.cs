@@ -12,6 +12,7 @@ public class BattleSystem : MonoBehaviour {
     [SerializeField] BattleUnit enemyUnitSmall1;
     [SerializeField] BattleUnit enemyUnitSmall2;
     [SerializeField] BattleMenu battleMenu;
+    [SerializeField] UnitActionQueue unitActionQueue;
     [SerializeField] float enemyDeathFadeOutSeconds;
 
     //TODO REMOVE THESE TEMPORARY FIELDS
@@ -33,7 +34,7 @@ public class BattleSystem : MonoBehaviour {
 
     private List<BattleUnit> alivePlayerUnits;
 
-    private List<BattleUnit> unitActionQueue;
+    private List<BattleUnit> unitActionQueueBattleUnits;
     private BattleUnit currentBattleUnit;
 
     void Start() {
@@ -53,7 +54,7 @@ public class BattleSystem : MonoBehaviour {
         enemyUnitSmall1.TeamMemberIndex = 0;
         enemyUnitSmall2.TeamMemberIndex = 1;
 
-        unitActionQueue = new List<BattleUnit>() {
+        unitActionQueueBattleUnits = new List<BattleUnit>() {
             playerUnit1,
             enemyUnitSmall1,
             playerUnit2,
@@ -101,10 +102,11 @@ public class BattleSystem : MonoBehaviour {
         }
 
         if (currentBattleUnit != null) {
-            unitActionQueue.RemoveAt(0);
-            unitActionQueue.Add(currentBattleUnit);
+            unitActionQueueBattleUnits.RemoveAt(0);
+            unitActionQueueBattleUnits.Add(currentBattleUnit);
         }
-        currentBattleUnit = unitActionQueue[0];
+        currentBattleUnit = unitActionQueueBattleUnits[0];
+        unitActionQueue.updateContent(unitActionQueueBattleUnits);
 
         if (currentBattleUnit.IsEnemyUnit) {
             state = BattleState.ENEMY_ACTION;
@@ -118,6 +120,8 @@ public class BattleSystem : MonoBehaviour {
         currentSelectedMenuCommandIndex = 0;
         battleMenu.setSelectedCommand(currentSelectedMenuCommandIndex);
         battleMenu.setShowingCommandsMenu(true);
+
+        unitActionQueue.gameObject.SetActive(true);
 
         state = BattleState.PLAYER_SELECT_ACTION;
     }
@@ -196,6 +200,7 @@ public class BattleSystem : MonoBehaviour {
 
         battleMenu.brightenCommandCursor(currentSelectedMenuCommandIndex);
         battleMenu.setShowingCommandsMenu(false);
+        unitActionQueue.gameObject.SetActive(false);
         activeEnemyBattleUnits.ForEach(enemy => enemy.setSelected(false));
 
         BattleUnit targetEnemy = activeEnemyBattleUnits[currentSelectedEnemyBattleUnitIndex];
@@ -205,7 +210,7 @@ public class BattleSystem : MonoBehaviour {
             yield return targetEnemy.die(enemyDeathFadeOutSeconds);
 
             targetEnemy.gameObject.SetActive(false);
-            unitActionQueue.Remove(targetEnemy);
+            unitActionQueueBattleUnits.Remove(targetEnemy);
         }
 
         activateNextUnit();

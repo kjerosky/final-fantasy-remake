@@ -8,6 +8,7 @@ public interface Unit {
     public int CurrentHp { get; }
     public int MaxHp { get; }
     public Sprite BattleIdleSprite { get; }
+    public Sprite UnitActionQueueSprite { get; }
     public List<BattleMenuCommand> BattleMenuCommands { get; }
 
     public IEnumerator beforeDealingDamage(Image unitImage);
