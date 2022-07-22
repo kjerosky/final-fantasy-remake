@@ -2243,6 +2243,7 @@ MonoBehaviour:
   - {fileID: 1288131835}
   - {fileID: 323766006}
   - {fileID: 301008543}
+  spacingBetweenSlotCenters: 110
 --- !u!1001 &1320382518
 PrefabInstance:
   m_ObjectHideFlags: 0
