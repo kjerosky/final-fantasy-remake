@@ -324,7 +324,7 @@ GameObject:
   - component: {fileID: 855027197305384927}
   - component: {fileID: 62852608151795167}
   m_Layer: 0
-  m_Name: SelectionOutlineArrow
+  m_Name: BeingTargetedArrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -377,7 +377,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: a3c4600477fa54aff981499bd4d220e1, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 26d53e8ac9f2b4627bb9ed32d8eaee93, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
