@@ -7,6 +7,7 @@ public class UnitActionQueueSlot : MonoBehaviour {
 
     [SerializeField] Image backgroundImage;
     [SerializeField] Image iconImage;
+    [SerializeField] Text unitNumberText;
     [SerializeField] Color playerUnitColor;
     [SerializeField] Color enemyUnitColor;
     [SerializeField] List<Sprite> enemyIcons;
@@ -15,9 +16,11 @@ public class UnitActionQueueSlot : MonoBehaviour {
         if (unit.IsEnemyUnit) {
             backgroundImage.color = enemyUnitColor;
             iconImage.sprite = enemyIcons[unit.TeamMemberIndex];
+            unitNumberText.text = "";
         } else {
             backgroundImage.color = playerUnitColor;
             iconImage.sprite = unit.UnitActionQueueSprite;
+            unitNumberText.text = (unit.TeamMemberIndex + 1) + "";
         }
     }
 }
