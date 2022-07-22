@@ -45,6 +45,11 @@ public class EnemyUnit : Unit {
         return TEMP_damageTaken;
     }
 
+    public IEnumerator reactToBeingHit(Image unitImage) {
+        //TODO
+        yield return null;
+    }
+
     public IEnumerator die(float transitionSeconds, Image unitImage, HpInfo unitHpInfo) {
         unitHpInfo.gameObject.SetActive(false);
 

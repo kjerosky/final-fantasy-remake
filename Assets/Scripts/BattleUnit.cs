@@ -60,6 +60,10 @@ public class BattleUnit : MonoBehaviour {
     public IEnumerator takeDamagePhysical(BattleUnit attackingUnit) {
         int damageTaken = unit.takeDamage(attackingUnit);
 
+        if (damageTaken > 0) {
+            yield return unit.reactToBeingHit(unitImage);
+        }
+
         damageNumbers.gameObject.SetActive(true);
         damageNumbers.GetComponent<Text>().text = damageTaken + "";
 
