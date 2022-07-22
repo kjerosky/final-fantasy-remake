@@ -25,6 +25,14 @@ public class UnitActionQueue : MonoBehaviour {
         }
     }
 
+    public void showSelectionArrows(List<int> unitIndices) {
+        for (int i = 0; i < slots.Count; i++) {
+            if (slots[i].gameObject.activeSelf) {
+                slots[i].showSelectionArrow(unitIndices.Contains(i));
+            }
+        }
+    }
+
     private float calculcateAnchoredPositionX(int unitIndex, int totalUnits, float spacing) {
         return -(spacing * (totalUnits - 1) / 2) + (unitIndex * spacing);
     }

@@ -174,15 +174,32 @@ public class BattleSystem : MonoBehaviour {
             activeEnemyBattleUnits[i].setSelected(i == currentSelectedEnemyBattleUnitIndex);
         }
 
+        showUnitActionQueueSelectionArrows(new List<BattleUnit>() {
+            activeEnemyBattleUnits[currentSelectedEnemyBattleUnitIndex]
+        });
+
         if (Input.GetKeyDown(KeyCode.Return)) {
             executeCommand();
         } else if (Input.GetKeyDown(KeyCode.Escape)) {
             if (chosenCommand == PlayerUnitCommand.ATTACK) {
                 activeEnemyBattleUnits.ForEach(enemy => enemy.setSelected(false));
                 battleMenu.brightenCommandCursor(currentSelectedMenuCommandIndex);
+                showUnitActionQueueSelectionArrows(new List<BattleUnit>());
                 state = BattleState.PLAYER_SELECT_ACTION;
             }
         }
+    }
+
+    private void showUnitActionQueueSelectionArrows(List<BattleUnit> unitsNeedingSelectionArrows) {
+        List<int> unitActionQueueIndicesNeedingSelectionArrows = new List<int>();
+
+        for (int i = 0; i < unitActionQueueBattleUnits.Count; i++) {
+            if (unitsNeedingSelectionArrows.Contains(unitActionQueueBattleUnits[i])) {
+                unitActionQueueIndicesNeedingSelectionArrows.Add(i);
+            }
+        }
+
+        unitActionQueue.showSelectionArrows(unitActionQueueIndicesNeedingSelectionArrows);
     }
 
     private void handleEnemyAction() {
