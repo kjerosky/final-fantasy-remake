@@ -11,6 +11,7 @@ public class BattleUnit : MonoBehaviour {
     [SerializeField] SelectionCursor selectionCursor;
     [SerializeField] Text nameText;
     [SerializeField] RectTransform damageNumbers;
+    [SerializeField] GameObject selectionFrameGameObject;
     [SerializeField] float damageNumbersFirstPopOffsetY;
     [SerializeField] float damageNumbersSecondPopOffsetY;
     [SerializeField] float takeDamageSeconds;
@@ -48,6 +49,10 @@ public class BattleUnit : MonoBehaviour {
         unitImage.sprite = unit.BattleIdleSprite;
 
         setSelected(false);
+    }
+
+    public void setSelectionFrameShowing(bool isShowing) {
+        selectionFrameGameObject.SetActive(isShowing);
     }
 
     public void setSelected(bool isSelected) {

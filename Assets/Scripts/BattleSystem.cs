@@ -123,6 +123,8 @@ public class BattleSystem : MonoBehaviour {
 
         unitActionQueue.gameObject.SetActive(true);
 
+        currentBattleUnit.setSelectionFrameShowing(true);
+
         state = BattleState.PLAYER_SELECT_ACTION;
     }
 
@@ -207,6 +209,8 @@ public class BattleSystem : MonoBehaviour {
     }
 
     private void executeCommand() {
+        currentBattleUnit.setSelectionFrameShowing(false);
+
         if (chosenCommand == PlayerUnitCommand.ATTACK) {
             StartCoroutine(performAttack());
         }
