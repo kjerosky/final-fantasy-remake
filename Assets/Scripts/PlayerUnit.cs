@@ -58,7 +58,7 @@ public class PlayerUnit : Unit {
     public IEnumerator beforeDealingDamage(BattleUnit myBattleUnit, BattleUnit targetBattleUnit) {
         Image unitImage = myBattleUnit.UnitImage;
         BattleWeapon battleWeapon = myBattleUnit.GetComponent<BattleWeapon>();
-        EnemyHitEffect enemyHitEffect = targetBattleUnit.GetComponent<EnemyHitEffect>();
+        HitEffect enemyHitEffect = targetBattleUnit.GetComponent<HitEffect>();
 
         RectTransform unitRectTransform = unitImage.GetComponent<RectTransform>();
         startX = unitRectTransform.anchoredPosition.x;
@@ -146,7 +146,7 @@ public class PlayerUnit : Unit {
         yield return animateUnitImage(unitImage, walkingSprites, walkingFrameSeconds);
     }
 
-    private IEnumerator animateAttacking(Image unitImage, BattleWeapon battleWeapon, EnemyHitEffect enemyHitEffect) {
+    private IEnumerator animateAttacking(Image unitImage, BattleWeapon battleWeapon, HitEffect enemyHitEffect) {
         enemyHitEffect.animate(ATTACKING_SECONDS);
 
         float timer = 0f;
