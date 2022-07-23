@@ -54,11 +54,13 @@ public class BattleUnit : MonoBehaviour {
     }
 
     public IEnumerator beforeAttacking() {
-        yield return unit.beforeDealingDamage(unitImage);
+        BattleWeapon battleWeapon = GetComponent<BattleWeapon>();
+        yield return unit.beforeDealingDamage(unitImage, battleWeapon);
     }
 
     public IEnumerator afterAttacking() {
-        yield return unit.afterDealingDamage(unitImage);
+        BattleWeapon battleWeapon = GetComponent<BattleWeapon>();
+        yield return unit.afterDealingDamage(unitImage, battleWeapon);
     }
 
     public IEnumerator takeDamagePhysical(BattleUnit attackingUnit) {

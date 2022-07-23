@@ -23,7 +23,7 @@ public class EnemyUnit : Unit {
         currentHp = maxHp;
     }
 
-    public IEnumerator beforeDealingDamage(Image unitImage) {
+    public IEnumerator beforeDealingDamage(Image unitImage, BattleWeapon battleWeapon) {
         for (int i = 0; i < 2; i++) {
             yield return unitImage
                 .DOColor(Color.black, 0.1f)
@@ -45,7 +45,7 @@ public class EnemyUnit : Unit {
         return TEMP_damageTaken;
     }
 
-    public IEnumerator afterDealingDamage(Image unitImage) {
+    public IEnumerator afterDealingDamage(Image unitImage, BattleWeapon battleWeapon) {
         yield return null;
     }
 

@@ -11,9 +11,9 @@ public interface Unit {
     public Sprite UnitActionQueueSprite { get; }
     public List<BattleMenuCommand> BattleMenuCommands { get; }
 
-    public IEnumerator beforeDealingDamage(Image unitImage);
+    public IEnumerator beforeDealingDamage(Image unitImage, BattleWeapon battleWeapon);
     public int takeDamage(BattleUnit attackingUnit);
-    public IEnumerator afterDealingDamage(Image unitImage);
+    public IEnumerator afterDealingDamage(Image unitImage, BattleWeapon battleWeapon);
     public IEnumerator reactToBeingHit(Image unitImage);
     public IEnumerator die(float transitionSeconds, Image unitImage, HpInfo unitHpInfo);
 }
