@@ -53,12 +53,13 @@ public class BattleUnit : MonoBehaviour {
         selectionCursor.setShowing(isSelected);
     }
 
-    public IEnumerator beforeAttacking() {
+    public IEnumerator beforeDealingDamage(BattleUnit targetUnit) {
         BattleWeapon battleWeapon = GetComponent<BattleWeapon>();
-        yield return unit.beforeDealingDamage(unitImage, battleWeapon);
+        EnemyHitEffect enemyHitEffect = targetUnit.GetComponent<EnemyHitEffect>();
+        yield return unit.beforeDealingDamage(unitImage, battleWeapon, enemyHitEffect);
     }
 
-    public IEnumerator afterAttacking() {
+    public IEnumerator afterDealingDamage() {
         BattleWeapon battleWeapon = GetComponent<BattleWeapon>();
         yield return unit.afterDealingDamage(unitImage, battleWeapon);
     }
