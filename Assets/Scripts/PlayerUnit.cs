@@ -55,7 +55,11 @@ public class PlayerUnit : Unit {
         attackingFrameSeconds = ATTACKING_SECONDS / attackingSprites.Length;
     }
 
-    public IEnumerator beforeDealingDamage(Image unitImage, BattleWeapon battleWeapon, EnemyHitEffect enemyHitEffect) {
+    public IEnumerator beforeDealingDamage(BattleUnit myBattleUnit, BattleUnit targetBattleUnit) {
+        Image unitImage = myBattleUnit.UnitImage;
+        BattleWeapon battleWeapon = myBattleUnit.GetComponent<BattleWeapon>();
+        EnemyHitEffect enemyHitEffect = targetBattleUnit.GetComponent<EnemyHitEffect>();
+
         RectTransform unitRectTransform = unitImage.GetComponent<RectTransform>();
         startX = unitRectTransform.anchoredPosition.x;
         float attackX = startX - WALK_DISTANCE_X;
@@ -69,7 +73,7 @@ public class PlayerUnit : Unit {
         yield return animateAttacking(unitImage, battleWeapon, enemyHitEffect);
     }
 
-    public int takeDamage(BattleUnit attackingUnit) {
+    public int takeDamage(BattleUnit myBattleUnit, BattleUnit attackingBattleUnit) {
         //TODO REPLACE THIS WITH PROPERLY DETERMINED DAMAGE
         int TEMP_damageTaken = 5;
 
@@ -78,7 +82,10 @@ public class PlayerUnit : Unit {
         return TEMP_damageTaken;
     }
 
-    public IEnumerator afterDealingDamage(Image unitImage, BattleWeapon battleWeapon) {
+    public IEnumerator afterDealingDamage(BattleUnit myBattleUnit, BattleUnit targetBattleUnit) {
+        Image unitImage = myBattleUnit.UnitImage;
+        BattleWeapon battleWeapon = myBattleUnit.GetComponent<BattleWeapon>();
+
         RectTransform unitRectTransform = unitImage.GetComponent<RectTransform>();
         RectTransform raisedWeaponRectTransform = battleWeapon.RaisedWeaponImageRectTransform;
 
@@ -90,7 +97,9 @@ public class PlayerUnit : Unit {
         unitRectTransform.localScale = new Vector3(1f, 1f, 1f);
     }
 
-    public IEnumerator reactToBeingHit(Image unitImage) {
+    public IEnumerator reactToBeingHit(BattleUnit myBattleUnit, BattleUnit attackingBattleUnit) {
+        Image unitImage = myBattleUnit.UnitImage;
+
         RectTransform unitRectTransform = unitImage.GetComponent<RectTransform>();
         startX = unitRectTransform.anchoredPosition.x;
         float farRightX = startX + DAMAGE_KNOCKBACK_DISTANCE_X;

@@ -233,7 +233,7 @@ public class BattleSystem : MonoBehaviour {
             unitActionQueueBattleUnits.Remove(targetEnemy);
         }
 
-        yield return currentBattleUnit.afterDealingDamage();
+        yield return currentBattleUnit.afterDealingDamage(targetEnemy);
 
         activateNextUnit();
     }
@@ -249,7 +249,7 @@ public class BattleSystem : MonoBehaviour {
 
         yield return targetPlayerUnit.takeDamagePhysical(currentBattleUnit);
 
-        yield return currentBattleUnit.afterDealingDamage();
+        yield return currentBattleUnit.afterDealingDamage(targetPlayerUnit);
 
         activateNextUnit();
     }

@@ -28,6 +28,7 @@ public class BattleUnit : MonoBehaviour {
         get => teamMemberIndex;
         set => teamMemberIndex = value;
     }
+    public Image UnitImage => unitImage;
 
 
     void Awake() {
@@ -53,22 +54,19 @@ public class BattleUnit : MonoBehaviour {
         selectionCursor.setShowing(isSelected);
     }
 
-    public IEnumerator beforeDealingDamage(BattleUnit targetUnit) {
-        BattleWeapon battleWeapon = GetComponent<BattleWeapon>();
-        EnemyHitEffect enemyHitEffect = targetUnit.GetComponent<EnemyHitEffect>();
-        yield return unit.beforeDealingDamage(unitImage, battleWeapon, enemyHitEffect);
+    public IEnumerator beforeDealingDamage(BattleUnit targetBattleUnit) {
+        yield return unit.beforeDealingDamage(this, targetBattleUnit);
     }
 
-    public IEnumerator afterDealingDamage() {
-        BattleWeapon battleWeapon = GetComponent<BattleWeapon>();
-        yield return unit.afterDealingDamage(unitImage, battleWeapon);
+    public IEnumerator afterDealingDamage(BattleUnit targetBattleUnit) {
+        yield return unit.afterDealingDamage(this, targetBattleUnit);
     }
 
-    public IEnumerator takeDamagePhysical(BattleUnit attackingUnit) {
-        int damageTaken = unit.takeDamage(attackingUnit);
+    public IEnumerator takeDamagePhysical(BattleUnit attackingBattleUnit) {
+        int damageTaken = unit.takeDamage(this, attackingBattleUnit);
 
         if (damageTaken > 0) {
-            yield return unit.reactToBeingHit(unitImage);
+            yield return unit.reactToBeingHit(this, attackingBattleUnit);
         }
 
         damageNumbers.gameObject.SetActive(true);

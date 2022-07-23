@@ -23,7 +23,9 @@ public class EnemyUnit : Unit {
         currentHp = maxHp;
     }
 
-    public IEnumerator beforeDealingDamage(Image unitImage, BattleWeapon battleWeapon, EnemyHitEffect enemyHitEffect) {
+    public IEnumerator beforeDealingDamage(BattleUnit myBattleUnit, BattleUnit targetBattleUnit) {
+        Image unitImage = myBattleUnit.UnitImage;
+
         for (int i = 0; i < 2; i++) {
             yield return unitImage
                 .DOColor(Color.black, 0.1f)
@@ -36,7 +38,7 @@ public class EnemyUnit : Unit {
         }
     }
 
-    public int takeDamage(BattleUnit attackingUnit) {
+    public int takeDamage(BattleUnit myBattleUnit, BattleUnit attackingBattleUnit) {
         //TODO REPLACE THIS WITH PROPERLY DETERMINED DAMAGE
         int TEMP_damageTaken = 5;
 
@@ -45,12 +47,11 @@ public class EnemyUnit : Unit {
         return TEMP_damageTaken;
     }
 
-    public IEnumerator afterDealingDamage(Image unitImage, BattleWeapon battleWeapon) {
+    public IEnumerator afterDealingDamage(BattleUnit myBattleUnit, BattleUnit targetBattleUnit) {
         yield return null;
     }
 
-    public IEnumerator reactToBeingHit(Image unitImage) {
-        //TODO
+    public IEnumerator reactToBeingHit(BattleUnit myBattleUnit, BattleUnit attackingBattleUnit) {
         yield return null;
     }
 
