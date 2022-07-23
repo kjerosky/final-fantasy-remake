@@ -15,6 +15,8 @@ public class PlayerUnitBase : ScriptableObject {
     [SerializeField] int magicDefense;
 
     [SerializeField] Sprite battleSpriteStanding;
+    [SerializeField] Sprite battleSpriteWalking;
+    [SerializeField] Sprite battleSpriteWeaponRaised;
     [SerializeField] Sprite unitActionQueueSprite;
 
     [SerializeField] List<BattleMenuCommand> battleMenuCommands;
@@ -22,6 +24,8 @@ public class PlayerUnitBase : ScriptableObject {
     public int Hp => hp;
 
     public Sprite BattleSpriteStanding => battleSpriteStanding;
+    public Sprite BattleSpriteWalking => battleSpriteWalking;
+    public Sprite BattleSpriteWeaponRaised => battleSpriteWeaponRaised;
     public Sprite UnitActionQueueSprite => unitActionQueueSprite;
 
     public List<BattleMenuCommand> BattleMenuCommands => battleMenuCommands;

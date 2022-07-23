@@ -13,6 +13,7 @@ public interface Unit {
 
     public IEnumerator beforeDealingDamage(Image unitImage);
     public int takeDamage(BattleUnit attackingUnit);
+    public IEnumerator afterDealingDamage(Image unitImage);
     public IEnumerator reactToBeingHit(Image unitImage);
     public IEnumerator die(float transitionSeconds, Image unitImage, HpInfo unitHpInfo);
 }

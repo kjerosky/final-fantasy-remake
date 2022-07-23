@@ -45,6 +45,10 @@ public class EnemyUnit : Unit {
         return TEMP_damageTaken;
     }
 
+    public IEnumerator afterDealingDamage(Image unitImage) {
+        yield return null;
+    }
+
     public IEnumerator reactToBeingHit(Image unitImage) {
         //TODO
         yield return null;

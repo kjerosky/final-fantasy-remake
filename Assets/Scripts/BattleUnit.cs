@@ -57,6 +57,10 @@ public class BattleUnit : MonoBehaviour {
         yield return unit.beforeDealingDamage(unitImage);
     }
 
+    public IEnumerator afterAttacking() {
+        yield return unit.afterDealingDamage(unitImage);
+    }
+
     public IEnumerator takeDamagePhysical(BattleUnit attackingUnit) {
         int damageTaken = unit.takeDamage(attackingUnit);
 

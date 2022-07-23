@@ -220,6 +220,8 @@ public class BattleSystem : MonoBehaviour {
         unitActionQueue.gameObject.SetActive(false);
         activeEnemyBattleUnits.ForEach(enemy => enemy.setSelected(false));
 
+        yield return currentBattleUnit.beforeAttacking();
+
         BattleUnit targetEnemy = activeEnemyBattleUnits[currentSelectedEnemyBattleUnitIndex];
         yield return targetEnemy.takeDamagePhysical(currentBattleUnit);
 
@@ -229,6 +231,8 @@ public class BattleSystem : MonoBehaviour {
             targetEnemy.gameObject.SetActive(false);
             unitActionQueueBattleUnits.Remove(targetEnemy);
         }
+
+        yield return currentBattleUnit.afterAttacking();
 
         activateNextUnit();
     }
@@ -242,6 +246,8 @@ public class BattleSystem : MonoBehaviour {
         int randomAlivePlayerUnitIndex = Random.Range(0, alivePlayerUnits.Count);
         BattleUnit targetPlayerUnit = alivePlayerUnits[randomAlivePlayerUnitIndex];
         yield return targetPlayerUnit.takeDamagePhysical(currentBattleUnit);
+
+        yield return currentBattleUnit.afterAttacking();
 
         activateNextUnit();
     }

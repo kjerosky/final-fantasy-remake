@@ -21,6 +21,8 @@ MonoBehaviour:
   hitPercent: 10
   magicDefense: 15
   battleSpriteStanding: {fileID: 898486986203314846, guid: eb24be06c60054d9ca557354d30f6fa4, type: 3}
+  battleSpriteWalking: {fileID: -620273714170971543, guid: eb24be06c60054d9ca557354d30f6fa4, type: 3}
+  battleSpriteWeaponRaised: {fileID: 3459609146741824680, guid: eb24be06c60054d9ca557354d30f6fa4, type: 3}
   unitActionQueueSprite: {fileID: 2878625904635142853, guid: 6aa054d7cde494eac863decb1da84751, type: 3}
   battleMenuCommands:
   - {fileID: 11400000, guid: b9fe8a4347a15429fbcaf7af8b69e307, type: 2}
