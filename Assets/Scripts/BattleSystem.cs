@@ -13,6 +13,7 @@ public class BattleSystem : MonoBehaviour {
     [SerializeField] BattleUnit enemyUnitSmall2;
     [SerializeField] BattleMenu battleMenu;
     [SerializeField] UnitActionQueue unitActionQueue;
+    [SerializeField] float battleStartEntranceSeconds;
     [SerializeField] float enemyDeathFadeOutSeconds;
 
     //TODO REMOVE THESE TEMPORARY FIELDS
@@ -63,11 +64,14 @@ public class BattleSystem : MonoBehaviour {
             playerUnit4
         };
 
-        activateNextUnit();
+        battleMenu.setShowingCommandsMenu(false);
+        unitActionQueue.gameObject.SetActive(false);
     }
 
     void Update() {
-        if (state == BattleState.PLAYER_SELECT_ACTION) {
+        if (state == BattleState.START) {
+            handleStart();
+        } else if (state == BattleState.PLAYER_SELECT_ACTION) {
             handlePlayerSelectAction();
         } else if (state == BattleState.PLAYER_SELECT_SINGLE_TARGET) {
             handlePlayerSelectSingleTarget();
@@ -77,25 +81,13 @@ public class BattleSystem : MonoBehaviour {
     }
 
     private void activateNextUnit() {
-        activeEnemyBattleUnits = new List<BattleUnit>() {
-            enemyUnitSmall1,
-            enemyUnitSmall2
-        }
-            .Where(unit => unit.gameObject.activeSelf)
-            .ToList();
+        updateActiveUnitLists();
+
         if (activeEnemyBattleUnits.Count <= 0) {
             state = BattleState.PLAYER_WON;
             return;
         }
 
-        alivePlayerUnits = new List<BattleUnit>() {
-            playerUnit1,
-            playerUnit2,
-            playerUnit3,
-            playerUnit4
-        }
-            .Where(unit => unit.CurrentHp > 0)
-            .ToList();
         if (alivePlayerUnits.Count <= 0) {
             state = BattleState.PLAYER_LOST;
             return;
@@ -128,10 +120,34 @@ public class BattleSystem : MonoBehaviour {
         state = BattleState.PLAYER_SELECT_ACTION;
     }
 
+    private void updateActiveUnitLists() {
+        activeEnemyBattleUnits = new List<BattleUnit>() {
+            enemyUnitSmall1,
+            enemyUnitSmall2
+        }
+            .Where(unit => unit.gameObject.activeSelf)
+            .ToList();
+
+        alivePlayerUnits = new List<BattleUnit>() {
+            playerUnit1,
+            playerUnit2,
+            playerUnit3,
+            playerUnit4
+        }
+            .Where(unit => unit.CurrentHp > 0)
+            .ToList();
+    }
+
     private void preparePlayerSelectSingleTarget() {
         currentSelectedEnemyBattleUnitIndex = 0;
 
         state = BattleState.PLAYER_SELECT_SINGLE_TARGET;
+    }
+
+    private void handleStart() {
+        updateActiveUnitLists();
+
+        StartCoroutine(performStart());
     }
 
     private void handlePlayerSelectAction() {
@@ -214,6 +230,19 @@ public class BattleSystem : MonoBehaviour {
         if (chosenCommand == PlayerUnitCommand.ATTACK) {
             StartCoroutine(performAttack());
         }
+    }
+
+    private IEnumerator performStart() {
+        state = BattleState.BUSY;
+
+        List<BattleUnit> activeUnits = alivePlayerUnits.Concat(activeEnemyBattleUnits).ToList();
+        BattleUnit synchronizingBattleUnit = activeUnits[0];
+        activeUnits.RemoveAt(0);
+
+        activeUnits.ForEach(unit => StartCoroutine(unit.enterBattle(battleStartEntranceSeconds)));
+        yield return synchronizingBattleUnit.enterBattle(battleStartEntranceSeconds);
+
+        activateNextUnit();
     }
 
     private IEnumerator performAttack() {

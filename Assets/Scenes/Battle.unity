@@ -1267,6 +1267,7 @@ MonoBehaviour:
   enemyUnitSmall2: {fileID: 977018327}
   battleMenu: {fileID: 1669748316}
   unitActionQueue: {fileID: 1304874461}
+  battleStartEntranceSeconds: 0.5
   enemyDeathFadeOutSeconds: 0.4
   playerUnitBase1: {fileID: 11400000, guid: 9ea00250e107f4c4d9e3bca8d98fed70, type: 2}
   playerUnitBase2: {fileID: 11400000, guid: 9ea00250e107f4c4d9e3bca8d98fed70, type: 2}

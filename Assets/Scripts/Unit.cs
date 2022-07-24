@@ -11,6 +11,7 @@ public interface Unit {
     public Sprite UnitActionQueueSprite { get; }
     public List<BattleMenuCommand> BattleMenuCommands { get; }
 
+    public IEnumerator enterBattle(BattleUnit myBattleUnit, float entranceSeconds);
     public IEnumerator beforeDealingDamage(BattleUnit myBattleUnit, BattleUnit targetBattleUnit);
     public int takeDamage(BattleUnit myBattleUnit, BattleUnit attackingBattleUnit);
     public IEnumerator afterDealingDamage(BattleUnit myBattleUnit, BattleUnit targetBattleUnit);

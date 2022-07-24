@@ -6,6 +6,8 @@ using DG.Tweening;
 
 public class EnemyUnit : Unit {
 
+    private const float BATTLE_ENTRANCE_OFFSET_X = -1000f;
+
     private EnemyUnitBase unitBase;
     private int currentHp;
     private int maxHp;
@@ -21,6 +23,24 @@ public class EnemyUnit : Unit {
         this.unitBase = unitBase;
         maxHp = unitBase.Hp;
         currentHp = maxHp;
+    }
+
+    public IEnumerator enterBattle(BattleUnit myBattleUnit, float entranceSeconds) {
+        Image unitImage = myBattleUnit.UnitImage;
+        RectTransform unitImageRectTransform = unitImage.GetComponent<RectTransform>();
+
+        float startX = unitImageRectTransform.anchoredPosition.x;
+
+        Vector2 battleEntranceInitialPosition = unitImageRectTransform.anchoredPosition;
+        battleEntranceInitialPosition = new Vector2(
+            battleEntranceInitialPosition.x + BATTLE_ENTRANCE_OFFSET_X,
+            battleEntranceInitialPosition.y);
+        unitImageRectTransform.anchoredPosition = battleEntranceInitialPosition;
+
+        yield return unitImageRectTransform
+            .DOAnchorPosX(startX, entranceSeconds)
+            .SetEase(Ease.OutExpo)
+            .WaitForCompletion();
     }
 
     public IEnumerator beforeDealingDamage(BattleUnit myBattleUnit, BattleUnit targetBattleUnit) {

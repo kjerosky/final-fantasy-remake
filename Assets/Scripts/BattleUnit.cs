@@ -12,6 +12,7 @@ public class BattleUnit : MonoBehaviour {
     [SerializeField] Text nameText;
     [SerializeField] RectTransform damageNumbers;
     [SerializeField] GameObject selectionFrameGameObject;
+    [SerializeField] GameObject unitStatsGameObject;
     [SerializeField] float damageNumbersFirstPopOffsetY;
     [SerializeField] float damageNumbersSecondPopOffsetY;
     [SerializeField] float takeDamageSeconds;
@@ -30,6 +31,7 @@ public class BattleUnit : MonoBehaviour {
         set => teamMemberIndex = value;
     }
     public Image UnitImage => unitImage;
+    public GameObject UnitStatsGameObject;
 
 
     void Awake() {
@@ -57,6 +59,14 @@ public class BattleUnit : MonoBehaviour {
 
     public void setSelected(bool isSelected) {
         selectionCursor.setShowing(isSelected);
+    }
+
+    public IEnumerator enterBattle(float entranceSeconds) {
+        unitStatsGameObject.SetActive(false);
+
+        yield return unit.enterBattle(this, entranceSeconds);
+
+        unitStatsGameObject.SetActive(true);
     }
 
     public IEnumerator beforeDealingDamage(BattleUnit targetBattleUnit) {

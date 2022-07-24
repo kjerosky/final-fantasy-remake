@@ -337,9 +337,11 @@ MonoBehaviour:
   nameText: {fileID: 0}
   damageNumbers: {fileID: 8623126366083581080}
   selectionFrameGameObject: {fileID: 0}
+  unitStatsGameObject: {fileID: 400010293257626667}
   damageNumbersFirstPopOffsetY: 80
   damageNumbersSecondPopOffsetY: 20
   takeDamageSeconds: 1
+  UnitStatsGameObject: {fileID: 0}
 --- !u!114 &710583527420349798
 MonoBehaviour:
   m_ObjectHideFlags: 0
