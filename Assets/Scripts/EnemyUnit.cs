@@ -16,6 +16,7 @@ public class EnemyUnit : Unit {
     public int CurrentHp => currentHp;
     public int MaxHp => maxHp;
     public Sprite BattleIdleSprite => unitBase.BattleSprite;
+    public Sprite BattleDeadSprite => null;
     public Sprite UnitActionQueueSprite => null;
     public List<BattleMenuCommand> BattleMenuCommands => null;
 
@@ -60,7 +61,7 @@ public class EnemyUnit : Unit {
 
     public int takeDamage(BattleUnit myBattleUnit, BattleUnit attackingBattleUnit) {
         //TODO REPLACE THIS WITH PROPERLY DETERMINED DAMAGE
-        int TEMP_damageTaken = 5;
+        int TEMP_damageTaken = 1;
 
         currentHp = Mathf.Max(0, currentHp - TEMP_damageTaken);
 
@@ -75,10 +76,10 @@ public class EnemyUnit : Unit {
         yield return null;
     }
 
-    public IEnumerator die(float transitionSeconds, Image unitImage, HpInfo unitHpInfo) {
-        unitHpInfo.gameObject.SetActive(false);
+    public IEnumerator die(BattleUnit myBattleUnit, float transitionSeconds) {
+        myBattleUnit.HpInfo.gameObject.SetActive(false);
 
-        yield return unitImage
+        yield return myBattleUnit.UnitImage
             .DOFade(0f, transitionSeconds)
             .SetEase(Ease.Linear)
             .WaitForCompletion();

@@ -23,6 +23,7 @@ MonoBehaviour:
   battleSpriteStanding: {fileID: 7742605686468618621, guid: 7e926eb39d1564b6aa102e4426e338aa, type: 3}
   battleSpriteWalking: {fileID: -7813959588361270791, guid: 7e926eb39d1564b6aa102e4426e338aa, type: 3}
   battleSpriteWeaponRaised: {fileID: -7025568959255647334, guid: 7e926eb39d1564b6aa102e4426e338aa, type: 3}
+  battleSpriteDead: {fileID: 21300000, guid: 61c1fe40fc63c4877abd85e260ce5546, type: 3}
   unitActionQueueSprite: {fileID: 4067957303899402320, guid: 9c5204ef6a2174175b0b5d2d4149f437, type: 3}
   battleMenuCommands:
   - {fileID: 11400000, guid: b9fe8a4347a15429fbcaf7af8b69e307, type: 2}

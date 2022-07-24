@@ -8,6 +8,7 @@ public class BattleUnit : MonoBehaviour {
 
     [SerializeField] HpInfo hpInfo;
     [SerializeField] Image unitImage;
+    [SerializeField] Image deadImage;
     [SerializeField] SelectionCursor selectionCursor;
     [SerializeField] Text nameText;
     [SerializeField] RectTransform damageNumbers;
@@ -30,7 +31,9 @@ public class BattleUnit : MonoBehaviour {
         get => teamMemberIndex;
         set => teamMemberIndex = value;
     }
+    public HpInfo HpInfo => hpInfo;
     public Image UnitImage => unitImage;
+    public Image DeadImage => deadImage;
     public GameObject UnitStatsGameObject;
 
 
@@ -44,6 +47,10 @@ public class BattleUnit : MonoBehaviour {
 
         if (nameText != null) {
             nameText.text = unit.Name;
+        }
+
+        if (deadImage != null) {
+            deadImage.sprite = unit.BattleDeadSprite;
         }
 
         hpInfo.setHp(unit.CurrentHp, unit.MaxHp);
@@ -109,7 +116,7 @@ public class BattleUnit : MonoBehaviour {
     }
 
     public IEnumerator die(float transitionSeconds) {
-        yield return unit.die(transitionSeconds, unitImage, hpInfo);
+        yield return unit.die(this, transitionSeconds);
     }
 
 }

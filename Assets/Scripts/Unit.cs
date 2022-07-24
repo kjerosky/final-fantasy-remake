@@ -8,6 +8,7 @@ public interface Unit {
     public int CurrentHp { get; }
     public int MaxHp { get; }
     public Sprite BattleIdleSprite { get; }
+    public Sprite BattleDeadSprite { get; }
     public Sprite UnitActionQueueSprite { get; }
     public List<BattleMenuCommand> BattleMenuCommands { get; }
 
@@ -16,5 +17,5 @@ public interface Unit {
     public int takeDamage(BattleUnit myBattleUnit, BattleUnit attackingBattleUnit);
     public IEnumerator afterDealingDamage(BattleUnit myBattleUnit, BattleUnit targetBattleUnit);
     public IEnumerator reactToBeingHit(BattleUnit myBattleUnit, BattleUnit attackingBattleUnit);
-    public IEnumerator die(float transitionSeconds, Image unitImage, HpInfo unitHpInfo);
+    public IEnumerator die(BattleUnit myBattleUnit, float transitionSeconds);
 }

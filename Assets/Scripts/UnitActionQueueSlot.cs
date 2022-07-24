@@ -28,6 +28,7 @@ public class UnitActionQueueSlot : MonoBehaviour {
             backgroundImage.color = playerUnitColor;
             iconImage.sprite = unit.UnitActionQueueSprite;
             unitNumberText.text = (unit.TeamMemberIndex + 1) + "";
+
         }
 
         selectionArrow.gameObject.SetActive(false);

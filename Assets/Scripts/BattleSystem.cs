@@ -98,7 +98,18 @@ public class BattleSystem : MonoBehaviour {
             unitActionQueueBattleUnits.Add(currentBattleUnit);
         }
         currentBattleUnit = unitActionQueueBattleUnits[0];
-        unitActionQueue.updateContent(unitActionQueueBattleUnits);
+
+        while (currentBattleUnit.CurrentHp <= 0) {
+            unitActionQueueBattleUnits.RemoveAt(0);
+            unitActionQueueBattleUnits.Add(currentBattleUnit);
+            currentBattleUnit = unitActionQueueBattleUnits[0];
+        }
+
+        unitActionQueue.updateContent(
+            unitActionQueueBattleUnits
+                .Where(battleUnit => battleUnit.CurrentHp > 0)
+                .ToList()
+        );
 
         if (currentBattleUnit.IsEnemyUnit) {
             state = BattleState.ENEMY_ACTION;
@@ -281,6 +292,10 @@ public class BattleSystem : MonoBehaviour {
         yield return currentBattleUnit.beforeDealingDamage(targetPlayerUnit);
 
         yield return targetPlayerUnit.takeDamagePhysical(currentBattleUnit);
+
+        if (targetPlayerUnit.CurrentHp <= 0) {
+            yield return targetPlayerUnit.die(0f);
+        }
 
         yield return currentBattleUnit.afterDealingDamage(targetPlayerUnit);
 
