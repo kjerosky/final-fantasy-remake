@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40083385c4c4744a1bf6783adbc2cdea, type: 3}
+  m_Name: WhiteMage
+  m_EditorClassIdentifier: 
+  hp: 28
+  strength: 5
+  agility: 5
+  intelligence: 15
+  vitality: 10
+  luck: 5
+  hitPercent: 5
+  magicDefense: 20
+  battleSpriteStanding: {fileID: -4425296792254598059, guid: f13093248c64a4df39117a522cfdb91c, type: 3}
+  battleSpriteWalking: {fileID: 6339555906527247059, guid: f13093248c64a4df39117a522cfdb91c, type: 3}
+  battleSpriteWeaponRaised: {fileID: -6334683064213170907, guid: f13093248c64a4df39117a522cfdb91c, type: 3}
+  unitActionQueueSprite: {fileID: -9089044899779103867, guid: 9368e564db8644bc0a6090de21d9ec14, type: 3}
+  battleMenuCommands:
+  - {fileID: 11400000, guid: b9fe8a4347a15429fbcaf7af8b69e307, type: 2}
+  - {fileID: 11400000, guid: 0d2c1c281418d47578b346fe6e0ee9c4, type: 2}
+  - {fileID: 11400000, guid: 31fde15679c46413cb94e5a2b07a8dd2, type: 2}
+  - {fileID: 11400000, guid: 53bed773051ad40638cf7456422de572, type: 2}

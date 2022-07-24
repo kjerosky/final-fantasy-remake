@@ -1270,9 +1270,9 @@ MonoBehaviour:
   battleStartEntranceSeconds: 0.5
   enemyDeathFadeOutSeconds: 0.4
   playerUnitBase1: {fileID: 11400000, guid: 9ea00250e107f4c4d9e3bca8d98fed70, type: 2}
-  playerUnitBase2: {fileID: 11400000, guid: 9ea00250e107f4c4d9e3bca8d98fed70, type: 2}
-  playerUnitBase3: {fileID: 11400000, guid: 9ea00250e107f4c4d9e3bca8d98fed70, type: 2}
-  playerUnitBase4: {fileID: 11400000, guid: 9ea00250e107f4c4d9e3bca8d98fed70, type: 2}
+  playerUnitBase2: {fileID: 11400000, guid: fcc260e587f7e4c75a6880a7ae456d95, type: 2}
+  playerUnitBase3: {fileID: 11400000, guid: dec020e52d4994889ba9b783be9bf69d, type: 2}
+  playerUnitBase4: {fileID: 11400000, guid: 12de765365e5f4200a8a99d544425dbb, type: 2}
   enemyUnitBase1: {fileID: 11400000, guid: c9060a08fe14641af967ff81817361f2, type: 2}
   enemyUnitBase2: {fileID: 11400000, guid: 45fda225e3ab64553861ab1ea7d04eaa, type: 2}
 --- !u!1001 &682966036
