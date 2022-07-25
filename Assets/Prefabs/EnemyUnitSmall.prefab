@@ -291,6 +291,7 @@ GameObject:
   m_Component:
   - component: {fileID: 400010294122574527}
   - component: {fileID: 4639966877100371513}
+  - component: {fileID: 5157417709989788395}
   - component: {fileID: 710583527420349798}
   m_Layer: 0
   m_Name: EnemyUnitSmall
@@ -335,6 +336,25 @@ MonoBehaviour:
   hpInfo: {fileID: 400010293257626665}
   delayBeforeActionSeconds: 0.5
   takingActionFlashSeconds: 0.2
+  deathTransitionSeconds: 0.4
+--- !u!114 &5157417709989788395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 400010294122574520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cab7c3e2778f64454a7aaadd5282bb74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageNumbersRectTransform: {fileID: 8623126366083581080}
+  damageNumbersText: {fileID: 3290369016871878489}
+  hpInfo: {fileID: 400010293257626665}
+  damageNumbersFirstPopOffsetY: 80
+  damageNumbersSecondPopOffsetY: 20
+  damageTakenTotalSeconds: 1
 --- !u!114 &710583527420349798
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -354,6 +374,7 @@ MonoBehaviour:
   - {fileID: 7059745002403675074, guid: 90bbc0f8e8b284ec1b2016924f47dc6c, type: 3}
   - {fileID: 3095692042743037338, guid: 90bbc0f8e8b284ec1b2016924f47dc6c, type: 3}
   - {fileID: -4716288538782202061, guid: 90bbc0f8e8b284ec1b2016924f47dc6c, type: 3}
+  durationSeconds: 0.15
 --- !u!1 &400010294322382831
 GameObject:
   m_ObjectHideFlags: 0

@@ -7,10 +7,16 @@ public class HitEffect : MonoBehaviour {
 
     [SerializeField] Image effectImage;
     [SerializeField] List<Sprite> animationFrames;
+    [SerializeField] float durationSeconds;
 
-    public void animate(float durationSeconds) {
+    public IEnumerator animate(int damageTaken) {
+        if (damageTaken <= 0) {
+            yield return new WaitForSeconds(durationSeconds);
+            yield break;
+        }
+
         float frameSeconds = durationSeconds / animationFrames.Count;
-        StartCoroutine(animateFrames(frameSeconds));
+        yield return animateFrames(frameSeconds);
     }
 
     private IEnumerator animateFrames(float frameSeconds) {

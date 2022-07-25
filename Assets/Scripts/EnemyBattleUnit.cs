@@ -10,6 +10,10 @@ public class EnemyBattleUnit : MonoBehaviour, BattleUnit {
     [SerializeField] HpInfo hpInfo;
     [SerializeField] float delayBeforeActionSeconds;
     [SerializeField] float takingActionFlashSeconds;
+    [SerializeField] float deathTransitionSeconds;
+
+    private HitEffect hitEffect;
+    private DamageAnimator damageAnimator;
 
     private EnemyUnit enemyUnit;
     private int teamMemberIndex;
@@ -17,11 +21,15 @@ public class EnemyBattleUnit : MonoBehaviour, BattleUnit {
     private WaitForSeconds delayBeforeAction;
     private bool isDoneActing;
 
+    public bool IsEnemy => true;
     public int CurrentHp => enemyUnit.CurrentHp;
 
     public void setup(EnemyUnit enemyUnit, int teamMemberIndex) {
         this.enemyUnit = enemyUnit;
         this.teamMemberIndex = teamMemberIndex;
+
+        hitEffect = GetComponent<HitEffect>();
+        damageAnimator = GetComponent<DamageAnimator>();
 
         unitImage.sprite = enemyUnit.BattleSprite;
 
@@ -59,7 +67,22 @@ public class EnemyBattleUnit : MonoBehaviour, BattleUnit {
     }
 
     public IEnumerator takePhysicalDamage(BattleUnit attackingUnit) {
-        yield return null;
+        int damage = determinePhysicalDamage(attackingUnit);
+        enemyUnit.takeDamage(damage);
+
+        yield return hitEffect.animate(damage);
+
+        yield return damageAnimator.animateDamage(damage, enemyUnit.CurrentHp, enemyUnit.MaxHp);
+
+        if (enemyUnit.CurrentHp <= 0) {
+            yield return die();
+        }
+    }
+
+    private int determinePhysicalDamage(BattleUnit attackingUnit) {
+        //TODO REPLACE THIS WITH PROPERLY DETERMINED DAMAGE
+        int TEMP_damageTaken = 5;
+        return TEMP_damageTaken;
     }
 
     private IEnumerator animateTakingAction() {
@@ -74,5 +97,14 @@ public class EnemyBattleUnit : MonoBehaviour, BattleUnit {
                 .WaitForCompletion();
         }
 
+    }
+
+    private IEnumerator die() {
+        hpInfo.gameObject.SetActive(false);
+
+        yield return unitImage
+            .DOFade(0f, deathTransitionSeconds)
+            .SetEase(Ease.Linear)
+            .WaitForCompletion();
     }
 }

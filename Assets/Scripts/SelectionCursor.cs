@@ -11,6 +11,7 @@ public class SelectionCursor : MonoBehaviour {
 
     void Awake() {
         cursorImage = GetComponent<Image>();
+        setShowing(false);
     }
 
     public void setShowing(bool isShowing) {

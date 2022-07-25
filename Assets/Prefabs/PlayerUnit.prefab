@@ -380,6 +380,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6907793524795091175}
   - component: {fileID: 430512861506771958}
+  - component: {fileID: 6391992262074452714}
   - component: {fileID: 7852829908877092161}
   m_Layer: 0
   m_Name: PlayerUnit
@@ -427,9 +428,23 @@ MonoBehaviour:
   unitImage: {fileID: 6907793526053784602}
   nameText: {fileID: 6907793525226972725}
   hpInfo: {fileID: 6907793525971087190}
-  damageNumbersText: {fileID: 6907793525446829813}
   damageKnockbackDistanceX: 50
   damageKnockbackTotalSeconds: 0.4
+--- !u!114 &6391992262074452714
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6907793524795091172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cab7c3e2778f64454a7aaadd5282bb74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageNumbersRectTransform: {fileID: 6907793525446829811}
+  damageNumbersText: {fileID: 6907793525446829813}
+  hpInfo: {fileID: 6907793525971087190}
   damageNumbersFirstPopOffsetY: 80
   damageNumbersSecondPopOffsetY: 20
   damageTakenTotalSeconds: 1

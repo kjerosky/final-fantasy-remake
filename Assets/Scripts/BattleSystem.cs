@@ -26,6 +26,7 @@ public class BattleSystem : MonoBehaviour {
 
     private BattleContext battleContext;
     private List<BattleUnit> playerBattleUnits;
+    private List<BattleUnit> enemyBattleUnits;
 
     void Start() {
         playerUnit1.setup(new PlayerUnit(playerUnitBase1, "Abraham"), 0);
@@ -41,6 +42,11 @@ public class BattleSystem : MonoBehaviour {
             playerUnit2,
             playerUnit3,
             playerUnit4
+        };
+
+        enemyBattleUnits = new List<BattleUnit>() {
+            enemyUnitSmall1,
+            enemyUnitSmall2
         };
 
         battleContext = new BattleContext();
@@ -80,6 +86,10 @@ public class BattleSystem : MonoBehaviour {
     }
 
     private void setupNextActionableUnit() {
+        actionQueueBattleUnits = actionQueueBattleUnits
+            .Where(unit => !unit.IsEnemy || (unit.IsEnemy && unit.CurrentHp > 0))
+            .ToList();
+
         do {
             actionQueueBattleUnits.RemoveAt(0);
             actionQueueBattleUnits.Add(currentBattleUnit);
@@ -91,7 +101,11 @@ public class BattleSystem : MonoBehaviour {
     }
 
     private void initializeBattleContext() {
-        battleContext.initialize(playerBattleUnits);
+        List<BattleUnit> activeEnemyBattleUnits = enemyBattleUnits
+            .Where(unit => unit.CurrentHp > 0)
+            .ToList();
+
+        battleContext.initialize(playerBattleUnits, activeEnemyBattleUnits);
     }
 }
 

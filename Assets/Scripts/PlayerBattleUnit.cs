@@ -9,23 +9,20 @@ public class PlayerBattleUnit : MonoBehaviour, BattleUnit {
     [SerializeField] Image unitImage;
     [SerializeField] Text nameText;
     [SerializeField] HpInfo hpInfo;
-    [SerializeField] Text damageNumbersText;
     [SerializeField] float damageKnockbackDistanceX;
     [SerializeField] float damageKnockbackTotalSeconds;
-    [SerializeField] float damageNumbersFirstPopOffsetY;
-    [SerializeField] float damageNumbersSecondPopOffsetY;
-    [SerializeField] float damageTakenTotalSeconds;
 
     private PlayerUnit playerUnit;
     private int teamMemberIndex;
 
-    private bool isDoneActing;
+    private DamageAnimator damageAnimator;
 
     private RectTransform unitImageRectTransform;
     private float unitImageStartX;
-    private RectTransform damageNumbersRectTransform;
-    private float damageNumbersStartY;
 
+    private PlayerBattleUnitState state;
+
+    public bool IsEnemy => false;
     public int CurrentHp => playerUnit.CurrentHp;
 
     public void setup(PlayerUnit playerUnit, int teamMemberIndex) {
@@ -40,8 +37,8 @@ public class PlayerBattleUnit : MonoBehaviour, BattleUnit {
 
         unitImageRectTransform = unitImage.GetComponent<RectTransform>();
         unitImageStartX = unitImageRectTransform.anchoredPosition.x;
-        damageNumbersRectTransform = damageNumbersText.GetComponent<RectTransform>();
-        damageNumbersStartY = damageNumbersRectTransform.anchoredPosition.y;
+
+        damageAnimator = GetComponent<DamageAnimator>();
     }
 
     public bool canAct() {
@@ -50,15 +47,34 @@ public class PlayerBattleUnit : MonoBehaviour, BattleUnit {
     }
 
     public void prepareToAct(BattleContext battleContext) {
-        isDoneActing = false;
-
+        state = PlayerBattleUnitState.TEMP_WAITING_FOR_INPUT;
         Debug.Log($"{name} is acting.  Waiting for input...");
     }
 
     public bool act(BattleContext battleContext) {
-        isDoneActing = Input.GetKeyDown(KeyCode.Return);
+        if (state == PlayerBattleUnitState.TEMP_WAITING_FOR_INPUT) {
+            handleTempWaitingForInput(battleContext);
+        }
 
-        return isDoneActing;
+        return state == PlayerBattleUnitState.DONE;
+    }
+
+    private void handleTempWaitingForInput(BattleContext battleContext) {
+        if (Input.GetKeyDown(KeyCode.Return)) {
+            StartCoroutine(performTempAction(battleContext));
+        }
+    }
+
+    private IEnumerator performTempAction(BattleContext battleContext) {
+        state = PlayerBattleUnitState.BUSY;
+
+        BattleUnit targetEnemyUnit = battleContext.EnemyBattleUnits[0];
+
+        //TODO PERFORM WALKING AND ATTACK ANIMATIONS
+
+        yield return targetEnemyUnit.takePhysicalDamage(this);
+
+        state = PlayerBattleUnitState.DONE;
     }
 
     public IEnumerator takePhysicalDamage(BattleUnit attackingUnit) {
@@ -69,7 +85,11 @@ public class PlayerBattleUnit : MonoBehaviour, BattleUnit {
             yield return animateReactionToDamage();
         }
 
-        yield return animateDamageTaken(damage);
+        yield return damageAnimator.animateDamage(damage, playerUnit.CurrentHp, playerUnit.MaxHp);
+
+        if (playerUnit.CurrentHp <= 0) {
+            //TODO PLAYER DEATH
+        }
     }
 
     private int determinePhysicalDamage(BattleUnit attackingUnit) {
@@ -99,29 +119,10 @@ public class PlayerBattleUnit : MonoBehaviour, BattleUnit {
 
         yield return shakeUnit.WaitForCompletion();
     }
+}
 
-    private IEnumerator animateDamageTaken(int damage) {
-        damageNumbersText.gameObject.SetActive(true);
-        damageNumbersText.text = damage + "";
-
-        Sequence damageNumbersBouncing = DOTween.Sequence()
-            .Append(damageNumbersRectTransform
-                .DOAnchorPosY(damageNumbersStartY + damageNumbersFirstPopOffsetY, damageTakenTotalSeconds / 5)
-                .SetEase(Ease.OutQuad)
-            ).Append(damageNumbersRectTransform
-                .DOAnchorPosY(damageNumbersStartY, damageTakenTotalSeconds / 5)
-                .SetEase(Ease.InQuad)
-            ).Append(damageNumbersRectTransform
-                .DOAnchorPosY(damageNumbersStartY + damageNumbersSecondPopOffsetY, damageTakenTotalSeconds / 8)
-                .SetEase(Ease.OutQuad)
-            ).Append(damageNumbersRectTransform
-                .DOAnchorPosY(damageNumbersStartY, damageTakenTotalSeconds / 8)
-                .SetEase(Ease.InQuad)
-            );
-        damageNumbersBouncing.Play();
-
-        yield return hpInfo.setHpSmooth(playerUnit.CurrentHp, playerUnit.MaxHp, damageTakenTotalSeconds);
-
-        damageNumbersText.gameObject.SetActive(false);
-    }
+public enum PlayerBattleUnitState {
+    TEMP_WAITING_FOR_INPUT,
+    BUSY,
+    DONE
 }
