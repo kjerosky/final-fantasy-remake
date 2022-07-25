@@ -11,6 +11,7 @@ public class BattleSystem : MonoBehaviour {
     [SerializeField] PlayerBattleUnit playerUnit4;
     [SerializeField] EnemyBattleUnit enemyUnitSmall1;
     [SerializeField] EnemyBattleUnit enemyUnitSmall2;
+    [SerializeField] UnitActionQueue actionQueue;
 
     //TODO REMOVE THESE TEMPORARY FIELDS
     [SerializeField] PlayerUnitBase playerUnitBase1;
@@ -80,8 +81,7 @@ public class BattleSystem : MonoBehaviour {
         if (!currentBattleUnit.canAct()) {
             setupNextActionableUnit();
         } else {
-            initializeBattleContext();
-            currentBattleUnit.prepareToAct(battleContext);
+            refreshDataForNextActionableUnit();
         }
     }
 
@@ -95,6 +95,15 @@ public class BattleSystem : MonoBehaviour {
             actionQueueBattleUnits.Add(currentBattleUnit);
             currentBattleUnit = actionQueueBattleUnits[0];
         } while (!currentBattleUnit.canAct());
+
+        refreshDataForNextActionableUnit();
+    }
+
+    private void refreshDataForNextActionableUnit() {
+        actionQueue.updateContent(actionQueueBattleUnits
+            .Where(unit => unit.canAct())
+            .ToList()
+        );
 
         initializeBattleContext();
         currentBattleUnit.prepareToAct(battleContext);

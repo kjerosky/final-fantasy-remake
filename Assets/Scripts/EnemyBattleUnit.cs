@@ -22,6 +22,8 @@ public class EnemyBattleUnit : MonoBehaviour, BattleUnit {
     private bool isDoneActing;
 
     public bool IsEnemy => true;
+    public int TeamMemberIndex => teamMemberIndex;
+    public Sprite UnitActionQueueSprite => null;
     public int CurrentHp => enemyUnit.CurrentHp;
 
     public void setup(EnemyUnit enemyUnit, int teamMemberIndex) {

@@ -1254,6 +1254,7 @@ MonoBehaviour:
   playerUnit4: {fileID: 1048236064}
   enemyUnitSmall1: {fileID: 400010294428657884}
   enemyUnitSmall2: {fileID: 1229499907}
+  actionQueue: {fileID: 1304874461}
   playerUnitBase1: {fileID: 11400000, guid: 9ea00250e107f4c4d9e3bca8d98fed70, type: 2}
   playerUnitBase2: {fileID: 11400000, guid: fcc260e587f7e4c75a6880a7ae456d95, type: 2}
   playerUnitBase3: {fileID: 11400000, guid: dec020e52d4994889ba9b783be9bf69d, type: 2}
@@ -2192,7 +2193,7 @@ GameObject:
   - component: {fileID: 1304874460}
   - component: {fileID: 1304874461}
   m_Layer: 0
-  m_Name: UnitActionQueue
+  m_Name: ActionQueue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

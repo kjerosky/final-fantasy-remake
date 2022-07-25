@@ -23,6 +23,8 @@ public class PlayerBattleUnit : MonoBehaviour, BattleUnit {
     private PlayerBattleUnitState state;
 
     public bool IsEnemy => false;
+    public int TeamMemberIndex => teamMemberIndex;
+    public Sprite UnitActionQueueSprite => playerUnit.UnitActionQueueSprite;
     public int CurrentHp => playerUnit.CurrentHp;
 
     public void setup(PlayerUnit playerUnit, int teamMemberIndex) {

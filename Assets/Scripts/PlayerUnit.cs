@@ -13,6 +13,7 @@ public class PlayerUnit {
     public int CurrentHp => currentHp;
     public int MaxHp => maxHp;
     public Sprite BattleSpriteStanding => unitBase.BattleSpriteStanding;
+    public Sprite UnitActionQueueSprite => unitBase.UnitActionQueueSprite;
 
     public PlayerUnit(PlayerUnitBase unitBase, string name) {
         this.unitBase = unitBase;

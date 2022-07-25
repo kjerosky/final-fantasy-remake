@@ -18,32 +18,32 @@ public class UnitActionQueueSlot : MonoBehaviour {
     private BattleUnit unit;
 
     public void updateContent(BattleUnit unit) {
-        // this.unit = unit;
+        this.unit = unit;
 
-        // if (unit.IsEnemyUnit) {
-        //     backgroundImage.color = enemyUnitColor;
-        //     iconImage.sprite = enemyIcons[unit.TeamMemberIndex];
-        //     unitNumberText.text = "";
-        // } else {
-        //     backgroundImage.color = playerUnitColor;
-        //     iconImage.sprite = unit.UnitActionQueueSprite;
-        //     unitNumberText.text = (unit.TeamMemberIndex + 1) + "";
+        if (unit.IsEnemy) {
+            backgroundImage.color = enemyUnitColor;
+            iconImage.sprite = enemyIcons[unit.TeamMemberIndex];
+            unitNumberText.text = "";
+        } else {
+            backgroundImage.color = playerUnitColor;
+            iconImage.sprite = unit.UnitActionQueueSprite;
+            unitNumberText.text = (unit.TeamMemberIndex + 1) + "";
 
-        // }
+        }
 
-        // selectionArrow.gameObject.SetActive(false);
+        selectionArrow.gameObject.SetActive(false);
     }
 
     public void showSelectionArrow(bool isShowing) {
-    //     selectionArrow.gameObject.SetActive(isShowing);
-    //     if (!isShowing) {
-    //         return;
-    //     }
+        selectionArrow.gameObject.SetActive(isShowing);
+        if (!isShowing) {
+            return;
+        }
 
-    //     if (unit.IsEnemyUnit) {
-    //         selectionArrow.color = enemySelectionArrowColor;
-    //     } else {
-    //         selectionArrow.color = playerSelectionArrowColor;
-    //     }
+        if (unit.IsEnemy) {
+            selectionArrow.color = enemySelectionArrowColor;
+        } else {
+            selectionArrow.color = playerSelectionArrowColor;
+        }
     }
 }
