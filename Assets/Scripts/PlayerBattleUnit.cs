@@ -9,6 +9,8 @@ public class PlayerBattleUnit : MonoBehaviour, BattleUnit {
     [SerializeField] Image unitImage;
     [SerializeField] Text nameText;
     [SerializeField] HpInfo hpInfo;
+    [SerializeField] GameObject selectionFrameGameObject;
+    [SerializeField] BattleComponents battleComponents;
     [SerializeField] float damageKnockbackDistanceX;
     [SerializeField] float damageKnockbackTotalSeconds;
 
@@ -50,6 +52,9 @@ public class PlayerBattleUnit : MonoBehaviour, BattleUnit {
 
     public void prepareToAct(BattleContext battleContext) {
         state = PlayerBattleUnitState.TEMP_WAITING_FOR_INPUT;
+
+        selectionFrameGameObject.SetActive(true);
+        battleComponents.ActionQueue.gameObject.SetActive(true);
         Debug.Log($"{name} is acting.  Waiting for input...");
     }
 
@@ -71,6 +76,9 @@ public class PlayerBattleUnit : MonoBehaviour, BattleUnit {
         state = PlayerBattleUnitState.BUSY;
 
         BattleUnit targetEnemyUnit = battleContext.EnemyBattleUnits[0];
+
+        selectionFrameGameObject.SetActive(false);
+        battleComponents.ActionQueue.gameObject.SetActive(false);
 
         //TODO PERFORM WALKING AND ATTACK ANIMATIONS
 

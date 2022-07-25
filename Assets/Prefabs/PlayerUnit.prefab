@@ -428,6 +428,7 @@ MonoBehaviour:
   unitImage: {fileID: 6907793526053784602}
   nameText: {fileID: 6907793525226972725}
   hpInfo: {fileID: 6907793525971087190}
+  selectionFrameGameObject: {fileID: 6598500499646758947}
   damageKnockbackDistanceX: 50
   damageKnockbackTotalSeconds: 0.4
 --- !u!114 &6391992262074452714
@@ -1284,6 +1285,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6907793524795091175}
     m_Modifications:
+    - target: {fileID: 5488499987548350747, guid: 30a7768719961464bbeeb1e216e55b3a, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5488499987548350748, guid: 30a7768719961464bbeeb1e216e55b3a, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
