@@ -4,6 +4,10 @@ using UnityEngine;
 
 public interface BattleUnit {
     public bool canAct();
-    public void prepareToAct();
-    public bool act();
+    public void prepareToAct(BattleContext battleContext);
+    public bool act(BattleContext battleContext);
+
+    public int CurrentHp { get; }
+
+    public IEnumerator takePhysicalDamage(BattleUnit attackingUnit);
 }

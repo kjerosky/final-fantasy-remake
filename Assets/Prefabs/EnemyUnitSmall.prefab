@@ -333,6 +333,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitImage: {fileID: 400010293332720842}
   hpInfo: {fileID: 400010293257626665}
+  delayBeforeActionSeconds: 0.5
+  takingActionFlashSeconds: 0.2
 --- !u!114 &710583527420349798
 MonoBehaviour:
   m_ObjectHideFlags: 0

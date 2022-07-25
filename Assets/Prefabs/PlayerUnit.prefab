@@ -427,6 +427,12 @@ MonoBehaviour:
   unitImage: {fileID: 6907793526053784602}
   nameText: {fileID: 6907793525226972725}
   hpInfo: {fileID: 6907793525971087190}
+  damageNumbersText: {fileID: 6907793525446829813}
+  damageKnockbackDistanceX: 50
+  damageKnockbackTotalSeconds: 0.4
+  damageNumbersFirstPopOffsetY: 80
+  damageNumbersSecondPopOffsetY: 20
+  damageTakenTotalSeconds: 1
 --- !u!114 &7852829908877092161
 MonoBehaviour:
   m_ObjectHideFlags: 0

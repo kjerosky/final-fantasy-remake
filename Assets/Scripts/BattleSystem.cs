@@ -24,6 +24,9 @@ public class BattleSystem : MonoBehaviour {
     private List<BattleUnit> actionQueueBattleUnits;
     private BattleUnit currentBattleUnit;
 
+    private BattleContext battleContext;
+    private List<BattleUnit> playerBattleUnits;
+
     void Start() {
         playerUnit1.setup(new PlayerUnit(playerUnitBase1, "Abraham"), 0);
         playerUnit2.setup(new PlayerUnit(playerUnitBase2, "Bobby"), 1);
@@ -33,6 +36,15 @@ public class BattleSystem : MonoBehaviour {
         enemyUnitSmall1.setup(new EnemyUnit(enemyUnitBase1), 0);
         enemyUnitSmall2.setup(new EnemyUnit(enemyUnitBase2), 1);
 
+        playerBattleUnits = new List<BattleUnit>() {
+            playerUnit1,
+            playerUnit2,
+            playerUnit3,
+            playerUnit4
+        };
+
+        battleContext = new BattleContext();
+
         initializeActionQueue();
 
         state = BattleSystemState.PROCESSING_UNITS;
@@ -40,7 +52,7 @@ public class BattleSystem : MonoBehaviour {
 
     void Update() {
         if (state == BattleSystemState.PROCESSING_UNITS) {
-            bool currentBattleUnitIsDoneActing = currentBattleUnit.act();
+            bool currentBattleUnitIsDoneActing = currentBattleUnit.act(battleContext);
             if (currentBattleUnitIsDoneActing) {
                 setupNextActionableUnit();
             }
@@ -62,7 +74,8 @@ public class BattleSystem : MonoBehaviour {
         if (!currentBattleUnit.canAct()) {
             setupNextActionableUnit();
         } else {
-            currentBattleUnit.prepareToAct();
+            initializeBattleContext();
+            currentBattleUnit.prepareToAct(battleContext);
         }
     }
 
@@ -73,7 +86,12 @@ public class BattleSystem : MonoBehaviour {
             currentBattleUnit = actionQueueBattleUnits[0];
         } while (!currentBattleUnit.canAct());
 
-        currentBattleUnit.prepareToAct();
+        initializeBattleContext();
+        currentBattleUnit.prepareToAct(battleContext);
+    }
+
+    private void initializeBattleContext() {
+        battleContext.initialize(playerBattleUnits);
     }
 }
 

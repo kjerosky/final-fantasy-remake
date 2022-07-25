@@ -21,4 +21,8 @@ public class PlayerUnit {
         maxHp = unitBase.Hp;
         currentHp = maxHp;
     }
+
+    public void takeDamage(int damage) {
+        currentHp = Mathf.Max(0, currentHp - damage);
+    }
 }
