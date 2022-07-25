@@ -290,7 +290,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 400010294122574527}
-  - component: {fileID: 841424363326435218}
+  - component: {fileID: 4639966877100371513}
   - component: {fileID: 710583527420349798}
   m_Layer: 0
   m_Name: EnemyUnitSmall
@@ -319,7 +319,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &841424363326435218
+--- !u!114 &4639966877100371513
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -328,20 +328,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 400010294122574520}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0023f7ee3ec62479bbbda961bdf5ba63, type: 3}
+  m_Script: {fileID: 11500000, guid: faa1c672e2361484384b9cadf96adc74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hpInfo: {fileID: 400010293257626665}
-  unitImage: {fileID: 400010293332720842}
-  selectionCursor: {fileID: 1911045768887202046}
-  nameText: {fileID: 0}
-  damageNumbers: {fileID: 8623126366083581080}
-  selectionFrameGameObject: {fileID: 0}
-  unitStatsGameObject: {fileID: 400010293257626667}
-  damageNumbersFirstPopOffsetY: 80
-  damageNumbersSecondPopOffsetY: 20
-  takeDamageSeconds: 1
-  UnitStatsGameObject: {fileID: 0}
 --- !u!114 &710583527420349798
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -852,14 +841,3 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5488499987548350748, guid: 30a7768719961464bbeeb1e216e55b3a, type: 3}
   m_PrefabInstance: {fileID: 1600534975791485290}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1911045768887202046 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 915171996347343252, guid: 30a7768719961464bbeeb1e216e55b3a, type: 3}
-  m_PrefabInstance: {fileID: 1600534975791485290}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eced28f38a8db47b48d27c2c8b2756d5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

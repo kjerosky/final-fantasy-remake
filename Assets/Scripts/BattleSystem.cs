@@ -5,16 +5,12 @@ using UnityEngine;
 
 public class BattleSystem : MonoBehaviour {
 
-    [SerializeField] BattleUnit playerUnit1;
-    [SerializeField] BattleUnit playerUnit2;
-    [SerializeField] BattleUnit playerUnit3;
-    [SerializeField] BattleUnit playerUnit4;
-    [SerializeField] BattleUnit enemyUnitSmall1;
-    [SerializeField] BattleUnit enemyUnitSmall2;
-    [SerializeField] BattleMenu battleMenu;
-    [SerializeField] UnitActionQueue unitActionQueue;
-    [SerializeField] float battleStartEntranceSeconds;
-    [SerializeField] float enemyDeathFadeOutSeconds;
+    [SerializeField] PlayerBattleUnit playerUnit1;
+    [SerializeField] PlayerBattleUnit playerUnit2;
+    [SerializeField] PlayerBattleUnit playerUnit3;
+    [SerializeField] PlayerBattleUnit playerUnit4;
+    [SerializeField] EnemyBattleUnit enemyUnitSmall1;
+    [SerializeField] EnemyBattleUnit enemyUnitSmall2;
 
     //TODO REMOVE THESE TEMPORARY FIELDS
     [SerializeField] PlayerUnitBase playerUnitBase1;
@@ -24,38 +20,36 @@ public class BattleSystem : MonoBehaviour {
     [SerializeField] EnemyUnitBase enemyUnitBase1;
     [SerializeField] EnemyUnitBase enemyUnitBase2;
 
-    private BattleState state;
-
-    private int currentMenuCommandsCount;
-    private int currentSelectedMenuCommandIndex;
-    private PlayerUnitCommand chosenCommand;
-
-    private List<BattleUnit> activeEnemyBattleUnits;
-    private int currentSelectedEnemyBattleUnitIndex;
-
-    private List<BattleUnit> alivePlayerUnits;
-
-    private List<BattleUnit> unitActionQueueBattleUnits;
+    private BattleSystemState state;
+    private List<BattleUnit> actionQueueBattleUnits;
     private BattleUnit currentBattleUnit;
 
     void Start() {
-        state = BattleState.START;
+        playerUnit1.setup(new PlayerUnit(playerUnitBase1, "Abraham"), 0);
+        playerUnit2.setup(new PlayerUnit(playerUnitBase2, "Bobby"), 1);
+        playerUnit3.setup(new PlayerUnit(playerUnitBase3, "Carly"), 2);
+        playerUnit4.setup(new PlayerUnit(playerUnitBase4, "Diana"), 3);
 
-        playerUnit1.setup(new PlayerUnit(playerUnitBase1, "Abraham"), false);
-        playerUnit2.setup(new PlayerUnit(playerUnitBase2, "Bobby"), false);
-        playerUnit3.setup(new PlayerUnit(playerUnitBase3, "Carly"), false);
-        playerUnit4.setup(new PlayerUnit(playerUnitBase4, "Diana"), false);
-        playerUnit1.TeamMemberIndex = 0;
-        playerUnit2.TeamMemberIndex = 1;
-        playerUnit3.TeamMemberIndex = 2;
-        playerUnit4.TeamMemberIndex = 3;
+        enemyUnitSmall1.setup(new EnemyUnit(enemyUnitBase1), 0);
+        enemyUnitSmall2.setup(new EnemyUnit(enemyUnitBase2), 1);
 
-        enemyUnitSmall1.setup(new EnemyUnit(enemyUnitBase1), true);
-        enemyUnitSmall2.setup(new EnemyUnit(enemyUnitBase2), true);
-        enemyUnitSmall1.TeamMemberIndex = 0;
-        enemyUnitSmall2.TeamMemberIndex = 1;
+        initializeActionQueue();
 
-        unitActionQueueBattleUnits = new List<BattleUnit>() {
+        state = BattleSystemState.PROCESSING_UNITS;
+    }
+
+    void Update() {
+        if (state == BattleSystemState.PROCESSING_UNITS) {
+            bool currentBattleUnitIsDoneActing = currentBattleUnit.act();
+            if (currentBattleUnitIsDoneActing) {
+                setupNextActionableUnit();
+            }
+        }
+    }
+
+    private void initializeActionQueue() {
+        //TODO IMPLEMENT RANDOMIZED ORDER
+        actionQueueBattleUnits = new List<BattleUnit>() {
             playerUnit1,
             enemyUnitSmall1,
             playerUnit2,
@@ -64,259 +58,27 @@ public class BattleSystem : MonoBehaviour {
             playerUnit4
         };
 
-        battleMenu.setShowingCommandsMenu(false);
-        unitActionQueue.gameObject.SetActive(false);
-    }
-
-    void Update() {
-        if (state == BattleState.START) {
-            handleStart();
-        } else if (state == BattleState.PLAYER_SELECT_ACTION) {
-            handlePlayerSelectAction();
-        } else if (state == BattleState.PLAYER_SELECT_SINGLE_TARGET) {
-            handlePlayerSelectSingleTarget();
-        } else if (state == BattleState.ENEMY_ACTION) {
-            handleEnemyAction();
+        currentBattleUnit = actionQueueBattleUnits[0];
+        if (!currentBattleUnit.canAct()) {
+            setupNextActionableUnit();
+        } else {
+            currentBattleUnit.prepareToAct();
         }
     }
 
-    private void activateNextUnit() {
-        updateActiveUnitLists();
+    private void setupNextActionableUnit() {
+        do {
+            actionQueueBattleUnits.RemoveAt(0);
+            actionQueueBattleUnits.Add(currentBattleUnit);
+            currentBattleUnit = actionQueueBattleUnits[0];
+        } while (!currentBattleUnit.canAct());
 
-        if (activeEnemyBattleUnits.Count <= 0) {
-            state = BattleState.PLAYER_WON;
-            return;
-        }
-
-        if (alivePlayerUnits.Count <= 0) {
-            state = BattleState.PLAYER_LOST;
-            return;
-        }
-
-        if (currentBattleUnit != null) {
-            unitActionQueueBattleUnits.RemoveAt(0);
-            unitActionQueueBattleUnits.Add(currentBattleUnit);
-        }
-        currentBattleUnit = unitActionQueueBattleUnits[0];
-
-        while (currentBattleUnit.CurrentHp <= 0) {
-            unitActionQueueBattleUnits.RemoveAt(0);
-            unitActionQueueBattleUnits.Add(currentBattleUnit);
-            currentBattleUnit = unitActionQueueBattleUnits[0];
-        }
-
-        unitActionQueue.updateContent(
-            unitActionQueueBattleUnits
-                .Where(battleUnit => battleUnit.CurrentHp > 0)
-                .ToList()
-        );
-
-        if (currentBattleUnit.IsEnemyUnit) {
-            state = BattleState.ENEMY_ACTION;
-            return;
-        }
-
-        List<BattleMenuCommand> menuCommands = currentBattleUnit.BattleMenuCommands;
-        battleMenu.initializeCommands(menuCommands);
-        currentMenuCommandsCount = menuCommands.Count;
-
-        currentSelectedMenuCommandIndex = 0;
-        battleMenu.setSelectedCommand(currentSelectedMenuCommandIndex);
-        battleMenu.setShowingCommandsMenu(true);
-
-        unitActionQueue.gameObject.SetActive(true);
-
-        currentBattleUnit.setSelectionFrameShowing(true);
-
-        state = BattleState.PLAYER_SELECT_ACTION;
-    }
-
-    private void updateActiveUnitLists() {
-        activeEnemyBattleUnits = new List<BattleUnit>() {
-            enemyUnitSmall1,
-            enemyUnitSmall2
-        }
-            .Where(unit => unit.gameObject.activeSelf)
-            .ToList();
-
-        alivePlayerUnits = new List<BattleUnit>() {
-            playerUnit1,
-            playerUnit2,
-            playerUnit3,
-            playerUnit4
-        }
-            .Where(unit => unit.CurrentHp > 0)
-            .ToList();
-    }
-
-    private void preparePlayerSelectSingleTarget() {
-        currentSelectedEnemyBattleUnitIndex = 0;
-
-        state = BattleState.PLAYER_SELECT_SINGLE_TARGET;
-    }
-
-    private void handleStart() {
-        updateActiveUnitLists();
-
-        StartCoroutine(performStart());
-    }
-
-    private void handlePlayerSelectAction() {
-        if (Input.GetKeyDown(KeyCode.W)) {
-            currentSelectedMenuCommandIndex--;
-            if (currentSelectedMenuCommandIndex < 0) {
-                currentSelectedMenuCommandIndex = currentMenuCommandsCount - 1;
-            }
-        } else if (Input.GetKeyDown(KeyCode.S)) {
-            currentSelectedMenuCommandIndex++;
-            if (currentSelectedMenuCommandIndex >= currentMenuCommandsCount) {
-                currentSelectedMenuCommandIndex = 0;
-            }
-        }
-
-        battleMenu.setSelectedCommand(currentSelectedMenuCommandIndex);
-
-        if (Input.GetKeyDown(KeyCode.Return)) {
-            chosenCommand = currentBattleUnit.BattleMenuCommands[currentSelectedMenuCommandIndex].Command;
-
-            if (chosenCommand == PlayerUnitCommand.ATTACK) {
-                battleMenu.dimCommandCursor(currentSelectedMenuCommandIndex);
-                preparePlayerSelectSingleTarget();
-            }
-        }
-    }
-
-    private void handlePlayerSelectSingleTarget() {
-        if (Input.GetKeyDown(KeyCode.W)) {
-            currentSelectedEnemyBattleUnitIndex--;
-            if (currentSelectedEnemyBattleUnitIndex < 0) {
-                currentSelectedEnemyBattleUnitIndex = activeEnemyBattleUnits.Count - 1;
-            }
-        } else if (Input.GetKeyDown(KeyCode.S)) {
-            currentSelectedEnemyBattleUnitIndex++;
-            if (currentSelectedEnemyBattleUnitIndex >= activeEnemyBattleUnits.Count) {
-                currentSelectedEnemyBattleUnitIndex = 0;
-            }
-        }
-
-        for (int i = 0; i < activeEnemyBattleUnits.Count; i++) {
-            activeEnemyBattleUnits[i].setSelected(i == currentSelectedEnemyBattleUnitIndex);
-        }
-
-        showUnitActionQueueSelectionArrows(new List<BattleUnit>() {
-            activeEnemyBattleUnits[currentSelectedEnemyBattleUnitIndex]
-        });
-
-        if (Input.GetKeyDown(KeyCode.Return)) {
-            executeCommand();
-        } else if (Input.GetKeyDown(KeyCode.Escape)) {
-            if (chosenCommand == PlayerUnitCommand.ATTACK) {
-                activeEnemyBattleUnits.ForEach(enemy => enemy.setSelected(false));
-                battleMenu.brightenCommandCursor(currentSelectedMenuCommandIndex);
-                showUnitActionQueueSelectionArrows(new List<BattleUnit>());
-                state = BattleState.PLAYER_SELECT_ACTION;
-            }
-        }
-    }
-
-    private void showUnitActionQueueSelectionArrows(List<BattleUnit> unitsNeedingSelectionArrows) {
-        List<int> unitActionQueueIndicesNeedingSelectionArrows = new List<int>();
-
-        for (int i = 0; i < unitActionQueueBattleUnits.Count; i++) {
-            if (unitsNeedingSelectionArrows.Contains(unitActionQueueBattleUnits[i])) {
-                unitActionQueueIndicesNeedingSelectionArrows.Add(i);
-            }
-        }
-
-        unitActionQueue.showSelectionArrows(unitActionQueueIndicesNeedingSelectionArrows);
-    }
-
-    private void handleEnemyAction() {
-        StartCoroutine(performEnemyAttack());
-    }
-
-    private void executeCommand() {
-        currentBattleUnit.setSelectionFrameShowing(false);
-
-        if (chosenCommand == PlayerUnitCommand.ATTACK) {
-            StartCoroutine(performAttack());
-        }
-    }
-
-    private IEnumerator performStart() {
-        state = BattleState.BUSY;
-
-        List<BattleUnit> activeUnits = alivePlayerUnits.Concat(activeEnemyBattleUnits).ToList();
-        BattleUnit synchronizingBattleUnit = activeUnits[0];
-        activeUnits.RemoveAt(0);
-
-        activeUnits.ForEach(unit => StartCoroutine(unit.enterBattle(battleStartEntranceSeconds)));
-        yield return synchronizingBattleUnit.enterBattle(battleStartEntranceSeconds);
-
-        activateNextUnit();
-    }
-
-    private IEnumerator performAttack() {
-        state = BattleState.BUSY;
-
-        battleMenu.brightenCommandCursor(currentSelectedMenuCommandIndex);
-        battleMenu.setShowingCommandsMenu(false);
-        unitActionQueue.gameObject.SetActive(false);
-        activeEnemyBattleUnits.ForEach(enemy => enemy.setSelected(false));
-
-        BattleUnit targetEnemy = activeEnemyBattleUnits[currentSelectedEnemyBattleUnitIndex];
-
-        yield return currentBattleUnit.beforeDealingDamage(targetEnemy);
-
-        yield return targetEnemy.takeDamagePhysical(currentBattleUnit);
-
-        if (targetEnemy.CurrentHp <= 0) {
-            yield return targetEnemy.die(enemyDeathFadeOutSeconds);
-
-            targetEnemy.gameObject.SetActive(false);
-            unitActionQueueBattleUnits.Remove(targetEnemy);
-        }
-
-        yield return currentBattleUnit.afterDealingDamage(targetEnemy);
-
-        activateNextUnit();
-    }
-
-    private IEnumerator performEnemyAttack() {
-        state = BattleState.BUSY;
-
-        yield return new WaitForSeconds(0.5f);
-
-        int randomAlivePlayerUnitIndex = Random.Range(0, alivePlayerUnits.Count);
-        BattleUnit targetPlayerUnit = alivePlayerUnits[randomAlivePlayerUnitIndex];
-        yield return currentBattleUnit.beforeDealingDamage(targetPlayerUnit);
-
-        yield return targetPlayerUnit.takeDamagePhysical(currentBattleUnit);
-
-        if (targetPlayerUnit.CurrentHp <= 0) {
-            yield return targetPlayerUnit.die(0f);
-        }
-
-        yield return currentBattleUnit.afterDealingDamage(targetPlayerUnit);
-
-        activateNextUnit();
-    }
-
-    private void handlePlayerLost() {
-        //TODO
-    }
-
-    private void handlePlayerWon() {
-        //TODO
+        currentBattleUnit.prepareToAct();
     }
 }
 
-public enum BattleState {
-    START,
-    PLAYER_SELECT_ACTION,
-    PLAYER_SELECT_SINGLE_TARGET,
-    ENEMY_ACTION,
-    PLAYER_LOST,
-    PLAYER_WON,
-    BUSY
+public enum BattleSystemState {
+    PROCESSING_UNITS,
+    VICTORY,
+    DEFEAT
 }
