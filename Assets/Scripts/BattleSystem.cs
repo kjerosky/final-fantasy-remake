@@ -78,6 +78,7 @@ public class BattleSystem : MonoBehaviour {
 }
 
 public enum BattleSystemState {
+    START,
     PROCESSING_UNITS,
     VICTORY,
     DEFEAT

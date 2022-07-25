@@ -8,6 +8,10 @@ public class EnemyUnit {
     private int currentHp;
     private int maxHp;
 
+    public int CurrentHp => currentHp;
+    public int MaxHp => maxHp;
+    public Sprite BattleSprite => unitBase.BattleSprite;
+
     public EnemyUnit(EnemyUnitBase unitBase) {
         this.unitBase = unitBase;
 

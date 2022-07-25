@@ -1,8 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerBattleUnit : MonoBehaviour, BattleUnit {
+
+    [SerializeField] Image unitImage;
+    [SerializeField] Text nameText;
+    [SerializeField] HpInfo hpInfo;
 
     private PlayerUnit playerUnit;
     private int teamMemberIndex;
@@ -12,6 +17,12 @@ public class PlayerBattleUnit : MonoBehaviour, BattleUnit {
     public void setup(PlayerUnit playerUnit, int teamMemberIndex) {
         this.playerUnit = playerUnit;
         this.teamMemberIndex = teamMemberIndex;
+
+        unitImage.sprite = playerUnit.BattleSpriteStanding;
+
+        nameText.text = playerUnit.Name;
+
+        hpInfo.setHp(playerUnit.CurrentHp, playerUnit.MaxHp);
     }
 
     public bool canAct() {

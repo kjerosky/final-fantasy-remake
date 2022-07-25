@@ -9,7 +9,10 @@ public class PlayerUnit {
     private int currentHp;
     private int maxHp;
 
+    public string Name => name;
     public int CurrentHp => currentHp;
+    public int MaxHp => maxHp;
+    public Sprite BattleSpriteStanding => unitBase.BattleSpriteStanding;
 
     public PlayerUnit(PlayerUnitBase unitBase, string name) {
         this.unitBase = unitBase;
