@@ -55,6 +55,9 @@ public class PlayerBattleUnit : MonoBehaviour, BattleUnit {
 
         selectionFrameGameObject.SetActive(true);
         battleComponents.ActionQueue.gameObject.SetActive(true);
+
+        battleComponents.BattleMenu.initializeCommands(playerUnit.BattleMenuCommands);
+        battleComponents.BattleMenu.setShowingCommandsMenu(true);
         Debug.Log($"{name} is acting.  Waiting for input...");
     }
 
@@ -79,6 +82,7 @@ public class PlayerBattleUnit : MonoBehaviour, BattleUnit {
 
         selectionFrameGameObject.SetActive(false);
         battleComponents.ActionQueue.gameObject.SetActive(false);
+        battleComponents.BattleMenu.setShowingCommandsMenu(false);
 
         //TODO PERFORM WALKING AND ATTACK ANIMATIONS
 

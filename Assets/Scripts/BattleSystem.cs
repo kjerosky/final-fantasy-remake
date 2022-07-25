@@ -52,6 +52,9 @@ public class BattleSystem : MonoBehaviour {
 
         battleContext = new BattleContext();
 
+        battleComponents.ActionQueue.gameObject.SetActive(false);
+        battleComponents.BattleMenu.setShowingCommandsMenu(false);
+
         initializeActionQueue();
 
         state = BattleSystemState.PROCESSING_UNITS;
