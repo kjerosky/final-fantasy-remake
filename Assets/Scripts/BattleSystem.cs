@@ -11,7 +11,6 @@ public class BattleSystem : MonoBehaviour {
     [SerializeField] PlayerBattleUnit playerUnit4;
     [SerializeField] EnemyBattleUnit enemyUnitSmall1;
     [SerializeField] EnemyBattleUnit enemyUnitSmall2;
-    [SerializeField] BattleComponents battleComponents;
 
     //TODO REMOVE THESE TEMPORARY FIELDS
     [SerializeField] PlayerUnitBase playerUnitBase1;
@@ -20,6 +19,9 @@ public class BattleSystem : MonoBehaviour {
     [SerializeField] PlayerUnitBase playerUnitBase4;
     [SerializeField] EnemyUnitBase enemyUnitBase1;
     [SerializeField] EnemyUnitBase enemyUnitBase2;
+
+    private UnitActionQueue actionQueue;
+    private BattleMenu battleMenu;
 
     private BattleSystemState state;
     private List<BattleUnit> actionQueueBattleUnits;
@@ -30,6 +32,9 @@ public class BattleSystem : MonoBehaviour {
     private List<EnemyBattleUnit> enemyBattleUnits;
 
     void Start() {
+        actionQueue = BattleComponents.Instance.ActionQueue;
+        battleMenu = BattleComponents.Instance.BattleMenu;
+
         playerUnit1.setup(new PlayerUnit(playerUnitBase1, "Abraham"), 0);
         playerUnit2.setup(new PlayerUnit(playerUnitBase2, "Bobby"), 1);
         playerUnit3.setup(new PlayerUnit(playerUnitBase3, "Carly"), 2);
@@ -52,8 +57,8 @@ public class BattleSystem : MonoBehaviour {
 
         battleContext = new BattleContext();
 
-        battleComponents.ActionQueue.gameObject.SetActive(false);
-        battleComponents.BattleMenu.setShowingCommandsMenu(false);
+        actionQueue.gameObject.SetActive(false);
+        battleMenu.setShowingCommandsMenu(false);
 
         state = BattleSystemState.START;
     }
@@ -132,7 +137,7 @@ public class BattleSystem : MonoBehaviour {
     }
 
     private void refreshDataForNextActionableUnit() {
-        battleComponents.ActionQueue.updateContent(actionQueueBattleUnits
+        actionQueue.updateContent(actionQueueBattleUnits
             .Where(unit => unit.canAct())
             .ToList()
         );

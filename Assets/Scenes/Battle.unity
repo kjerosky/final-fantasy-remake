@@ -1254,7 +1254,6 @@ MonoBehaviour:
   playerUnit4: {fileID: 1048236064}
   enemyUnitSmall1: {fileID: 400010294428657884}
   enemyUnitSmall2: {fileID: 1229499907}
-  battleComponents: {fileID: 686412197}
   playerUnitBase1: {fileID: 11400000, guid: 9ea00250e107f4c4d9e3bca8d98fed70, type: 2}
   playerUnitBase2: {fileID: 11400000, guid: fcc260e587f7e4c75a6880a7ae456d95, type: 2}
   playerUnitBase3: {fileID: 11400000, guid: dec020e52d4994889ba9b783be9bf69d, type: 2}
@@ -1601,10 +1600,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1757475315}
     m_Modifications:
-    - target: {fileID: 430512861506771958, guid: 7a8ed155fdb9f4dbdb4ce4882a8506f8, type: 3}
-      propertyPath: battleComponents
-      value: 
-      objectReference: {fileID: 686412197}
     - target: {fileID: 6907793524795091172, guid: 7a8ed155fdb9f4dbdb4ce4882a8506f8, type: 3}
       propertyPath: m_Name
       value: PlayerUnit2
@@ -1718,10 +1713,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1757475315}
     m_Modifications:
-    - target: {fileID: 430512861506771958, guid: 7a8ed155fdb9f4dbdb4ce4882a8506f8, type: 3}
-      propertyPath: battleComponents
-      value: 
-      objectReference: {fileID: 686412197}
     - target: {fileID: 6907793524795091172, guid: 7a8ed155fdb9f4dbdb4ce4882a8506f8, type: 3}
       propertyPath: m_Name
       value: PlayerUnit4
@@ -2173,10 +2164,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4639966877100371513, guid: fc4e6e37d39114eda99a8e5056d1b950, type: 3}
-      propertyPath: battleComponents
-      value: 
-      objectReference: {fileID: 686412197}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fc4e6e37d39114eda99a8e5056d1b950, type: 3}
 --- !u!224 &1229499906 stripped
@@ -3492,10 +3479,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1757475315}
     m_Modifications:
-    - target: {fileID: 430512861506771958, guid: 7a8ed155fdb9f4dbdb4ce4882a8506f8, type: 3}
-      propertyPath: battleComponents
-      value: 
-      objectReference: {fileID: 686412197}
     - target: {fileID: 6907793524795091172, guid: 7a8ed155fdb9f4dbdb4ce4882a8506f8, type: 3}
       propertyPath: m_Name
       value: PlayerUnit3
@@ -3799,12 +3782,7 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4639966877100371513, guid: fc4e6e37d39114eda99a8e5056d1b950, type: 3}
-      propertyPath: battleComponents
-      value: 
-      objectReference: {fileID: 686412197}
-    m_RemovedComponents:
-    - {fileID: 841424363326435218, guid: fc4e6e37d39114eda99a8e5056d1b950, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fc4e6e37d39114eda99a8e5056d1b950, type: 3}
 --- !u!114 &400010294428657884 stripped
 MonoBehaviour:
@@ -4033,10 +4011,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1757475315}
     m_Modifications:
-    - target: {fileID: 430512861506771958, guid: 7a8ed155fdb9f4dbdb4ce4882a8506f8, type: 3}
-      propertyPath: battleComponents
-      value: 
-      objectReference: {fileID: 686412197}
     - target: {fileID: 6907793524795091172, guid: 7a8ed155fdb9f4dbdb4ce4882a8506f8, type: 3}
       propertyPath: m_Name
       value: PlayerUnit1

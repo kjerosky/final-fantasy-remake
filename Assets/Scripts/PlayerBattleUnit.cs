@@ -14,7 +14,6 @@ public class PlayerBattleUnit : MonoBehaviour, BattleUnit {
     [SerializeField] SelectionCursor selectionCursor;
     [SerializeField] GameObject selectionFrameGameObject;
     [SerializeField] GameObject statsGameObject;
-    [SerializeField] BattleComponents battleComponents;
     [SerializeField] float damageKnockbackDistanceX;
     [SerializeField] float damageKnockbackTotalSeconds;
     [SerializeField] float walkingFrameSeconds;
@@ -77,8 +76,8 @@ public class PlayerBattleUnit : MonoBehaviour, BattleUnit {
 
         commandsCount = playerUnit.BattleMenuCommands.Count;
 
-        actionQueue = battleComponents.ActionQueue;
-        battleMenu = battleComponents.BattleMenu;
+        actionQueue = BattleComponents.Instance.ActionQueue;
+        battleMenu = BattleComponents.Instance.BattleMenu;
 
         walkingSprites = new Sprite[] {
             playerUnit.BattleSpriteWalking,
