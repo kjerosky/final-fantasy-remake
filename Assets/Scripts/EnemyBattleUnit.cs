@@ -10,6 +10,7 @@ public class EnemyBattleUnit : MonoBehaviour, BattleUnit {
     [SerializeField] HpInfo hpInfo;
     [SerializeField] SelectionCursor selectionCursor;
     [SerializeField] GameObject statsGameObject;
+    [SerializeField] BattleComponents battleComponents;
     [SerializeField] float delayBeforeActionSeconds;
     [SerializeField] float takingActionFlashSeconds;
     [SerializeField] float deathTransitionSeconds;
@@ -79,6 +80,7 @@ public class EnemyBattleUnit : MonoBehaviour, BattleUnit {
         yield return animateTakingAction();
 
         if (battleCalculator.willEnemyRun(enemyUnit, battleContext)) {
+            yield return battleComponents.BattleMessageBar.displayMessage("Flee");
             yield return animateRunningAway();
             disableUnit(EnemyBattleUnitState.RAN_AWAY);
         } else if (battleCalculator.willEnemyUseMagic()) {
@@ -94,6 +96,8 @@ public class EnemyBattleUnit : MonoBehaviour, BattleUnit {
     }
 
     private IEnumerator animateRunningAway() {
+        statsGameObject.SetActive(false);
+
         yield return unitImageRectTransform
             .DOAnchorPosX(unitImageStartX + 30f, 0.5f)
             .SetEase(Ease.OutQuad)
