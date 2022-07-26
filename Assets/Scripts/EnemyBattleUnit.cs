@@ -11,15 +11,12 @@ public class EnemyBattleUnit : MonoBehaviour, BattleUnit {
     [SerializeField] SelectionCursor selectionCursor;
     [SerializeField] GameObject statsGameObject;
     [SerializeField] float delayBeforeActionSeconds;
-    [SerializeField] float takingActionFlashSeconds;
-    [SerializeField] float deathTransitionSeconds;
-    [SerializeField] float battleEntranceOffsetX;
-    [SerializeField] float entranceSeconds;
 
     private HitEffect hitEffect;
     private DamageAnimator damageAnimator;
     private BattleCalculator battleCalculator;
     private BattleMessageBar battleMessageBar;
+    private EnemyBattleUnitAnimator animator;
 
     private EnemyUnit enemyUnit;
     private int teamMemberIndex;
@@ -45,6 +42,7 @@ public class EnemyBattleUnit : MonoBehaviour, BattleUnit {
         damageAnimator = GetComponent<DamageAnimator>();
         battleCalculator = GetComponent<BattleCalculator>();
         battleMessageBar = BattleComponents.Instance.BattleMessageBar;
+        animator = GetComponent<EnemyBattleUnitAnimator>();
 
         unitImage.sprite = enemyUnit.BattleSprite;
 
@@ -78,11 +76,12 @@ public class EnemyBattleUnit : MonoBehaviour, BattleUnit {
 
     private IEnumerator takeAction(BattleContext battleContext) {
         yield return delayBeforeAction;
-        yield return animateTakingAction();
+        yield return animator.animateTakingAction();
 
         if (battleCalculator.willEnemyRun(enemyUnit, battleContext)) {
             yield return battleMessageBar.displayMessage("Flee");
-            yield return animateRunningAway();
+            statsGameObject.SetActive(false);
+            yield return animator.animateRunningAway();
             disableUnit(EnemyBattleUnitState.RAN_AWAY);
         } else if (battleCalculator.willEnemyUseMagic()) {
             //TODO
@@ -94,20 +93,6 @@ public class EnemyBattleUnit : MonoBehaviour, BattleUnit {
         }
 
         isDoneActing = true;
-    }
-
-    private IEnumerator animateRunningAway() {
-        statsGameObject.SetActive(false);
-
-        yield return unitImageRectTransform
-            .DOAnchorPosX(unitImageStartX + 30f, 0.5f)
-            .SetEase(Ease.OutQuad)
-            .WaitForCompletion();
-
-        yield return unitImageRectTransform
-            .DOAnchorPosX(unitImageStartX + battleEntranceOffsetX, 0.5f)
-            .SetEase(Ease.InQuad)
-            .WaitForCompletion();
     }
 
     public IEnumerator takePhysicalDamage(BattleUnit attackingUnit) {
@@ -129,27 +114,9 @@ public class EnemyBattleUnit : MonoBehaviour, BattleUnit {
         return TEMP_damageTaken;
     }
 
-    private IEnumerator animateTakingAction() {
-        for (int i = 0; i < 2; i++) {
-            yield return unitImage
-                .DOColor(Color.black, takingActionFlashSeconds / 2)
-                .SetEase(Ease.Linear)
-                .WaitForCompletion();
-            yield return unitImage
-                .DOColor(Color.white, takingActionFlashSeconds / 2)
-                .SetEase(Ease.Linear)
-                .WaitForCompletion();
-        }
-
-    }
-
     private IEnumerator die() {
-        hpInfo.gameObject.SetActive(false);
-
-        yield return unitImage
-            .DOFade(0f, deathTransitionSeconds)
-            .SetEase(Ease.Linear)
-            .WaitForCompletion();
+        statsGameObject.SetActive(false);
+        yield return animator.animateDeath();
         disableUnit(EnemyBattleUnitState.KILLED);
     }
 
@@ -159,18 +126,7 @@ public class EnemyBattleUnit : MonoBehaviour, BattleUnit {
 
     public IEnumerator enterBattle() {
         statsGameObject.SetActive(false);
-
-        Vector2 battleEntranceInitialPosition = unitImageRectTransform.anchoredPosition;
-        battleEntranceInitialPosition = new Vector2(
-            battleEntranceInitialPosition.x + battleEntranceOffsetX,
-            battleEntranceInitialPosition.y);
-        unitImageRectTransform.anchoredPosition = battleEntranceInitialPosition;
-
-        yield return unitImageRectTransform
-            .DOAnchorPosX(unitImageStartX, entranceSeconds)
-            .SetEase(Ease.OutExpo)
-            .WaitForCompletion();
-
+        yield return animator.animateBattleEntrance();
         statsGameObject.SetActive(true);
     }
 
