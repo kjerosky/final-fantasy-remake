@@ -123,10 +123,6 @@ public class BattleSystem : MonoBehaviour {
             return;
         }
 
-        actionQueueBattleUnits = actionQueueBattleUnits
-            .Where(unit => !unit.IsEnemy || (unit.IsEnemy && unit.canAct()))
-            .ToList();
-
         do {
             actionQueueBattleUnits.RemoveAt(0);
             actionQueueBattleUnits.Add(currentBattleUnit);
