@@ -8,6 +8,7 @@ public class PlayerBattleUnit : MonoBehaviour, BattleUnit {
 
     [SerializeField] Image unitImage;
     [SerializeField] Image unitDeathImage;
+    [SerializeField] RectTransform imagesBaseRectTransform;
     [SerializeField] Text nameText;
     [SerializeField] HpInfo hpInfo;
     [SerializeField] SelectionCursor selectionCursor;
@@ -15,14 +16,20 @@ public class PlayerBattleUnit : MonoBehaviour, BattleUnit {
     [SerializeField] BattleComponents battleComponents;
     [SerializeField] float damageKnockbackDistanceX;
     [SerializeField] float damageKnockbackTotalSeconds;
+    [SerializeField] float walkingFrameSeconds;
+    [SerializeField] float attackPositionOffsetX;
+    [SerializeField] float attackWalkingSeconds;
+    [SerializeField] float attackingSeconds;
 
     private PlayerUnit playerUnit;
     private int teamMemberIndex;
 
     private DamageAnimator damageAnimator;
+    private BattleWeapon battleWeapon;
 
     private RectTransform unitImageRectTransform;
     private float unitImageStartX;
+    private float imagesBaseStartX;
 
     private PlayerBattleUnitState state;
 
@@ -35,6 +42,10 @@ public class PlayerBattleUnit : MonoBehaviour, BattleUnit {
     private PlayerUnitCommand chosenCommand;
 
     private int selectedEnemyUnitIndex;
+
+    private Sprite[] walkingSprites;
+    private Sprite[] attackingSprites;
+    private float attackingFrameSeconds;
 
     public bool IsEnemy => false;
     public int TeamMemberIndex => teamMemberIndex;
@@ -55,12 +66,26 @@ public class PlayerBattleUnit : MonoBehaviour, BattleUnit {
         unitImageRectTransform = unitImage.GetComponent<RectTransform>();
         unitImageStartX = unitImageRectTransform.anchoredPosition.x;
 
+        imagesBaseStartX = imagesBaseRectTransform.anchoredPosition.x;
+
         damageAnimator = GetComponent<DamageAnimator>();
+        battleWeapon = GetComponent<BattleWeapon>();
 
         commandsCount = playerUnit.BattleMenuCommands.Count;
 
         actionQueue = battleComponents.ActionQueue;
         battleMenu = battleComponents.BattleMenu;
+
+        walkingSprites = new Sprite[] {
+            playerUnit.BattleSpriteWalking,
+            playerUnit.BattleSpriteStanding
+        };
+
+        attackingSprites = new Sprite[] {
+            playerUnit.BattleSpriteWeaponRaised,
+            playerUnit.BattleSpriteWalking
+        };
+        attackingFrameSeconds = attackingSeconds / attackingSprites.Length;
     }
 
     public bool canAct() {
@@ -181,9 +206,17 @@ public class PlayerBattleUnit : MonoBehaviour, BattleUnit {
 
         BattleUnit targetEnemyUnit = battleContext.EnemyBattleUnits[selectedEnemyUnitIndex];
 
-        //TODO PERFORM WALKING AND ATTACK ANIMATIONS
+        float imagesBaseAttackX = imagesBaseStartX + attackPositionOffsetX;
+        yield return animateWalking(imagesBaseAttackX, attackWalkingSeconds);
+
+        StartCoroutine(animateAttacking());
 
         yield return targetEnemyUnit.takePhysicalDamage(this);
+
+        imagesBaseRectTransform.localScale = new Vector3(-1, 1, 1);
+        yield return animateWalking(imagesBaseStartX, attackWalkingSeconds);
+        imagesBaseRectTransform.localScale = new Vector3(1, 1, 1);
+        unitImage.sprite = playerUnit.BattleSpriteStanding;
 
         state = PlayerBattleUnitState.DONE;
     }
@@ -234,6 +267,61 @@ public class PlayerBattleUnit : MonoBehaviour, BattleUnit {
 
     public void setSelected(bool isSelected) {
         selectionCursor.setShowing(isSelected);
+    }
+
+    private IEnumerator animateWalking(float targetPositionX, float totalWalkSeconds) {
+        imagesBaseRectTransform
+            .DOAnchorPosX(targetPositionX, totalWalkSeconds)
+            .SetEase(Ease.Linear);
+
+        yield return loopAnimateUnitImage(unitImage, walkingSprites, totalWalkSeconds, walkingFrameSeconds);
+    }
+
+    private IEnumerator loopAnimateUnitImage(Image unitImage, Sprite[] animationFrames, float totalTime, float frameSeconds) {
+        float totalTimeTimer = 0f;
+        float frameTimer = 0f;
+
+        while (true) {
+            for (int i = 0; i < animationFrames.Length; i++) {
+                unitImage.sprite = animationFrames[i];
+
+                while (frameTimer < frameSeconds) {
+                    totalTimeTimer += Time.deltaTime;
+                    if (totalTimeTimer >= totalTime) {
+                        yield break;
+                    }
+
+                    frameTimer += Time.deltaTime;
+
+                    yield return null;
+                }
+
+                while (frameTimer >= frameSeconds) {
+                    frameTimer -= frameSeconds;
+                }
+            }
+        }
+    }
+
+    private IEnumerator animateAttacking() {
+        float timer = 0f;
+        unitImage.sprite = attackingSprites[0];
+        battleWeapon.raise();
+        while (timer < attackingFrameSeconds) {
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
+        timer = 0f;
+        unitImage.sprite = attackingSprites[1];
+        battleWeapon.strike();
+        while (timer < attackingFrameSeconds) {
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
+        unitImage.sprite = playerUnit.BattleSpriteStanding;
+        battleWeapon.putAway();
     }
 }
 

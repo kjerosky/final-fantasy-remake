@@ -13,6 +13,8 @@ public class PlayerUnit {
     public int CurrentHp => currentHp;
     public int MaxHp => maxHp;
     public Sprite BattleSpriteStanding => unitBase.BattleSpriteStanding;
+    public Sprite BattleSpriteWalking => unitBase.BattleSpriteWalking;
+    public Sprite BattleSpriteWeaponRaised => unitBase.BattleSpriteWeaponRaised;
     public Sprite BattleSpriteDead => unitBase.BattleSpriteDead;
     public Sprite UnitActionQueueSprite => unitBase.UnitActionQueueSprite;
     public List<BattleMenuCommand> BattleMenuCommands => unitBase.BattleMenuCommands;

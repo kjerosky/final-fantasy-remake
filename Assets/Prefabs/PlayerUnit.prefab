@@ -25,16 +25,16 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 822279141198321565}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: -1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 6907793524795091175}
-  m_RootOrder: 1
+  m_Father: {fileID: 3881431410864841020}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -390.67, y: 57.7}
+  m_AnchoredPosition: {x: -152.31999, y: 57.7}
   m_SizeDelta: {x: 77, y: 77}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3047975739042645282
@@ -240,6 +240,43 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hueRotationSeconds: 0.75
   colorSaturation: 0.5
+--- !u!1 &6756282870142882419
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3881431410864841020}
+  m_Layer: 0
+  m_Name: ImagesBase
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &3881431410864841020
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6756282870142882419}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 8430960721561395016}
+  - {fileID: 6907793526053784603}
+  m_Father: {fileID: 6907793524795091175}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -144.00012, y: 0.000030517578}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: -0.94, y: 0.5}
 --- !u!1 &6907793524341745797
 GameObject:
   m_ObjectHideFlags: 0
@@ -363,7 +400,7 @@ RectTransform:
   - {fileID: 6907793525971087191}
   - {fileID: 6907793525570683820}
   m_Father: {fileID: 6907793524795091175}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
@@ -401,8 +438,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1438469297279674975}
-  - {fileID: 8430960721561395016}
-  - {fileID: 6907793526053784603}
+  - {fileID: 3881431410864841020}
   - {fileID: 1844709117465397756}
   - {fileID: 6907793524420233565}
   m_Father: {fileID: 0}
@@ -427,6 +463,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitImage: {fileID: 6907793526053784602}
   unitDeathImage: {fileID: 4096095312376005362}
+  imagesBaseRectTransform: {fileID: 3881431410864841020}
   nameText: {fileID: 6907793525226972725}
   hpInfo: {fileID: 6907793525971087190}
   selectionCursor: {fileID: 6011797014408078039}
@@ -434,6 +471,10 @@ MonoBehaviour:
   battleComponents: {fileID: 0}
   damageKnockbackDistanceX: 50
   damageKnockbackTotalSeconds: 0.4
+  walkingFrameSeconds: 0.0625
+  attackPositionOffsetX: -150
+  attackWalkingSeconds: 0.25
+  attackingSeconds: 0.15
 --- !u!114 &6391992262074452714
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1010,12 +1051,12 @@ RectTransform:
   - {fileID: 7070210052248193693}
   - {fileID: 6907793525446829811}
   - {fileID: 6123100251148792774}
-  m_Father: {fileID: 6907793524795091175}
-  m_RootOrder: 2
+  m_Father: {fileID: 3881431410864841020}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -434, y: 0}
+  m_AnchoredPosition: {x: -195.64998, y: 0}
   m_SizeDelta: {x: 86.625, y: 125.125}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6907793526053784605
@@ -1236,7 +1277,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6907793524795091175}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
