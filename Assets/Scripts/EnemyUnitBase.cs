@@ -8,17 +8,21 @@ public class EnemyUnitBase : ScriptableObject {
     [SerializeField] int hp;
     [SerializeField] int gil;
     [SerializeField] int experience;
-    [SerializeField] int absorb;
-    [SerializeField] int evade;
+    [SerializeField] int attack;
+    [SerializeField] int accuracy;
+    [SerializeField] int numberOfHits;
+    [SerializeField] int criticalRate;
+    [SerializeField] int defense;
+    [SerializeField] int evasion;
     [SerializeField] int magicDefense;
-    [SerializeField] int damage;
-    [SerializeField] int hitPercent;
-    [SerializeField] int criticalHitChance;
     [SerializeField] int morale;
 
     [SerializeField] Sprite battleSprite;
 
     public int Hp => hp;
+    public int Gil => gil;
+    public int Experience => experience;
+    public int Morale => morale;
 
     public Sprite BattleSprite => battleSprite;
 }

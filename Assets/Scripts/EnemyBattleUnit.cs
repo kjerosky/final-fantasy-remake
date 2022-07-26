@@ -18,6 +18,7 @@ public class EnemyBattleUnit : MonoBehaviour, BattleUnit {
 
     private HitEffect hitEffect;
     private DamageAnimator damageAnimator;
+    private BattleCalculator battleCalculator;
 
     private EnemyUnit enemyUnit;
     private int teamMemberIndex;
@@ -26,11 +27,14 @@ public class EnemyBattleUnit : MonoBehaviour, BattleUnit {
     private bool isDoneActing;
     private RectTransform unitImageRectTransform;
     private float unitImageStartX;
+    private EnemyBattleUnitState state;
 
     public bool IsEnemy => true;
     public int TeamMemberIndex => teamMemberIndex;
     public Sprite UnitActionQueueSprite => null;
     public int CurrentHp => enemyUnit.CurrentHp;
+    public int Gil => enemyUnit.Gil;
+    public int Experience => enemyUnit.Experience;
 
     public void setup(EnemyUnit enemyUnit, int teamMemberIndex) {
         this.enemyUnit = enemyUnit;
@@ -38,6 +42,7 @@ public class EnemyBattleUnit : MonoBehaviour, BattleUnit {
 
         hitEffect = GetComponent<HitEffect>();
         damageAnimator = GetComponent<DamageAnimator>();
+        battleCalculator = GetComponent<BattleCalculator>();
 
         unitImage.sprite = enemyUnit.BattleSprite;
 
@@ -47,10 +52,16 @@ public class EnemyBattleUnit : MonoBehaviour, BattleUnit {
 
         unitImageRectTransform = unitImage.GetComponent<RectTransform>();
         unitImageStartX = unitImageRectTransform.anchoredPosition.x;
+
+        state = EnemyBattleUnitState.ALIVE;
+    }
+
+    public bool yieldsRewards() {
+        return state == EnemyBattleUnitState.KILLED;
     }
 
     public bool canAct() {
-        return true;
+        return state == EnemyBattleUnitState.ALIVE;
     }
 
     public void prepareToAct(BattleContext battleContext) {
@@ -64,17 +75,34 @@ public class EnemyBattleUnit : MonoBehaviour, BattleUnit {
     }
 
     private IEnumerator takeAction(BattleContext battleContext) {
-        List<BattleUnit> targetablePlayerUnits = battleContext.EnemyTargetablePlayerBattleUnits;
-        int targetPlayerUnitIndex = Random.Range(0, targetablePlayerUnits.Count);
-        BattleUnit targetPlayerUnit = targetablePlayerUnits[targetPlayerUnitIndex];
-
         yield return delayBeforeAction;
-
         yield return animateTakingAction();
 
-        yield return targetPlayerUnit.takePhysicalDamage(this);
+        if (battleCalculator.willEnemyRun(enemyUnit, battleContext)) {
+            yield return animateRunningAway();
+            disableUnit(EnemyBattleUnitState.RAN_AWAY);
+        } else if (battleCalculator.willEnemyUseMagic()) {
+            //TODO
+        } else if (battleCalculator.willEnemyUseSkill()) {
+            //TODO
+        } else {
+            PlayerBattleUnit targetPlayerUnit = battleCalculator.selectPositionWeightedRandomPlayer(battleContext);
+            yield return targetPlayerUnit.takePhysicalDamage(this);
+        }
 
         isDoneActing = true;
+    }
+
+    private IEnumerator animateRunningAway() {
+        yield return unitImageRectTransform
+            .DOAnchorPosX(unitImageStartX + 30f, 0.5f)
+            .SetEase(Ease.OutQuad)
+            .WaitForCompletion();
+
+        yield return unitImageRectTransform
+            .DOAnchorPosX(unitImageStartX + battleEntranceOffsetX, 0.5f)
+            .SetEase(Ease.InQuad)
+            .WaitForCompletion();
     }
 
     public IEnumerator takePhysicalDamage(BattleUnit attackingUnit) {
@@ -117,6 +145,7 @@ public class EnemyBattleUnit : MonoBehaviour, BattleUnit {
             .DOFade(0f, deathTransitionSeconds)
             .SetEase(Ease.Linear)
             .WaitForCompletion();
+        disableUnit(EnemyBattleUnitState.KILLED);
     }
 
     public void setSelected(bool isSelected) {
@@ -139,4 +168,16 @@ public class EnemyBattleUnit : MonoBehaviour, BattleUnit {
 
         statsGameObject.SetActive(true);
     }
+
+    private void disableUnit(EnemyBattleUnitState reasonState) {
+        state = reasonState;
+        unitImage.enabled = false;
+        statsGameObject.SetActive(false);
+    }
+}
+
+public enum EnemyBattleUnitState {
+    ALIVE,
+    RAN_AWAY,
+    KILLED
 }

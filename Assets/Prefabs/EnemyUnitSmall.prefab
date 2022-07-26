@@ -293,6 +293,7 @@ GameObject:
   - component: {fileID: 4639966877100371513}
   - component: {fileID: 5157417709989788395}
   - component: {fileID: 710583527420349798}
+  - component: {fileID: 3340463704345741904}
   m_Layer: 0
   m_Name: EnemyUnitSmall
   m_TagString: Untagged
@@ -336,6 +337,7 @@ MonoBehaviour:
   hpInfo: {fileID: 400010293257626665}
   selectionCursor: {fileID: 1911045768887202046}
   statsGameObject: {fileID: 400010293257626667}
+  battleCalculator: {fileID: 0}
   delayBeforeActionSeconds: 0.5
   takingActionFlashSeconds: 0.2
   deathTransitionSeconds: 0.4
@@ -379,6 +381,18 @@ MonoBehaviour:
   - {fileID: 3095692042743037338, guid: 90bbc0f8e8b284ec1b2016924f47dc6c, type: 3}
   - {fileID: -4716288538782202061, guid: 90bbc0f8e8b284ec1b2016924f47dc6c, type: 3}
   durationSeconds: 0.15
+--- !u!114 &3340463704345741904
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 400010294122574520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5eb81006e590945ad8d7af310b099787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &400010294322382831
 GameObject:
   m_ObjectHideFlags: 0

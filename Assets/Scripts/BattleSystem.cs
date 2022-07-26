@@ -26,8 +26,8 @@ public class BattleSystem : MonoBehaviour {
     private BattleUnit currentBattleUnit;
 
     private BattleContext battleContext;
-    private List<BattleUnit> playerBattleUnits;
-    private List<BattleUnit> enemyBattleUnits;
+    private List<PlayerBattleUnit> playerBattleUnits;
+    private List<EnemyBattleUnit> enemyBattleUnits;
 
     void Start() {
         playerUnit1.setup(new PlayerUnit(playerUnitBase1, "Abraham"), 0);
@@ -38,14 +38,14 @@ public class BattleSystem : MonoBehaviour {
         enemyUnitSmall1.setup(new EnemyUnit(enemyUnitBase1), 0);
         enemyUnitSmall2.setup(new EnemyUnit(enemyUnitBase2), 1);
 
-        playerBattleUnits = new List<BattleUnit>() {
+        playerBattleUnits = new List<PlayerBattleUnit>() {
             playerUnit1,
             playerUnit2,
             playerUnit3,
             playerUnit4
         };
 
-        enemyBattleUnits = new List<BattleUnit>() {
+        enemyBattleUnits = new List<EnemyBattleUnit>() {
             enemyUnitSmall1,
             enemyUnitSmall2
         };
@@ -93,16 +93,23 @@ public class BattleSystem : MonoBehaviour {
     }
 
     private void setupNextActionableUnit() {
-        actionQueueBattleUnits = actionQueueBattleUnits
-            .Where(unit => !unit.IsEnemy || (unit.IsEnemy && unit.CurrentHp > 0))
-            .ToList();
-
-        bool allEnemiesAreDead = !actionQueueBattleUnits.Any(unit => unit.IsEnemy);
-        bool allPlayersCannotAct = actionQueueBattleUnits
-            .Where(unit => !unit.IsEnemy)
-            .All(unit => !unit.canAct());
-        if (allEnemiesAreDead) {
+        bool allEnemiesAreGone = enemyBattleUnits
+            .All(enemy => enemy.IsEnemy && !enemy.canAct());
+        bool allPlayersCannotAct = playerBattleUnits
+            .All(playerUnit => !playerUnit.canAct());
+        if (allEnemiesAreGone) {
             Debug.Log("Victory!");
+            List<EnemyBattleUnit> enemiesYieldingRewards = enemyBattleUnits
+                .Where(enemy => enemy.yieldsRewards())
+                .ToList();
+            int gil = 0;
+            int experience = 0;
+            enemiesYieldingRewards.ForEach(enemy => {
+                gil += enemy.Gil;
+                experience += enemy.Experience;
+            });
+            Debug.Log($"Gil: {gil}");
+            Debug.Log($"Experience: {experience}");
             state = BattleSystemState.VICTORY;
             return;
         } else if (allPlayersCannotAct) {
@@ -110,6 +117,10 @@ public class BattleSystem : MonoBehaviour {
             state = BattleSystemState.DEFEAT;
             return;
         }
+
+        actionQueueBattleUnits = actionQueueBattleUnits
+            .Where(unit => !unit.IsEnemy || (unit.IsEnemy && unit.canAct()))
+            .ToList();
 
         do {
             actionQueueBattleUnits.RemoveAt(0);
@@ -131,8 +142,8 @@ public class BattleSystem : MonoBehaviour {
     }
 
     private void initializeBattleContext() {
-        List<BattleUnit> activeEnemyBattleUnits = enemyBattleUnits
-            .Where(unit => unit.CurrentHp > 0)
+        List<EnemyBattleUnit> activeEnemyBattleUnits = enemyBattleUnits
+            .Where(enemy => enemy.canAct())
             .ToList();
 
         battleContext.initialize(playerBattleUnits, activeEnemyBattleUnits);
@@ -142,6 +153,7 @@ public class BattleSystem : MonoBehaviour {
         state = BattleSystemState.BUSY;
 
         List<BattleUnit> activeUnits = playerBattleUnits
+            .Cast<BattleUnit>()
             .Concat(enemyBattleUnits)
             .ToList();
         BattleUnit synchronizingBattleUnit = activeUnits[0];

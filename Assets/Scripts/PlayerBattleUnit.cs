@@ -54,6 +54,7 @@ public class PlayerBattleUnit : MonoBehaviour, BattleUnit {
     public int TeamMemberIndex => teamMemberIndex;
     public Sprite UnitActionQueueSprite => playerUnit.UnitActionQueueSprite;
     public int CurrentHp => playerUnit.CurrentHp;
+    public int Level => playerUnit.Level;
 
     public void setup(PlayerUnit playerUnit, int teamMemberIndex) {
         this.playerUnit = playerUnit;
@@ -168,7 +169,7 @@ public class PlayerBattleUnit : MonoBehaviour, BattleUnit {
     }
 
     private void handleSelectSingleTarget() {
-        List<BattleUnit> enemyUnits = battleContext.EnemyBattleUnits;
+        List<EnemyBattleUnit> enemyUnits = battleContext.EnemyBattleUnits;
 
         if (Input.GetKeyDown(KeyCode.W)) {
             selectedEnemyUnitIndex--;

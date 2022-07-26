@@ -10,7 +10,10 @@ public class EnemyUnit {
 
     public int CurrentHp => currentHp;
     public int MaxHp => maxHp;
+    public int Morale => unitBase.Morale;
     public Sprite BattleSprite => unitBase.BattleSprite;
+    public int Gil => unitBase.Gil;
+    public int Experience => unitBase.Experience;
 
     public EnemyUnit(EnemyUnitBase unitBase) {
         this.unitBase = unitBase;

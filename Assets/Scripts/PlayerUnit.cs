@@ -6,10 +6,12 @@ public class PlayerUnit {
 
     private PlayerUnitBase unitBase;
     private string name;
+    private int level;
     private int currentHp;
     private int maxHp;
 
     public string Name => name;
+    public int Level => level;
     public int CurrentHp => currentHp;
     public int MaxHp => maxHp;
     public Sprite BattleSpriteStanding => unitBase.BattleSpriteStanding;
@@ -24,6 +26,7 @@ public class PlayerUnit {
         this.unitBase = unitBase;
         this.name = name;
 
+        level = 1;
         maxHp = unitBase.Hp;
         currentHp = maxHp;
     }

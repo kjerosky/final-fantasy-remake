@@ -5,15 +5,15 @@ using UnityEngine;
 
 public class BattleContext {
 
-    private List<BattleUnit> playerBattleUnits;
-    private List<BattleUnit> enemyBattleUnits;
-    private List<BattleUnit> enemyTargetablePlayerBattleUnits;
+    private List<PlayerBattleUnit> playerBattleUnits;
+    private List<EnemyBattleUnit> enemyBattleUnits;
+    private List<PlayerBattleUnit> enemyTargetablePlayerBattleUnits;
 
-    public List<BattleUnit> PlayerBattleUnits => playerBattleUnits;
-    public List<BattleUnit> EnemyBattleUnits => enemyBattleUnits;
-    public List<BattleUnit> EnemyTargetablePlayerBattleUnits => enemyTargetablePlayerBattleUnits;
+    public List<PlayerBattleUnit> PlayerBattleUnits => playerBattleUnits;
+    public List<EnemyBattleUnit> EnemyBattleUnits => enemyBattleUnits;
+    public List<PlayerBattleUnit> EnemyTargetablePlayerBattleUnits => enemyTargetablePlayerBattleUnits;
 
-    public void initialize(List<BattleUnit> playerBattleUnits, List<BattleUnit> enemyBattleUnits) {
+    public void initialize(List<PlayerBattleUnit> playerBattleUnits, List<EnemyBattleUnit> enemyBattleUnits) {
         this.playerBattleUnits = playerBattleUnits;
         this.enemyBattleUnits = enemyBattleUnits;
 

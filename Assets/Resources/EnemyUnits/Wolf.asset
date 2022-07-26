@@ -15,11 +15,12 @@ MonoBehaviour:
   hp: 20
   gil: 6
   experience: 24
-  absorb: 0
-  evade: 18
-  magicDefense: 14
-  damage: 8
-  hitPercent: 86
-  criticalHitChance: 1
+  attack: 8
+  accuracy: 5
+  numberOfHits: 1
+  criticalRate: 1
+  defense: 0
+  evasion: 36
+  magicDefense: 28
   morale: 105
   battleSprite: {fileID: 21300000, guid: c816108172834476db72b0732dab920b, type: 3}

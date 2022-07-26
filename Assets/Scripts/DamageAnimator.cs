@@ -21,7 +21,12 @@ public class DamageAnimator : MonoBehaviour {
 
     public IEnumerator animateDamage(int damage, int currentHp, int maxHp) {
         damageNumbersText.gameObject.SetActive(true);
-        damageNumbersText.text = damage + "";
+
+        if (damage <= 0) {
+            damageNumbersText.text = "Miss!";
+        } else {
+            damageNumbersText.text = damage + "";
+        }
 
         Sequence damageNumbersBouncing = DOTween.Sequence()
             .Append(damageNumbersRectTransform
@@ -39,7 +44,11 @@ public class DamageAnimator : MonoBehaviour {
             );
         damageNumbersBouncing.Play();
 
-        yield return hpInfo.setHpSmooth(currentHp, maxHp, damageTakenTotalSeconds);
+        if (damage <= 0) {
+            yield return new WaitForSeconds(damageTakenTotalSeconds);
+        } else {
+            yield return hpInfo.setHpSmooth(currentHp, maxHp, damageTakenTotalSeconds);
+        }
 
         damageNumbersText.gameObject.SetActive(false);
     }

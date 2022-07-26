@@ -10,16 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 22e44ea1e5be04c1491189850ca7c760, type: 3}
-  m_Name: Imp
+  m_Name: Goblin
   m_EditorClassIdentifier: 
   hp: 8
   gil: 6
   experience: 6
-  absorb: 4
-  evade: 3
-  magicDefense: 8
-  damage: 4
-  hitPercent: 85
-  criticalHitChance: 1
+  attack: 4
+  accuracy: 2
+  numberOfHits: 1
+  criticalRate: 1
+  defense: 4
+  evasion: 6
+  magicDefense: 16
   morale: 106
   battleSprite: {fileID: 21300000, guid: 5eb7588e4d1734e3b910665b5c91b236, type: 3}
