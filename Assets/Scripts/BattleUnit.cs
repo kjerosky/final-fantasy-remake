@@ -14,4 +14,5 @@ public interface BattleUnit {
 
     public IEnumerator takePhysicalDamage(BattleUnit attackingUnit);
     public void setSelected(bool isSelected);
+    public IEnumerator enterBattle();
 }

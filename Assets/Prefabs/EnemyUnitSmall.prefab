@@ -335,9 +335,12 @@ MonoBehaviour:
   unitImage: {fileID: 400010293332720842}
   hpInfo: {fileID: 400010293257626665}
   selectionCursor: {fileID: 1911045768887202046}
+  statsGameObject: {fileID: 400010293257626667}
   delayBeforeActionSeconds: 0.5
   takingActionFlashSeconds: 0.2
   deathTransitionSeconds: 0.4
+  battleEntranceOffsetX: -1000
+  entranceSeconds: 0.5
 --- !u!114 &5157417709989788395
 MonoBehaviour:
   m_ObjectHideFlags: 0

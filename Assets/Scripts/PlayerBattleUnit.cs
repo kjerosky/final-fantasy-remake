@@ -13,6 +13,7 @@ public class PlayerBattleUnit : MonoBehaviour, BattleUnit {
     [SerializeField] HpInfo hpInfo;
     [SerializeField] SelectionCursor selectionCursor;
     [SerializeField] GameObject selectionFrameGameObject;
+    [SerializeField] GameObject statsGameObject;
     [SerializeField] BattleComponents battleComponents;
     [SerializeField] float damageKnockbackDistanceX;
     [SerializeField] float damageKnockbackTotalSeconds;
@@ -20,6 +21,8 @@ public class PlayerBattleUnit : MonoBehaviour, BattleUnit {
     [SerializeField] float attackPositionOffsetX;
     [SerializeField] float attackWalkingSeconds;
     [SerializeField] float attackingSeconds;
+    [SerializeField] float battleEntranceOffsetX;
+    [SerializeField] float entranceSeconds;
 
     private PlayerUnit playerUnit;
     private int teamMemberIndex;
@@ -86,6 +89,20 @@ public class PlayerBattleUnit : MonoBehaviour, BattleUnit {
             playerUnit.BattleSpriteWalking
         };
         attackingFrameSeconds = attackingSeconds / attackingSprites.Length;
+
+        setUnitImagesAccordingToStatus();
+    }
+
+    private void setUnitImagesAccordingToStatus() {
+        //TODO ACCOUNT FOR OTHER STATUSES HERE TOO
+        if (playerUnit.CurrentHp <= 0) {
+            unitDeathImage.enabled = true;
+            unitImage.enabled = false;
+        } else {
+            unitDeathImage.enabled = false;
+            unitImage.enabled = true;
+            unitImage.sprite = playerUnit.BattleSpriteStanding;
+        }
     }
 
     public bool canAct() {
@@ -216,7 +233,6 @@ public class PlayerBattleUnit : MonoBehaviour, BattleUnit {
         imagesBaseRectTransform.localScale = new Vector3(-1, 1, 1);
         yield return animateWalking(imagesBaseStartX, attackWalkingSeconds);
         imagesBaseRectTransform.localScale = new Vector3(1, 1, 1);
-        unitImage.sprite = playerUnit.BattleSpriteStanding;
 
         state = PlayerBattleUnitState.DONE;
     }
@@ -231,10 +247,7 @@ public class PlayerBattleUnit : MonoBehaviour, BattleUnit {
 
         yield return damageAnimator.animateDamage(damage, playerUnit.CurrentHp, playerUnit.MaxHp);
 
-        if (playerUnit.CurrentHp <= 0) {
-            unitDeathImage.enabled = true;
-            unitImage.enabled = false;
-        }
+        setUnitImagesAccordingToStatus();
     }
 
     private int determinePhysicalDamage(BattleUnit attackingUnit) {
@@ -275,6 +288,7 @@ public class PlayerBattleUnit : MonoBehaviour, BattleUnit {
             .SetEase(Ease.Linear);
 
         yield return loopAnimateUnitImage(unitImage, walkingSprites, totalWalkSeconds, walkingFrameSeconds);
+        unitImage.sprite = playerUnit.BattleSpriteStanding;
     }
 
     private IEnumerator loopAnimateUnitImage(Image unitImage, Sprite[] animationFrames, float totalTime, float frameSeconds) {
@@ -322,6 +336,24 @@ public class PlayerBattleUnit : MonoBehaviour, BattleUnit {
 
         unitImage.sprite = playerUnit.BattleSpriteStanding;
         battleWeapon.putAway();
+    }
+
+    public IEnumerator enterBattle() {
+        statsGameObject.SetActive(false);
+
+        if (canAct()) {
+            Vector2 battleEntranceInitialPosition = imagesBaseRectTransform.anchoredPosition;
+            battleEntranceInitialPosition = new Vector2(
+                battleEntranceInitialPosition.x + battleEntranceOffsetX,
+                battleEntranceInitialPosition.y);
+            imagesBaseRectTransform.anchoredPosition = battleEntranceInitialPosition;
+
+            yield return animateWalking(imagesBaseStartX, entranceSeconds);
+        } else {
+            yield return new WaitForSeconds(entranceSeconds);
+        }
+
+        statsGameObject.SetActive(true);
     }
 }
 

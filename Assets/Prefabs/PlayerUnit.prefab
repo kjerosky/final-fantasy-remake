@@ -468,6 +468,7 @@ MonoBehaviour:
   hpInfo: {fileID: 6907793525971087190}
   selectionCursor: {fileID: 6011797014408078039}
   selectionFrameGameObject: {fileID: 6598500499646758947}
+  statsGameObject: {fileID: 6907793524420233562}
   battleComponents: {fileID: 0}
   damageKnockbackDistanceX: 50
   damageKnockbackTotalSeconds: 0.4
@@ -475,6 +476,8 @@ MonoBehaviour:
   attackPositionOffsetX: -150
   attackWalkingSeconds: 0.25
   attackingSeconds: 0.15
+  battleEntranceOffsetX: 300
+  entranceSeconds: 0.5
 --- !u!114 &6391992262074452714
 MonoBehaviour:
   m_ObjectHideFlags: 0

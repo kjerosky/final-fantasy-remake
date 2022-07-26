@@ -55,17 +55,21 @@ public class BattleSystem : MonoBehaviour {
         battleComponents.ActionQueue.gameObject.SetActive(false);
         battleComponents.BattleMenu.setShowingCommandsMenu(false);
 
-        initializeActionQueue();
-
-        state = BattleSystemState.PROCESSING_UNITS;
+        state = BattleSystemState.START;
     }
 
     void Update() {
-        if (state == BattleSystemState.PROCESSING_UNITS) {
+        if (state == BattleSystemState.START) {
+            StartCoroutine(performStart());
+        } else if (state == BattleSystemState.PROCESSING_UNITS) {
             bool currentBattleUnitIsDoneActing = currentBattleUnit.act();
             if (currentBattleUnitIsDoneActing) {
                 setupNextActionableUnit();
             }
+        } else if (state == BattleSystemState.VICTORY) {
+            //TODO
+        } else if (state == BattleSystemState.DEFEAT) {
+            //TODO
         }
     }
 
@@ -133,11 +137,28 @@ public class BattleSystem : MonoBehaviour {
 
         battleContext.initialize(playerBattleUnits, activeEnemyBattleUnits);
     }
+
+    private IEnumerator performStart() {
+        state = BattleSystemState.BUSY;
+
+        List<BattleUnit> activeUnits = playerBattleUnits
+            .Concat(enemyBattleUnits)
+            .ToList();
+        BattleUnit synchronizingBattleUnit = activeUnits[0];
+        activeUnits.RemoveAt(0);
+
+        activeUnits.ForEach(unit => StartCoroutine(unit.enterBattle()));
+        yield return synchronizingBattleUnit.enterBattle();
+
+        initializeActionQueue();
+        state = BattleSystemState.PROCESSING_UNITS;
+    }
 }
 
 public enum BattleSystemState {
     START,
     PROCESSING_UNITS,
     VICTORY,
-    DEFEAT
+    DEFEAT,
+    BUSY
 }

@@ -9,9 +9,12 @@ public class EnemyBattleUnit : MonoBehaviour, BattleUnit {
     [SerializeField] Image unitImage;
     [SerializeField] HpInfo hpInfo;
     [SerializeField] SelectionCursor selectionCursor;
+    [SerializeField] GameObject statsGameObject;
     [SerializeField] float delayBeforeActionSeconds;
     [SerializeField] float takingActionFlashSeconds;
     [SerializeField] float deathTransitionSeconds;
+    [SerializeField] float battleEntranceOffsetX;
+    [SerializeField] float entranceSeconds;
 
     private HitEffect hitEffect;
     private DamageAnimator damageAnimator;
@@ -21,6 +24,8 @@ public class EnemyBattleUnit : MonoBehaviour, BattleUnit {
 
     private WaitForSeconds delayBeforeAction;
     private bool isDoneActing;
+    private RectTransform unitImageRectTransform;
+    private float unitImageStartX;
 
     public bool IsEnemy => true;
     public int TeamMemberIndex => teamMemberIndex;
@@ -39,6 +44,9 @@ public class EnemyBattleUnit : MonoBehaviour, BattleUnit {
         hpInfo.setHp(enemyUnit.CurrentHp, enemyUnit.MaxHp);
 
         delayBeforeAction = new WaitForSeconds(delayBeforeActionSeconds);
+
+        unitImageRectTransform = unitImage.GetComponent<RectTransform>();
+        unitImageStartX = unitImageRectTransform.anchoredPosition.x;
     }
 
     public bool canAct() {
@@ -113,5 +121,22 @@ public class EnemyBattleUnit : MonoBehaviour, BattleUnit {
 
     public void setSelected(bool isSelected) {
         selectionCursor.setShowing(isSelected);
+    }
+
+    public IEnumerator enterBattle() {
+        statsGameObject.SetActive(false);
+
+        Vector2 battleEntranceInitialPosition = unitImageRectTransform.anchoredPosition;
+        battleEntranceInitialPosition = new Vector2(
+            battleEntranceInitialPosition.x + battleEntranceOffsetX,
+            battleEntranceInitialPosition.y);
+        unitImageRectTransform.anchoredPosition = battleEntranceInitialPosition;
+
+        yield return unitImageRectTransform
+            .DOAnchorPosX(unitImageStartX, entranceSeconds)
+            .SetEase(Ease.OutExpo)
+            .WaitForCompletion();
+
+        statsGameObject.SetActive(true);
     }
 }
