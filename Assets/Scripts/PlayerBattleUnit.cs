@@ -2,36 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using DG.Tweening;
 
 public class PlayerBattleUnit : MonoBehaviour, BattleUnit {
 
     [SerializeField] Image unitImage;
     [SerializeField] Image unitDeathImage;
-    [SerializeField] RectTransform imagesBaseRectTransform;
     [SerializeField] Text nameText;
     [SerializeField] HpInfo hpInfo;
     [SerializeField] SelectionCursor selectionCursor;
     [SerializeField] GameObject selectionFrameGameObject;
     [SerializeField] GameObject statsGameObject;
-    [SerializeField] float damageKnockbackDistanceX;
-    [SerializeField] float damageKnockbackTotalSeconds;
-    [SerializeField] float walkingFrameSeconds;
-    [SerializeField] float attackPositionOffsetX;
-    [SerializeField] float attackWalkingSeconds;
-    [SerializeField] float attackingSeconds;
-    [SerializeField] float battleEntranceOffsetX;
-    [SerializeField] float entranceSeconds;
 
     private PlayerUnit playerUnit;
     private int teamMemberIndex;
 
     private DamageAnimator damageAnimator;
-    private BattleWeapon battleWeapon;
-
-    private RectTransform unitImageRectTransform;
-    private float unitImageStartX;
-    private float imagesBaseStartX;
+    private PlayerBattleUnitAnimator animator;
 
     private PlayerBattleUnitState state;
 
@@ -44,10 +30,6 @@ public class PlayerBattleUnit : MonoBehaviour, BattleUnit {
     private PlayerUnitCommand chosenCommand;
 
     private int selectedEnemyUnitIndex;
-
-    private Sprite[] walkingSprites;
-    private Sprite[] attackingSprites;
-    private float attackingFrameSeconds;
 
     public bool IsEnemy => false;
     public int TeamMemberIndex => teamMemberIndex;
@@ -66,29 +48,15 @@ public class PlayerBattleUnit : MonoBehaviour, BattleUnit {
 
         hpInfo.setHp(playerUnit.CurrentHp, playerUnit.MaxHp);
 
-        unitImageRectTransform = unitImage.GetComponent<RectTransform>();
-        unitImageStartX = unitImageRectTransform.anchoredPosition.x;
-
-        imagesBaseStartX = imagesBaseRectTransform.anchoredPosition.x;
-
         damageAnimator = GetComponent<DamageAnimator>();
-        battleWeapon = GetComponent<BattleWeapon>();
+
+        animator = GetComponent<PlayerBattleUnitAnimator>();
+        animator.setup(playerUnit);
 
         commandsCount = playerUnit.BattleMenuCommands.Count;
 
         actionQueue = BattleComponents.Instance.ActionQueue;
         battleMenu = BattleComponents.Instance.BattleMenu;
-
-        walkingSprites = new Sprite[] {
-            playerUnit.BattleSpriteWalking,
-            playerUnit.BattleSpriteStanding
-        };
-
-        attackingSprites = new Sprite[] {
-            playerUnit.BattleSpriteWeaponRaised,
-            playerUnit.BattleSpriteWalking
-        };
-        attackingFrameSeconds = attackingSeconds / attackingSprites.Length;
 
         setUnitImagesAccordingToStatus();
     }
@@ -227,16 +195,12 @@ public class PlayerBattleUnit : MonoBehaviour, BattleUnit {
 
         BattleUnit targetEnemyUnit = battleContext.EnemyBattleUnits[selectedEnemyUnitIndex];
 
-        float imagesBaseAttackX = imagesBaseStartX + attackPositionOffsetX;
-        yield return animateWalking(imagesBaseAttackX, attackWalkingSeconds);
+        yield return animator.animateWalkingToAttackPoint();
 
-        StartCoroutine(animateAttacking());
-
+        StartCoroutine(animator.animateAttacking());
         yield return targetEnemyUnit.takePhysicalDamage(this);
 
-        imagesBaseRectTransform.localScale = new Vector3(-1, 1, 1);
-        yield return animateWalking(imagesBaseStartX, attackWalkingSeconds);
-        imagesBaseRectTransform.localScale = new Vector3(1, 1, 1);
+        yield return animator.animateWalkingBackToStartPoint();
 
         state = PlayerBattleUnitState.DONE;
     }
@@ -246,7 +210,7 @@ public class PlayerBattleUnit : MonoBehaviour, BattleUnit {
         playerUnit.takeDamage(damage);
 
         if (damage > 0) {
-            yield return animateReactionToDamage();
+            yield return animator.animateReactionToDamage();
         }
 
         yield return damageAnimator.animateDamage(damage, playerUnit.CurrentHp, playerUnit.MaxHp);
@@ -260,103 +224,13 @@ public class PlayerBattleUnit : MonoBehaviour, BattleUnit {
         return TEMP_damageTaken;
     }
 
-    private IEnumerator animateReactionToDamage() {
-        float farRightX = unitImageStartX + damageKnockbackDistanceX;
-        float closerRightX = unitImageStartX + damageKnockbackDistanceX / 2;
-
-        Sequence shakeUnit = DOTween.Sequence()
-            .Append(unitImageRectTransform
-                .DOAnchorPosX(farRightX, damageKnockbackTotalSeconds / 4)
-                .SetEase(Ease.Linear)
-            ).Append(unitImageRectTransform
-                .DOAnchorPosX(unitImageStartX, damageKnockbackTotalSeconds / 4)
-                .SetEase(Ease.Linear)
-            ).Append(unitImageRectTransform
-                .DOAnchorPosX(closerRightX, damageKnockbackTotalSeconds / 4)
-                .SetEase(Ease.Linear)
-            ).Append(unitImageRectTransform
-                .DOAnchorPosX(unitImageStartX, damageKnockbackTotalSeconds / 4)
-                .SetEase(Ease.Linear)
-            );
-
-        yield return shakeUnit.WaitForCompletion();
-    }
-
     public void setSelected(bool isSelected) {
         selectionCursor.setShowing(isSelected);
     }
 
-    private IEnumerator animateWalking(float targetPositionX, float totalWalkSeconds) {
-        imagesBaseRectTransform
-            .DOAnchorPosX(targetPositionX, totalWalkSeconds)
-            .SetEase(Ease.Linear);
-
-        yield return loopAnimateUnitImage(unitImage, walkingSprites, totalWalkSeconds, walkingFrameSeconds);
-        unitImage.sprite = playerUnit.BattleSpriteStanding;
-    }
-
-    private IEnumerator loopAnimateUnitImage(Image unitImage, Sprite[] animationFrames, float totalTime, float frameSeconds) {
-        float totalTimeTimer = 0f;
-        float frameTimer = 0f;
-
-        while (true) {
-            for (int i = 0; i < animationFrames.Length; i++) {
-                unitImage.sprite = animationFrames[i];
-
-                while (frameTimer < frameSeconds) {
-                    totalTimeTimer += Time.deltaTime;
-                    if (totalTimeTimer >= totalTime) {
-                        yield break;
-                    }
-
-                    frameTimer += Time.deltaTime;
-
-                    yield return null;
-                }
-
-                while (frameTimer >= frameSeconds) {
-                    frameTimer -= frameSeconds;
-                }
-            }
-        }
-    }
-
-    private IEnumerator animateAttacking() {
-        float timer = 0f;
-        unitImage.sprite = attackingSprites[0];
-        battleWeapon.raise();
-        while (timer < attackingFrameSeconds) {
-            timer += Time.deltaTime;
-            yield return null;
-        }
-
-        timer = 0f;
-        unitImage.sprite = attackingSprites[1];
-        battleWeapon.strike();
-        while (timer < attackingFrameSeconds) {
-            timer += Time.deltaTime;
-            yield return null;
-        }
-
-        unitImage.sprite = playerUnit.BattleSpriteStanding;
-        battleWeapon.putAway();
-    }
-
     public IEnumerator enterBattle() {
         statsGameObject.SetActive(false);
-
-        if (canAct()) {
-            Vector2 battleEntranceInitialPosition = imagesBaseRectTransform.anchoredPosition;
-            battleEntranceInitialPosition = new Vector2(
-                battleEntranceInitialPosition.x + battleEntranceOffsetX,
-                battleEntranceInitialPosition.y);
-            imagesBaseRectTransform.anchoredPosition = battleEntranceInitialPosition;
-
-            yield return animateWalking(imagesBaseStartX, entranceSeconds);
-        } else {
-            yield return new WaitForSeconds(entranceSeconds);
-        }
-
+        yield return animator.animateBattleEntrance(canAct());
         statsGameObject.SetActive(true);
     }
 }

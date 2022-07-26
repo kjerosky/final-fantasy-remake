@@ -419,6 +419,7 @@ GameObject:
   - component: {fileID: 430512861506771958}
   - component: {fileID: 6391992262074452714}
   - component: {fileID: 7852829908877092161}
+  - component: {fileID: 3023988252633478200}
   m_Layer: 0
   m_Name: PlayerUnit
   m_TagString: Untagged
@@ -469,14 +470,10 @@ MonoBehaviour:
   selectionCursor: {fileID: 6011797014408078039}
   selectionFrameGameObject: {fileID: 6598500499646758947}
   statsGameObject: {fileID: 6907793524420233562}
-  battleComponents: {fileID: 0}
-  damageKnockbackDistanceX: 50
-  damageKnockbackTotalSeconds: 0.4
   walkingFrameSeconds: 0.0625
   attackPositionOffsetX: -150
   attackWalkingSeconds: 0.25
   attackingSeconds: 0.15
-  battleEntranceOffsetX: 300
   entranceSeconds: 0.5
 --- !u!114 &6391992262074452714
 MonoBehaviour:
@@ -510,6 +507,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponRaisedImage: {fileID: 6486874646278261832}
   weaponStrikingImage: {fileID: 6269108054096806480}
+--- !u!114 &3023988252633478200
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6907793524795091172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a46e81f4927d34989bc07ae9009047cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitImage: {fileID: 6907793526053784602}
+  imagesBaseRectTransform: {fileID: 3881431410864841020}
+  battleEntranceOffsetX: 300
+  entranceSeconds: 0.5
+  walkingFrameSeconds: 0.0625
+  damageKnockbackDistanceX: 50
+  damageKnockbackTotalSeconds: 0.4
+  attackingSeconds: 0.15
+  attackPositionOffsetX: -150
+  attackWalkingSeconds: 0.25
 --- !u!1 &6907793525226972723
 GameObject:
   m_ObjectHideFlags: 0
@@ -1438,6 +1457,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 30a7768719961464bbeeb1e216e55b3a, type: 3}
+--- !u!224 &1438469297279674975 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 5488499987548350748, guid: 30a7768719961464bbeeb1e216e55b3a, type: 3}
+  m_PrefabInstance: {fileID: 6907793524727939907}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &6011797014408078039 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 915171996347343252, guid: 30a7768719961464bbeeb1e216e55b3a, type: 3}
@@ -1449,8 +1473,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eced28f38a8db47b48d27c2c8b2756d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!224 &1438469297279674975 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 5488499987548350748, guid: 30a7768719961464bbeeb1e216e55b3a, type: 3}
-  m_PrefabInstance: {fileID: 6907793524727939907}
-  m_PrefabAsset: {fileID: 0}
