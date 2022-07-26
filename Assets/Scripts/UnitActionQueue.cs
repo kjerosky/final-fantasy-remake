@@ -6,7 +6,11 @@ public class UnitActionQueue : MonoBehaviour {
 
     [SerializeField] List<UnitActionQueueSlot> slots;
 
+    private List<BattleUnit> units;
+
     public void updateContent(List<BattleUnit> units) {
+        this.units = units;
+
         int disabledSlotsStartingIndex = units.Count;
 
         for (int i = 0; i < disabledSlotsStartingIndex; i++) {
@@ -16,6 +20,12 @@ public class UnitActionQueue : MonoBehaviour {
 
         for (int i = disabledSlotsStartingIndex; i < slots.Count; i++) {
             slots[i].gameObject.SetActive(false);
+        }
+    }
+
+    public void showSelectionArrows(List<BattleUnit> unitsNeedingArrows) {
+        for (int i = 0; i < slots.Count; i++) {
+            slots[i].showSelectionArrow(unitsNeedingArrows.Contains(slots[i].Unit));
         }
     }
 

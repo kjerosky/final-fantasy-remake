@@ -426,9 +426,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitImage: {fileID: 6907793526053784602}
+  unitDeathImage: {fileID: 4096095312376005362}
   nameText: {fileID: 6907793525226972725}
   hpInfo: {fileID: 6907793525971087190}
+  selectionCursor: {fileID: 6011797014408078039}
   selectionFrameGameObject: {fileID: 6598500499646758947}
+  battleComponents: {fileID: 0}
   damageKnockbackDistanceX: 50
   damageKnockbackTotalSeconds: 0.4
 --- !u!114 &6391992262074452714
@@ -1215,12 +1218,12 @@ GameObject:
   - component: {fileID: 5276001870481783997}
   - component: {fileID: 4096095312376005362}
   m_Layer: 0
-  m_Name: DeadImage
+  m_Name: DeathImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1844709117465397756
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1255,7 +1258,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7548523292355582862}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -1391,6 +1394,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 30a7768719961464bbeeb1e216e55b3a, type: 3}
+--- !u!114 &6011797014408078039 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 915171996347343252, guid: 30a7768719961464bbeeb1e216e55b3a, type: 3}
+  m_PrefabInstance: {fileID: 6907793524727939907}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eced28f38a8db47b48d27c2c8b2756d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &1438469297279674975 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5488499987548350748, guid: 30a7768719961464bbeeb1e216e55b3a, type: 3}

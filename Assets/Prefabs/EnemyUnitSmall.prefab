@@ -334,6 +334,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitImage: {fileID: 400010293332720842}
   hpInfo: {fileID: 400010293257626665}
+  selectionCursor: {fileID: 1911045768887202046}
   delayBeforeActionSeconds: 0.5
   takingActionFlashSeconds: 0.2
   deathTransitionSeconds: 0.4
@@ -870,3 +871,14 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5488499987548350748, guid: 30a7768719961464bbeeb1e216e55b3a, type: 3}
   m_PrefabInstance: {fileID: 1600534975791485290}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1911045768887202046 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 915171996347343252, guid: 30a7768719961464bbeeb1e216e55b3a, type: 3}
+  m_PrefabInstance: {fileID: 1600534975791485290}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eced28f38a8db47b48d27c2c8b2756d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

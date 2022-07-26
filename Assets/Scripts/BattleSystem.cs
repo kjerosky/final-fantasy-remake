@@ -62,7 +62,7 @@ public class BattleSystem : MonoBehaviour {
 
     void Update() {
         if (state == BattleSystemState.PROCESSING_UNITS) {
-            bool currentBattleUnitIsDoneActing = currentBattleUnit.act(battleContext);
+            bool currentBattleUnitIsDoneActing = currentBattleUnit.act();
             if (currentBattleUnitIsDoneActing) {
                 setupNextActionableUnit();
             }
@@ -92,6 +92,20 @@ public class BattleSystem : MonoBehaviour {
         actionQueueBattleUnits = actionQueueBattleUnits
             .Where(unit => !unit.IsEnemy || (unit.IsEnemy && unit.CurrentHp > 0))
             .ToList();
+
+        bool allEnemiesAreDead = !actionQueueBattleUnits.Any(unit => unit.IsEnemy);
+        bool allPlayersCannotAct = actionQueueBattleUnits
+            .Where(unit => !unit.IsEnemy)
+            .All(unit => !unit.canAct());
+        if (allEnemiesAreDead) {
+            Debug.Log("Victory!");
+            state = BattleSystemState.VICTORY;
+            return;
+        } else if (allPlayersCannotAct) {
+            Debug.Log("Defeat!");
+            state = BattleSystemState.DEFEAT;
+            return;
+        }
 
         do {
             actionQueueBattleUnits.RemoveAt(0);

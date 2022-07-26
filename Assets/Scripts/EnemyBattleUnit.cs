@@ -8,6 +8,7 @@ public class EnemyBattleUnit : MonoBehaviour, BattleUnit {
 
     [SerializeField] Image unitImage;
     [SerializeField] HpInfo hpInfo;
+    [SerializeField] SelectionCursor selectionCursor;
     [SerializeField] float delayBeforeActionSeconds;
     [SerializeField] float takingActionFlashSeconds;
     [SerializeField] float deathTransitionSeconds;
@@ -50,7 +51,7 @@ public class EnemyBattleUnit : MonoBehaviour, BattleUnit {
         StartCoroutine(takeAction(battleContext));
     }
 
-    public bool act(BattleContext battleContext) {
+    public bool act() {
         return isDoneActing;
     }
 
@@ -108,5 +109,9 @@ public class EnemyBattleUnit : MonoBehaviour, BattleUnit {
             .DOFade(0f, deathTransitionSeconds)
             .SetEase(Ease.Linear)
             .WaitForCompletion();
+    }
+
+    public void setSelected(bool isSelected) {
+        selectionCursor.setShowing(isSelected);
     }
 }

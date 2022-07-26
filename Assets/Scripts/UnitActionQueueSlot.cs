@@ -17,6 +17,8 @@ public class UnitActionQueueSlot : MonoBehaviour {
 
     private BattleUnit unit;
 
+    public BattleUnit Unit => unit;
+
     public void updateContent(BattleUnit unit) {
         this.unit = unit;
 
