@@ -98,6 +98,10 @@ public class PlayerBattleUnit : MonoBehaviour, BattleUnit {
         if (playerUnit.CurrentHp <= 0) {
             unitDeathImage.enabled = true;
             unitImage.enabled = false;
+        } else if (playerUnit.CurrentHp < playerUnit.MaxHp / 4) {
+            unitDeathImage.enabled = false;
+            unitImage.enabled = true;
+            unitImage.sprite = playerUnit.BattleSpriteKneeling;
         } else {
             unitDeathImage.enabled = false;
             unitImage.enabled = true;
