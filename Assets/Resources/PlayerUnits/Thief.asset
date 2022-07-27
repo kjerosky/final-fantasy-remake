@@ -12,13 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40083385c4c4744a1bf6783adbc2cdea, type: 3}
   m_Name: Thief
   m_EditorClassIdentifier: 
+  unitType: 1
   hp: 30
   strength: 5
   agility: 10
   intelligence: 5
   vitality: 5
   luck: 15
-  hitPercent: 5
+  accuracy: 5
   magicDefense: 15
   battleSpriteStanding: {fileID: 7742605686468618621, guid: 7e926eb39d1564b6aa102e4426e338aa, type: 3}
   battleSpriteWalking: {fileID: -7813959588361270791, guid: 7e926eb39d1564b6aa102e4426e338aa, type: 3}

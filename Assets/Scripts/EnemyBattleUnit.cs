@@ -32,6 +32,7 @@ public class EnemyBattleUnit : MonoBehaviour, BattleUnit {
     public int CurrentHp => enemyUnit.CurrentHp;
     public int Gil => enemyUnit.Gil;
     public int Experience => enemyUnit.Experience;
+    public Unit Unit => enemyUnit;
 
     public void setup(EnemyUnit enemyUnit, int teamMemberIndex) {
         this.enemyUnit = enemyUnit;
@@ -95,22 +96,17 @@ public class EnemyBattleUnit : MonoBehaviour, BattleUnit {
     }
 
     public IEnumerator takePhysicalDamage(BattleUnit attackingUnit) {
-        int damage = determinePhysicalDamage(attackingUnit);
+        DamageCalculationResult result = battleCalculator.calculatePhysicalDamage(attackingUnit.Unit, enemyUnit);
+        Debug.Log($"{name} takes: damage={result.Damage} / numberOfHits={result.NumberOfHits} / wasCritical={result.WasCritical}");
+        int damage = result.Damage;
+
         enemyUnit.takeDamage(damage);
-
         yield return hitEffect.animate(damage);
-
         yield return damageAnimator.animateDamage(damage, enemyUnit.CurrentHp, enemyUnit.MaxHp);
 
         if (enemyUnit.CurrentHp <= 0) {
             yield return die();
         }
-    }
-
-    private int determinePhysicalDamage(BattleUnit attackingUnit) {
-        //TODO REPLACE THIS WITH PROPERLY DETERMINED DAMAGE
-        int TEMP_damageTaken = 5;
-        return TEMP_damageTaken;
     }
 
     private IEnumerator die() {

@@ -49,7 +49,70 @@ public class BattleCalculator : MonoBehaviour {
         return playerUnits[selectedIndex];
     }
 
+    public DamageCalculationResult calculatePhysicalDamage(Unit attacker, Unit defender) {
+        int possibleNumberOfHits = Mathf.Max(1, attacker.NumberOfHits * attacker.HitMultiplier);
+
+        int totalDamage = 0;
+        int numberOfLandedHits = 0;
+        bool criticalHitHappened = false;
+        for (int i = 0; i < possibleNumberOfHits; i++) {
+            int baseChanceToHit = 168;
+            //TODO IF ATTACKER IS BLIND, SUBTRACT 40
+            //TODO IF DEFENDER IS BLIND, ADD 40
+            //TODO IF TARGET IS WEAK TO ATTACK (ATTACKER'S WEAPON ATTRIBUTE MATCHES
+            //     ELEMENT WEAKNESS OR ENEMY TYPE OF DEFENDER), ADD 40
+
+            //TODO IF DEFENDER IS ASLEEP OR PARALYZED, CALCULATE CHANCE TO HIT BELOW IGNORING DEFENDER'S EVASION
+            int chanceToHit = baseChanceToHit + attacker.Accuracy - defender.Evasion;
+
+            int hitRoll = random(0, 200);
+
+            bool wasAutomaticMiss = hitRoll == 200;
+            bool wasAutomaticHit = hitRoll == 0;
+            bool hitCheckSucceeded = hitRoll <= chanceToHit;
+            bool didHit = !wasAutomaticMiss && (wasAutomaticHit || hitCheckSucceeded);
+            if (!didHit) {
+                continue;
+            }
+
+            bool wasAutomaticNonCritical = hitRoll == 200;
+            bool wasAutomaticCritical = hitRoll == 0;
+            bool criticalHitCheckSucceeded = hitRoll <= attacker.CriticalRate;
+            bool wasCritical = !wasAutomaticNonCritical && (wasAutomaticCritical || criticalHitCheckSucceeded);
+
+            int attackValue = attacker.Attack;
+            //TODO IF DEFENDER IS WEAK TO AN ELEMENTAL OR TYPE ATTRIBUTE OF THE ATTACKER'S WEAPON, ADD 4
+            //TODO IF DEFENDER IS ASLEEP OR PARALYZED, MULTIPLY BY 5/4
+
+            int baseDamage = random(attackValue, 2 * attackValue);
+            int damage = Mathf.Max(1, baseDamage - defender.Defense);
+            if (wasCritical) {
+                damage += baseDamage;
+            }
+
+            //TODO CHANCE TO INFLICT STATUS EFFECTS
+
+            totalDamage += damage;
+            numberOfLandedHits++;
+            criticalHitHappened |= wasCritical;
+        }
+
+        return new DamageCalculationResult(totalDamage, numberOfLandedHits, criticalHitHappened);
+    }
+
     private int random(int minInclusive, int maxInclusive) {
         return Random.Range(minInclusive, maxInclusive + 1);
+    }
+}
+
+public class DamageCalculationResult {
+    public int Damage { get; private set; }
+    public int NumberOfHits { get; private set; }
+    public bool WasCritical { get; private set; }
+
+    public DamageCalculationResult(int damage, int numberOfHits, bool wasCritical) {
+        Damage = damage;
+        NumberOfHits = numberOfHits;
+        WasCritical = wasCritical;
     }
 }

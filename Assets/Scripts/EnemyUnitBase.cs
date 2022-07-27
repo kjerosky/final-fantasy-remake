@@ -22,6 +22,12 @@ public class EnemyUnitBase : ScriptableObject {
     public int Hp => hp;
     public int Gil => gil;
     public int Experience => experience;
+    public int Attack => attack;
+    public int Accuracy => accuracy;
+    public int NumberOfHits => numberOfHits;
+    public int CriticalRate => criticalRate;
+    public int Defense => defense;
+    public int Evasion => evasion;
     public int Morale => morale;
 
     public Sprite BattleSprite => battleSprite;

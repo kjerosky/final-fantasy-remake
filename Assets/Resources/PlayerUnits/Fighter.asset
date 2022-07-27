@@ -12,13 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40083385c4c4744a1bf6783adbc2cdea, type: 3}
   m_Name: Fighter
   m_EditorClassIdentifier: 
+  unitType: 0
   hp: 35
   strength: 20
   agility: 5
   intelligence: 1
   vitality: 10
   luck: 5
-  hitPercent: 10
+  accuracy: 10
   magicDefense: 15
   battleSpriteStanding: {fileID: 898486986203314846, guid: eb24be06c60054d9ca557354d30f6fa4, type: 3}
   battleSpriteWalking: {fileID: -620273714170971543, guid: eb24be06c60054d9ca557354d30f6fa4, type: 3}

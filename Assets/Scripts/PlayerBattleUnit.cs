@@ -7,17 +7,21 @@ public class PlayerBattleUnit : MonoBehaviour, BattleUnit {
 
     [SerializeField] Image unitImage;
     [SerializeField] Image unitDeathImage;
+    [SerializeField] Image weaponRaisedImage;
+    [SerializeField] Image weaponStrikingImage;
     [SerializeField] Text nameText;
     [SerializeField] HpInfo hpInfo;
     [SerializeField] SelectionCursor selectionCursor;
     [SerializeField] GameObject selectionFrameGameObject;
     [SerializeField] GameObject statsGameObject;
+    [SerializeField] Sprite fistSprite;
 
     private PlayerUnit playerUnit;
     private int teamMemberIndex;
 
     private DamageAnimator damageAnimator;
     private PlayerBattleUnitAnimator animator;
+    private BattleCalculator battleCalculator;
 
     private PlayerBattleUnitState state;
 
@@ -36,13 +40,27 @@ public class PlayerBattleUnit : MonoBehaviour, BattleUnit {
     public Sprite UnitActionQueueSprite => playerUnit.UnitActionQueueSprite;
     public int CurrentHp => playerUnit.CurrentHp;
     public int Level => playerUnit.Level;
+    public Unit Unit => playerUnit;
 
-    public void setup(PlayerUnit playerUnit, int teamMemberIndex) {
+    public void setup(PlayerUnit playerUnit, int teamMemberIndex, Weapon weapon) {
         this.playerUnit = playerUnit;
         this.teamMemberIndex = teamMemberIndex;
 
         unitImage.sprite = playerUnit.BattleSpriteStanding;
         unitDeathImage.sprite = playerUnit.BattleSpriteDead;
+
+        if (weapon == null) {
+            if (playerUnit.UnitType == PlayerUnitType.MONK || playerUnit.UnitType == PlayerUnitType.MASTER) {
+                weaponRaisedImage.enabled = false;
+                weaponStrikingImage.sprite = fistSprite;
+            } else {
+                weaponRaisedImage.enabled = false;
+                weaponStrikingImage.enabled = false;
+            }
+        } else {
+            weaponRaisedImage.sprite = weapon.BattleSprite;
+            weaponStrikingImage.sprite = weapon.BattleSprite;
+        }
 
         nameText.text = playerUnit.Name;
 
@@ -52,6 +70,8 @@ public class PlayerBattleUnit : MonoBehaviour, BattleUnit {
 
         animator = GetComponent<PlayerBattleUnitAnimator>();
         animator.setup(playerUnit);
+
+        battleCalculator = GetComponent<BattleCalculator>();
 
         commandsCount = playerUnit.BattleMenuCommands.Count;
 
@@ -206,9 +226,11 @@ public class PlayerBattleUnit : MonoBehaviour, BattleUnit {
     }
 
     public IEnumerator takePhysicalDamage(BattleUnit attackingUnit) {
-        int damage = determinePhysicalDamage(attackingUnit);
-        playerUnit.takeDamage(damage);
+        DamageCalculationResult result = battleCalculator.calculatePhysicalDamage(attackingUnit.Unit, playerUnit);
+        Debug.Log($"{name} takes: damage={result.Damage} / numberOfHits={result.NumberOfHits} / wasCritical={result.WasCritical}");
+        int damage = result.Damage;
 
+        playerUnit.takeDamage(damage);
         if (damage > 0) {
             yield return animator.animateReactionToDamage();
         }
@@ -216,12 +238,6 @@ public class PlayerBattleUnit : MonoBehaviour, BattleUnit {
         yield return damageAnimator.animateDamage(damage, playerUnit.CurrentHp, playerUnit.MaxHp);
 
         setUnitImagesAccordingToStatus();
-    }
-
-    private int determinePhysicalDamage(BattleUnit attackingUnit) {
-        //TODO REPLACE THIS WITH PROPERLY DETERMINED DAMAGE
-        int TEMP_damageTaken = 5;
-        return TEMP_damageTaken;
     }
 
     public void setSelected(bool isSelected) {
