@@ -121,7 +121,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 5eb7588e4d1734e3b910665b5c91b236, type: 3}
+  m_Sprite: {fileID: -5200380913200152681, guid: 5daae918b965542539179b547fe9d19d, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -339,7 +339,6 @@ MonoBehaviour:
   selectionCursor: {fileID: 1911045768887202046}
   statsGameObject: {fileID: 400010293257626667}
   delayBeforeActionSeconds: 0.5
-  deathTransitionSeconds: 0.4
 --- !u!114 &5157417709989788395
 MonoBehaviour:
   m_ObjectHideFlags: 0
