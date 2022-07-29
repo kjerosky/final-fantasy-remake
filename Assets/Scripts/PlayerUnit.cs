@@ -15,8 +15,9 @@ public class PlayerUnit : Unit {
     private int intelligence;
     private int vitality;
     private int luck;
-    private int accuracy;
+    private int baseAccuracy;
     private int magicDefense;
+    private int experience;
 
     private Weapon weapon;
     public Weapon Weapon {
@@ -26,8 +27,16 @@ public class PlayerUnit : Unit {
 
     public string Name => name;
     public int Level => level;
+    public int Experience => experience;
     public int CurrentHp => currentHp;
     public int MaxHp => maxHp;
+    public int Strength => strength;
+    public int Agility => agility;
+    public int Intelligence => intelligence;
+    public int Vitality => vitality;
+    public int Luck => luck;
+    public int BaseAccuracy => baseAccuracy;
+    public int MagicDefense => magicDefense;
     public PlayerUnitType UnitType => unitBase.UnitType;
     public Sprite BattleSpriteStanding => unitBase.BattleSpriteStanding;
     public Sprite BattleSpriteWalking => unitBase.BattleSpriteWalking;
@@ -58,8 +67,9 @@ public class PlayerUnit : Unit {
         intelligence = unitBase.Intelligence;
         vitality = unitBase.Vitality;
         luck = unitBase.Luck;
-        accuracy = unitBase.Accuracy;
+        baseAccuracy = unitBase.Accuracy;
         magicDefense = unitBase.MagicDefense;
+        experience = 0;
     }
 
     public void takeDamage(int damage) {
@@ -97,7 +107,7 @@ public class PlayerUnit : Unit {
     public int calculateAccuracy() {
         int weaponAccuracy = weapon == null ? 0 : weapon.Accuracy;
 
-        return weaponAccuracy + accuracy;
+        return weaponAccuracy + baseAccuracy;
     }
 
     public int calculateEvasion() {
@@ -132,5 +142,18 @@ public class PlayerUnit : Unit {
         }
 
         return numberOfHits;
+    }
+
+    public void applyLevelUpResults(LevelUpResult results) {
+        level = results.NewLevel;
+        maxHp = results.NewMaxHp;
+        strength = results.NewStrength;
+        agility = results.NewAgility;
+        intelligence = results.NewIntelligence;
+        vitality = results.NewVitality;
+        luck = results.NewLuck;
+        baseAccuracy = results.NewBaseAccuracy;
+        magicDefense = results.NewMagicDefense;
+        experience = results.LeftoverExperience;
     }
 }

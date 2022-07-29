@@ -100,7 +100,7 @@ public class BattleCalculator : MonoBehaviour {
         return new DamageCalculationResult(totalDamage, numberOfLandedHits, criticalHitHappened);
     }
 
-    private int random(int minInclusive, int maxInclusive) {
+    public static int random(int minInclusive, int maxInclusive) {
         return Random.Range(minInclusive, maxInclusive + 1);
     }
 }
