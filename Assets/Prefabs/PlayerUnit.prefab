@@ -420,7 +420,6 @@ GameObject:
   - component: {fileID: 6391992262074452714}
   - component: {fileID: 7852829908877092161}
   - component: {fileID: 3023988252633478200}
-  - component: {fileID: 8101344859703985880}
   m_Layer: 0
   m_Name: PlayerUnit
   m_TagString: Untagged
@@ -527,18 +526,6 @@ MonoBehaviour:
   attackingSeconds: 0.15
   attackPositionOffsetX: -150
   attackWalkingSeconds: 0.25
---- !u!114 &8101344859703985880
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6907793524795091172}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5eb81006e590945ad8d7af310b099787, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &6907793525226972723
 GameObject:
   m_ObjectHideFlags: 0

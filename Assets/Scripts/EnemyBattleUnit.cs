@@ -13,7 +13,6 @@ public class EnemyBattleUnit : MonoBehaviour, BattleUnit {
 
     private HitEffect hitEffect;
     private DamageAnimator damageAnimator;
-    private BattleCalculator battleCalculator;
     private BattleMessageBar battleMessageBar;
     private EnemyBattleUnitAnimator animator;
 
@@ -40,7 +39,6 @@ public class EnemyBattleUnit : MonoBehaviour, BattleUnit {
 
         hitEffect = GetComponent<HitEffect>();
         damageAnimator = GetComponent<DamageAnimator>();
-        battleCalculator = GetComponent<BattleCalculator>();
         battleMessageBar = BattleComponents.Instance.BattleMessageBar;
         animator = GetComponent<EnemyBattleUnitAnimator>();
 
@@ -78,17 +76,17 @@ public class EnemyBattleUnit : MonoBehaviour, BattleUnit {
         yield return delayBeforeAction;
         yield return animator.animateTakingAction();
 
-        if (battleCalculator.willEnemyRun(enemyUnit, battleContext)) {
+        if (BattleCalculator.willEnemyRun(enemyUnit, battleContext)) {
             yield return battleMessageBar.displayMessage("Flee");
             statsGameObject.SetActive(false);
             yield return animator.animateRunningAway();
             disableUnit(EnemyBattleUnitState.RAN_AWAY);
-        } else if (battleCalculator.willEnemyUseMagic()) {
+        } else if (BattleCalculator.willEnemyUseMagic()) {
             //TODO
-        } else if (battleCalculator.willEnemyUseSkill()) {
+        } else if (BattleCalculator.willEnemyUseSkill()) {
             //TODO
         } else {
-            PlayerBattleUnit targetPlayerUnit = battleCalculator.selectPositionWeightedRandomPlayer(battleContext);
+            PlayerBattleUnit targetPlayerUnit = BattleCalculator.selectPositionWeightedRandomPlayer(battleContext);
             yield return targetPlayerUnit.takePhysicalDamage(this);
         }
 
@@ -96,7 +94,7 @@ public class EnemyBattleUnit : MonoBehaviour, BattleUnit {
     }
 
     public IEnumerator takePhysicalDamage(BattleUnit attackingUnit) {
-        DamageCalculationResult result = battleCalculator.calculatePhysicalDamage(attackingUnit.Unit, enemyUnit);
+        DamageCalculationResult result = BattleCalculator.calculatePhysicalDamage(attackingUnit.Unit, enemyUnit);
         Debug.Log($"{name} takes: damage={result.Damage} / numberOfHits={result.NumberOfHits} / wasCritical={result.WasCritical}");
         int damage = result.Damage;
 

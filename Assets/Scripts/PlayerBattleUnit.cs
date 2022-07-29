@@ -21,7 +21,6 @@ public class PlayerBattleUnit : MonoBehaviour, BattleUnit {
 
     private DamageAnimator damageAnimator;
     private PlayerBattleUnitAnimator animator;
-    private BattleCalculator battleCalculator;
 
     private PlayerBattleUnitState state;
 
@@ -70,8 +69,6 @@ public class PlayerBattleUnit : MonoBehaviour, BattleUnit {
 
         animator = GetComponent<PlayerBattleUnitAnimator>();
         animator.setup(playerUnit);
-
-        battleCalculator = GetComponent<BattleCalculator>();
 
         commandsCount = playerUnit.BattleMenuCommands.Count;
 
@@ -226,7 +223,7 @@ public class PlayerBattleUnit : MonoBehaviour, BattleUnit {
     }
 
     public IEnumerator takePhysicalDamage(BattleUnit attackingUnit) {
-        DamageCalculationResult result = battleCalculator.calculatePhysicalDamage(attackingUnit.Unit, playerUnit);
+        DamageCalculationResult result = BattleCalculator.calculatePhysicalDamage(attackingUnit.Unit, playerUnit);
         Debug.Log($"{name} takes: damage={result.Damage} / numberOfHits={result.NumberOfHits} / wasCritical={result.WasCritical}");
         int damage = result.Damage;
 

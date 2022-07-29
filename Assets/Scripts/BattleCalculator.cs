@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class BattleCalculator : MonoBehaviour {
+public class BattleCalculator {
 
-    public bool willEnemyRun(EnemyUnit enemy, BattleContext battleContext) {
+    public static bool willEnemyRun(EnemyUnit enemy, BattleContext battleContext) {
         int enemyMorale = enemy.Morale;
         int playerLeaderLevel = battleContext.PlayerBattleUnits
             .Where(unit => unit.canAct())
@@ -15,17 +15,17 @@ public class BattleCalculator : MonoBehaviour {
         return enemyMorale - 2 * playerLeaderLevel + random(0, 50) < 80;
     }
 
-    public bool willEnemyUseMagic() {
+    public static bool willEnemyUseMagic() {
         //TODO
         return false;
     }
 
-    public bool willEnemyUseSkill() {
+    public static bool willEnemyUseSkill() {
         //TODO
         return false;
     }
 
-    public PlayerBattleUnit selectPositionWeightedRandomPlayer(BattleContext battleContext) {
+    public static PlayerBattleUnit selectPositionWeightedRandomPlayer(BattleContext battleContext) {
         List<PlayerBattleUnit> playerUnits = battleContext.PlayerBattleUnits;
 
         int selectedIndex = -1;
@@ -49,7 +49,7 @@ public class BattleCalculator : MonoBehaviour {
         return playerUnits[selectedIndex];
     }
 
-    public DamageCalculationResult calculatePhysicalDamage(Unit attacker, Unit defender) {
+    public static DamageCalculationResult calculatePhysicalDamage(Unit attacker, Unit defender) {
         int possibleNumberOfHits = Mathf.Max(1, attacker.NumberOfHits * attacker.HitMultiplier);
 
         int totalDamage = 0;
