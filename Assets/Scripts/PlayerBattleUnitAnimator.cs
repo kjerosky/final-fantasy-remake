@@ -16,6 +16,9 @@ public class PlayerBattleUnitAnimator : MonoBehaviour {
     [SerializeField] float attackingSeconds;
     [SerializeField] float attackPositionOffsetX;
     [SerializeField] float attackWalkingSeconds;
+    [SerializeField] float victoryPoseFrameSeconds;
+    [SerializeField] float victoryWalkingOffsetX;
+    [SerializeField] float victoryWalkingSeconds;
 
     private float imagesBaseStartX;
     private float imagesBaseAttackX;
@@ -115,6 +118,31 @@ public class PlayerBattleUnitAnimator : MonoBehaviour {
             );
 
         yield return shakeUnit.WaitForCompletion();
+    }
+
+    public IEnumerator animateVictory(bool unitCanAct) {
+        if (!unitCanAct) {
+            yield break;
+        }
+
+        float timer;
+        for (int i = 0; i < 2; i++) {
+            unitImage.sprite = unit.BattleSpriteCasting;
+            timer = 0f;
+            while (timer < victoryPoseFrameSeconds) {
+                timer += Time.deltaTime;
+                yield return null;
+            }
+
+            unitImage.sprite = unit.BattleSpriteStanding;
+            timer = 0f;
+            while (timer < victoryPoseFrameSeconds) {
+                timer += Time.deltaTime;
+                yield return null;
+            }
+        }
+
+        yield return animateWalking(imagesBaseStartX + victoryWalkingOffsetX, victoryWalkingSeconds);
     }
 
     private IEnumerator animateWalking(float targetPositionX, float totalWalkSeconds) {

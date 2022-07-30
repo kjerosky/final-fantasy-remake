@@ -18,6 +18,7 @@ public class PlayerUnitBase : ScriptableObject {
     [SerializeField] Sprite battleSpriteStanding;
     [SerializeField] Sprite battleSpriteWalking;
     [SerializeField] Sprite battleSpriteWeaponRaised;
+    [SerializeField] Sprite battleSpriteCasting;
     [SerializeField] Sprite battleSpriteKneeling;
     [SerializeField] Sprite battleSpriteDead;
     [SerializeField] Sprite unitActionQueueSprite;
@@ -37,6 +38,7 @@ public class PlayerUnitBase : ScriptableObject {
     public Sprite BattleSpriteStanding => battleSpriteStanding;
     public Sprite BattleSpriteWalking => battleSpriteWalking;
     public Sprite BattleSpriteWeaponRaised => battleSpriteWeaponRaised;
+    public Sprite BattleSpriteCasting => battleSpriteCasting;
     public Sprite BattleSpriteKneeling => battleSpriteKneeling;
     public Sprite BattleSpriteDead => battleSpriteDead;
     public Sprite UnitActionQueueSprite => unitActionQueueSprite;

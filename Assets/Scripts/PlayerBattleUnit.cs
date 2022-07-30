@@ -246,6 +246,10 @@ public class PlayerBattleUnit : MonoBehaviour, BattleUnit {
         yield return animator.animateBattleEntrance(canAct());
         statsGameObject.SetActive(true);
     }
+
+    public IEnumerator performVictory() {
+        yield return animator.animateVictory(canAct());
+    }
 }
 
 public enum PlayerBattleUnitState {

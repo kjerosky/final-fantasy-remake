@@ -28,6 +28,8 @@ public class PlayerUnit : Unit {
     public string Name => name;
     public int Level => level;
     public int Experience => experience;
+    public int TEMP_CurrentHp { set => currentHp = value; }
+    public int TEMP_Experience { set => experience = value; }
     public int CurrentHp => currentHp;
     public int MaxHp => maxHp;
     public int Strength => strength;
@@ -41,6 +43,7 @@ public class PlayerUnit : Unit {
     public Sprite BattleSpriteStanding => unitBase.BattleSpriteStanding;
     public Sprite BattleSpriteWalking => unitBase.BattleSpriteWalking;
     public Sprite BattleSpriteWeaponRaised => unitBase.BattleSpriteWeaponRaised;
+    public Sprite BattleSpriteCasting => unitBase.BattleSpriteCasting;
     public Sprite BattleSpriteKneeling => unitBase.BattleSpriteKneeling;
     public Sprite BattleSpriteDead => unitBase.BattleSpriteDead;
     public Sprite UnitActionQueueSprite => unitBase.UnitActionQueueSprite;

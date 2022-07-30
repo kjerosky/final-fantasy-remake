@@ -15,6 +15,7 @@ public class BattleSystem : MonoBehaviour {
     [SerializeField] EnemyBattleUnit enemyUnitSmall4;
     [SerializeField] EnemyBattleUnit enemyUnitSmall5;
     [SerializeField] EnemyBattleUnit enemyUnitSmall6;
+    [SerializeField] VictoryComponents victoryComponents;
 
     //TODO REMOVE THESE TEMPORARY FIELDS
     [SerializeField] PlayerUnitBase playerUnitBase1;
@@ -44,6 +45,10 @@ public class BattleSystem : MonoBehaviour {
     private List<EnemyBattleUnit> enemyBattleUnits;
 
     void Start() {
+        victoryComponents.OnEndVictoryProcess += () => {
+            exitBattle();
+        };
+
         actionQueue = BattleComponents.Instance.ActionQueue;
         battleMenu = BattleComponents.Instance.BattleMenu;
 
@@ -60,13 +65,6 @@ public class BattleSystem : MonoBehaviour {
         playerUnit3.setup(unit3, 2, playerWeapon3);
         playerUnit4.setup(unit4, 3, playerWeapon4);
 
-        enemyUnitSmall1.setup(new EnemyUnit(enemyUnitBase1), 0);
-        enemyUnitSmall2.setup(new EnemyUnit(enemyUnitBase2), 1);
-        enemyUnitSmall3.setup(new EnemyUnit(enemyUnitBase3), 2);
-        enemyUnitSmall4.setup(new EnemyUnit(enemyUnitBase4), 3);
-        enemyUnitSmall5.setup(new EnemyUnit(enemyUnitBase5), 4);
-        enemyUnitSmall6.setup(new EnemyUnit(enemyUnitBase6), 5);
-
         playerBattleUnits = new List<PlayerBattleUnit>() {
             playerUnit1,
             playerUnit2,
@@ -74,14 +72,45 @@ public class BattleSystem : MonoBehaviour {
             playerUnit4
         };
 
-        enemyBattleUnits = new List<EnemyBattleUnit>() {
-            enemyUnitSmall1,
-            enemyUnitSmall2,
-            enemyUnitSmall3,
-            enemyUnitSmall4,
-            enemyUnitSmall5,
-            enemyUnitSmall6
-        };
+        enemyBattleUnits = new List<EnemyBattleUnit>();
+        if (enemyUnitBase1 != null) {
+            enemyUnitSmall1.setup(new EnemyUnit(enemyUnitBase1), 0);
+            enemyBattleUnits.Add(enemyUnitSmall1);
+        } else {
+            enemyUnitSmall1.gameObject.SetActive(false);
+        }
+        if (enemyUnitBase2 != null) {
+            enemyUnitSmall2.setup(new EnemyUnit(enemyUnitBase2), 1);
+            enemyBattleUnits.Add(enemyUnitSmall2);
+        } else {
+            enemyUnitSmall2.gameObject.SetActive(false);
+        }
+        if (enemyUnitBase3 != null) {
+            enemyUnitSmall3.setup(new EnemyUnit(enemyUnitBase3), 2);
+            enemyBattleUnits.Add(enemyUnitSmall3);
+        } else {
+            enemyUnitSmall3.gameObject.SetActive(false);
+        }
+        if (enemyUnitBase4 != null) {
+            enemyUnitSmall4.setup(new EnemyUnit(enemyUnitBase4), 3);
+            enemyBattleUnits.Add(enemyUnitSmall4);
+        } else {
+            enemyUnitSmall4.gameObject.SetActive(false);
+        }
+        if (enemyUnitBase5 != null) {
+            enemyUnitSmall5.setup(new EnemyUnit(enemyUnitBase5), 4);
+            enemyBattleUnits.Add(enemyUnitSmall5);
+        } else {
+            enemyUnitSmall5.gameObject.SetActive(false);
+        }
+        if (enemyUnitBase6 != null) {
+            enemyUnitSmall6.setup(new EnemyUnit(enemyUnitBase6), 5);
+            enemyBattleUnits.Add(enemyUnitSmall6);
+        } else {
+            enemyUnitSmall6.gameObject.SetActive(false);
+        }
+
+        victoryComponents.setup(playerBattleUnits);
 
         battleContext = new BattleContext();
 
@@ -100,7 +129,7 @@ public class BattleSystem : MonoBehaviour {
                 setupNextActionableUnit();
             }
         } else if (state == BattleSystemState.VICTORY) {
-            //TODO
+            StartCoroutine(performVictory());
         } else if (state == BattleSystemState.DEFEAT) {
             //TODO
         }
@@ -119,7 +148,7 @@ public class BattleSystem : MonoBehaviour {
             enemyUnitSmall4,
             enemyUnitSmall5,
             enemyUnitSmall6
-        };
+        }.Where(unit => ((MonoBehaviour)unit).gameObject.activeSelf).ToList();
 
         currentBattleUnit = actionQueueBattleUnits[0];
         if (!currentBattleUnit.canAct()) {
@@ -135,18 +164,6 @@ public class BattleSystem : MonoBehaviour {
         bool allPlayersCannotAct = playerBattleUnits
             .All(playerUnit => !playerUnit.canAct());
         if (allEnemiesAreGone) {
-            Debug.Log("Victory!");
-            List<EnemyBattleUnit> enemiesYieldingRewards = enemyBattleUnits
-                .Where(enemy => enemy.yieldsRewards())
-                .ToList();
-            int gil = 0;
-            int experience = 0;
-            enemiesYieldingRewards.ForEach(enemy => {
-                gil += enemy.Gil;
-                experience += enemy.Experience;
-            });
-            Debug.Log($"Gil: {gil}");
-            Debug.Log($"Experience: {experience}");
             state = BattleSystemState.VICTORY;
             return;
         } else if (allPlayersCannotAct) {
@@ -197,6 +214,52 @@ public class BattleSystem : MonoBehaviour {
 
         initializeActionQueue();
         state = BattleSystemState.PROCESSING_UNITS;
+    }
+
+    private IEnumerator performVictory() {
+        state = BattleSystemState.BUSY;
+
+        int playerUnitsThatCanActCount = playerBattleUnits
+            .Where(unit => unit.canAct())
+            .Count();
+        List<EnemyBattleUnit> enemiesYieldingRewards = enemyBattleUnits
+            .Where(enemy => enemy.yieldsRewards())
+            .ToList();
+
+        int totalGil = 0;
+        int totalExperience = 0;
+        enemiesYieldingRewards.ForEach(enemy => {
+            totalGil += enemy.Gil;
+            totalExperience += enemy.Experience;
+        });
+
+        int experiencePerUnit = totalExperience / playerUnitsThatCanActCount;
+        List<LevelUpResult> levelUpResults = levelUpPlayerUnits(experiencePerUnit);
+
+        yield return new WaitForSeconds(0.25f);
+
+        StartCoroutine(playerUnit1.performVictory());
+        StartCoroutine(playerUnit2.performVictory());
+        StartCoroutine(playerUnit3.performVictory());
+        StartCoroutine(playerUnit4.performVictory());
+        yield return new WaitForSeconds(3f);
+
+        StartCoroutine(victoryComponents.startVictoryProcess(totalGil, experiencePerUnit, levelUpResults));
+    }
+
+    private void exitBattle() {
+        //TODO
+        Debug.Log("leaving battle...");
+    }
+
+    private List<LevelUpResult> levelUpPlayerUnits(int experiencePerUnit) {
+        return playerBattleUnits.Select(playerBattleUnit => {
+            if (playerBattleUnit.canAct()) {
+                return LevelUpCalculator.attemptLevelUp((PlayerUnit)(playerBattleUnit.Unit), experiencePerUnit);
+            } else {
+                return null;
+            }
+        }).ToList();
     }
 }
 
