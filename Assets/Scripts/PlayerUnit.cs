@@ -30,6 +30,7 @@ public class PlayerUnit : Unit {
     public int Experience => experience;
     public int TEMP_CurrentHp { set => currentHp = value; }
     public int TEMP_Experience { set => experience = value; }
+    public int TEMP_Level { set => level = value; }
     public int CurrentHp => currentHp;
     public int MaxHp => maxHp;
     public int Strength => strength;
@@ -157,6 +158,11 @@ public class PlayerUnit : Unit {
         luck = results.NewLuck;
         baseAccuracy = results.NewBaseAccuracy;
         magicDefense = results.NewMagicDefense;
-        experience = results.LeftoverExperience;
+        experience = results.NewLeftoverExperience;
+    }
+
+    public bool canAct() {
+        //TODO ACCOUNT FOR OTHER STATUSES HERE TOO
+        return currentHp > 0;
     }
 }

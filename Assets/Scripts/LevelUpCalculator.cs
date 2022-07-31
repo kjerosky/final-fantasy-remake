@@ -5,10 +5,6 @@ using UnityEngine;
 public class LevelUpCalculator {
 
     public static LevelUpResult attemptLevelUp(PlayerUnit playerUnit, int awardedExperience) {
-        if (playerUnit.Level >= 50) {
-            return null;
-        }
-
         PlayerUnitType playerUnitType = playerUnit.UnitType;
 
         LevelUpResult results = new LevelUpResult();
@@ -21,6 +17,11 @@ public class LevelUpCalculator {
         results.OldLuck = results.NewLuck = playerUnit.Luck;
         results.OldBaseAccuracy = results.NewBaseAccuracy = playerUnit.BaseAccuracy;
         results.OldMagicDefense = results.NewMagicDefense = playerUnit.MagicDefense;
+        results.OldLeftoverExperience = results.NewLeftoverExperience = playerUnit.Experience;
+
+        if (!playerUnit.canAct() || playerUnit.Level >= 50) {
+            return results;
+        }
 
         int experienceNeededForNextLevel = calculateExperienceNeededForNextLevel(results.OldLevel);
         int totalExperience = playerUnit.Experience + awardedExperience;
@@ -38,7 +39,6 @@ public class LevelUpCalculator {
             playerUnit.applyLevelUpResults(results);
 
             totalExperience -= experienceNeededForNextLevel;
-            results.LeftoverExperience = totalExperience;
             if (results.NewLevel >= 50) {
                 break;
             }
@@ -46,9 +46,7 @@ public class LevelUpCalculator {
             experienceNeededForNextLevel = calculateExperienceNeededForNextLevel(results.NewLevel);
         }
 
-        if (results.OldLevel == results.NewLevel) {
-            return null;
-        }
+        results.NewLeftoverExperience = totalExperience;
 
         return results;
     }
@@ -250,6 +248,7 @@ public class LevelUpResult {
     public int OldLuck { get; set; }
     public int OldBaseAccuracy { get; set; }
     public int OldMagicDefense { get; set; }
+    public int OldLeftoverExperience { get; set; }
 
     public int NewLevel { get; set; }
     public int NewMaxHp { get; set; }
@@ -260,6 +259,5 @@ public class LevelUpResult {
     public int NewLuck { get; set; }
     public int NewBaseAccuracy { get; set; }
     public int NewMagicDefense { get; set; }
-
-    public int LeftoverExperience { get; set; }
+    public int NewLeftoverExperience { get; set; }
 }

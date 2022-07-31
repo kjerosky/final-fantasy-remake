@@ -574,7 +574,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.3773585, g: 0.3773585, b: 0.3773585, a: 1}
+  m_Color: {r: 0.16037738, g: 0.16037738, b: 0.16037738, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -649,4 +649,4 @@ MonoBehaviour:
   xpBarFill: {fileID: 2102954917766852705}
   levelUpText: {fileID: 2102954917617544049}
   toNextLevelText: {fileID: 2102954918974668788}
-  playerBattleUnit: {fileID: 0}
+  experienceCountingSeconds: 2

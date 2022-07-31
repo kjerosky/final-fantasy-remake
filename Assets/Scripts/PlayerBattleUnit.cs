@@ -95,8 +95,7 @@ public class PlayerBattleUnit : MonoBehaviour, BattleUnit {
     }
 
     public bool canAct() {
-        //TODO ACCOUNT FOR OTHER STATUSES HERE TOO
-        return playerUnit.CurrentHp > 0;
+        return playerUnit.canAct();
     }
 
     public void prepareToAct(BattleContext battleContext) {
@@ -248,6 +247,7 @@ public class PlayerBattleUnit : MonoBehaviour, BattleUnit {
     }
 
     public IEnumerator performVictory() {
+        statsGameObject.SetActive(false);
         yield return animator.animateVictory(canAct());
     }
 }

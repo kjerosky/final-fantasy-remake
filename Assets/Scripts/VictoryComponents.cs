@@ -67,6 +67,8 @@ public class VictoryComponents : MonoBehaviour {
             .SetEase(Ease.InQuad)
             .WaitForCompletion();
 
+        summaryWindow.gameObject.SetActive(false);
+
         OnEndVictoryProcess?.Invoke();
     }
 }

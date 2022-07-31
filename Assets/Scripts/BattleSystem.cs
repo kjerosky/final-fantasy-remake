@@ -233,7 +233,7 @@ public class BattleSystem : MonoBehaviour {
             totalExperience += enemy.Experience;
         });
 
-        int experiencePerUnit = totalExperience / playerUnitsThatCanActCount;
+        int experiencePerUnit = Mathf.Max(1, totalExperience / playerUnitsThatCanActCount);
         List<LevelUpResult> levelUpResults = levelUpPlayerUnits(experiencePerUnit);
 
         yield return new WaitForSeconds(0.25f);
@@ -253,13 +253,11 @@ public class BattleSystem : MonoBehaviour {
     }
 
     private List<LevelUpResult> levelUpPlayerUnits(int experiencePerUnit) {
-        return playerBattleUnits.Select(playerBattleUnit => {
-            if (playerBattleUnit.canAct()) {
-                return LevelUpCalculator.attemptLevelUp((PlayerUnit)(playerBattleUnit.Unit), experiencePerUnit);
-            } else {
-                return null;
-            }
-        }).ToList();
+        return playerBattleUnits
+            .Select(playerBattleUnit => (PlayerUnit)(playerBattleUnit.Unit))
+            .Select(playerUnit =>
+                LevelUpCalculator.attemptLevelUp((PlayerUnit)(playerUnit), experiencePerUnit))
+            .ToList();
     }
 }
 
