@@ -523,6 +523,8 @@ MonoBehaviour:
   walkingFrameSeconds: 0.0625
   damageKnockbackDistanceX: 50
   damageKnockbackTotalSeconds: 0.4
+  criticalDamageKnockbackDistanceX: 100
+  criticalDamageKnockbackTotalSeconds: 1
   attackingSeconds: 0.15
   attackPositionOffsetX: -150
   attackWalkingSeconds: 0.25

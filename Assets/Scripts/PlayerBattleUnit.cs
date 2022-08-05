@@ -223,12 +223,15 @@ public class PlayerBattleUnit : MonoBehaviour, BattleUnit {
 
     public IEnumerator takePhysicalDamage(BattleUnit attackingUnit) {
         DamageCalculationResult result = BattleCalculator.calculatePhysicalDamage(attackingUnit.Unit, playerUnit);
-        Debug.Log($"{name} takes: damage={result.Damage} / numberOfHits={result.NumberOfHits} / wasCritical={result.WasCritical}");
         int damage = result.Damage;
 
         playerUnit.takeDamage(damage);
         if (damage > 0) {
-            yield return animator.animateReactionToDamage();
+            if (result.WasCritical) {
+                yield return animator.animateReactionToCriticalDamage();
+            } else {
+                yield return animator.animateReactionToDamage();
+            }
         }
 
         yield return damageAnimator.animateDamage(damage, playerUnit.CurrentHp, playerUnit.MaxHp);

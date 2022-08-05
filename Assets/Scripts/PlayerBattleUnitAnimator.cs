@@ -13,6 +13,8 @@ public class PlayerBattleUnitAnimator : MonoBehaviour {
     [SerializeField] float walkingFrameSeconds;
     [SerializeField] float damageKnockbackDistanceX;
     [SerializeField] float damageKnockbackTotalSeconds;
+    [SerializeField] float criticalDamageKnockbackDistanceX;
+    [SerializeField] float criticalDamageKnockbackTotalSeconds;
     [SerializeField] float attackingSeconds;
     [SerializeField] float attackPositionOffsetX;
     [SerializeField] float attackWalkingSeconds;
@@ -118,6 +120,33 @@ public class PlayerBattleUnitAnimator : MonoBehaviour {
             );
 
         yield return shakeUnit.WaitForCompletion();
+    }
+
+    public IEnumerator animateReactionToCriticalDamage() {
+        float[] knockbackDistances = new float[] {
+            criticalDamageKnockbackDistanceX,
+            criticalDamageKnockbackDistanceX / 2,
+            criticalDamageKnockbackDistanceX / 4,
+            criticalDamageKnockbackDistanceX / 8
+        };
+        float shakeCycleTotalSeconds = criticalDamageKnockbackTotalSeconds / knockbackDistances.Length;
+
+        Sequence shakeUnitCritically = DOTween.Sequence();
+        for (int i = 0; i < knockbackDistances.Length; i++) {
+            shakeUnitCritically
+                .Append(imagesBaseRectTransform
+                    .DOAnchorPosX(imagesBaseStartX + knockbackDistances[i], shakeCycleTotalSeconds / 4)
+                    .SetEase(Ease.Linear)
+                ).Append(imagesBaseRectTransform
+                    .DOAnchorPosX(imagesBaseStartX - knockbackDistances[i], shakeCycleTotalSeconds / 2)
+                    .SetEase(Ease.Linear)
+                ).Append(imagesBaseRectTransform
+                    .DOAnchorPosX(imagesBaseStartX, shakeCycleTotalSeconds / 4)
+                    .SetEase(Ease.Linear)
+                );
+        }
+
+        yield return shakeUnitCritically.WaitForCompletion();
     }
 
     public IEnumerator animateVictory(bool unitCanAct) {
