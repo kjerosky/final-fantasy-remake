@@ -244,7 +244,7 @@ public class BattleSystem : MonoBehaviour {
         StartCoroutine(playerUnit4.performVictory());
         yield return new WaitForSeconds(3f);
 
-        StartCoroutine(victoryComponents.startVictoryProcess(totalGil, experiencePerUnit, levelUpResults));
+        StartCoroutine(victoryComponents.startVictoryProcess(totalGil, experiencePerUnit, playerBattleUnits, levelUpResults));
     }
 
     private void exitBattle() {

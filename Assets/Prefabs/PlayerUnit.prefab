@@ -526,7 +526,7 @@ MonoBehaviour:
   attackingSeconds: 0.15
   attackPositionOffsetX: -150
   attackWalkingSeconds: 0.25
-  victoryPoseFrameSeconds: 0.5
+  victoryPoseFrameSeconds: 0.4
   victoryWalkingOffsetX: -1500
   victoryWalkingSeconds: 2.5
 --- !u!1 &6907793525226972723
