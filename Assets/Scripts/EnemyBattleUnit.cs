@@ -95,11 +95,10 @@ public class EnemyBattleUnit : MonoBehaviour, BattleUnit {
 
     public IEnumerator takePhysicalDamage(BattleUnit attackingUnit) {
         DamageCalculationResult result = BattleCalculator.calculatePhysicalDamage(attackingUnit.Unit, enemyUnit);
-        Debug.Log($"{name} takes: damage={result.Damage} / numberOfHits={result.NumberOfHits} / wasCritical={result.WasCritical}");
         int damage = result.Damage;
 
         enemyUnit.takeDamage(damage);
-        yield return hitEffect.animate(damage);
+        yield return hitEffect.animate(result);
         yield return damageAnimator.animateDamage(damage, enemyUnit.CurrentHp, enemyUnit.MaxHp);
 
         if (enemyUnit.CurrentHp <= 0) {

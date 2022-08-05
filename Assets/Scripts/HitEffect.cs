@@ -9,10 +9,15 @@ public class HitEffect : MonoBehaviour {
     [SerializeField] List<Sprite> animationFrames;
     [SerializeField] float durationSeconds;
 
-    public IEnumerator animate(int damageTaken) {
+    public IEnumerator animate(DamageCalculationResult damageCalculationResult) {
+        int damageTaken = damageCalculationResult.Damage;
         if (damageTaken <= 0) {
             yield return new WaitForSeconds(durationSeconds);
             yield break;
+        }
+
+        if (damageCalculationResult.WasCritical) {
+            BattleComponents.Instance.ScreenFlash.flash();
         }
 
         float frameSeconds = durationSeconds / animationFrames.Count;
