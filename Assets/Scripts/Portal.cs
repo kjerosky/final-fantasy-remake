@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class Portal : MonoBehaviour {
 
     [SerializeField] PortalDestination destination;
+    [SerializeField] bool isDestinationInRoom = false;
     [SerializeField] int sceneIndexToLoad = -1;
     [SerializeField] Transform spawnPoint;
 
@@ -26,7 +27,7 @@ public class Portal : MonoBehaviour {
             portal != this &&
             portal.destination == this.destination
         );
-        player.handleSceneLoaded(destinationPortal.spawnPoint.position);
+        player.handleSceneLoaded(destinationPortal.spawnPoint.position, isDestinationInRoom);
 
         yield return transitionManager.endTransition();
 
