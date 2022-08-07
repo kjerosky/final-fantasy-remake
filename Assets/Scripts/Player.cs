@@ -49,6 +49,7 @@ public class Player : MonoBehaviour {
     private bool isMoving;
     private Vector3 facingDirection;
     private bool isOnWorldMap;
+    private bool isInCoveredRoom;
 
     private int displayedCharacterPosition = 0;
 
@@ -77,11 +78,15 @@ public class Player : MonoBehaviour {
         isMoving = false;
 
         interactionIcon.SetActive(false);
+
+        isInCoveredRoom = false;
     }
 
     public void handleBattleSceneUnloaded() {
         backgroundTilemap = GameObject.Find("Background").GetComponent<Tilemap>();
         roomsCoverTilemap = GameObject.Find("RoomsCover")?.GetComponent<Tilemap>();
+
+        roomsCoverTilemap?.gameObject.SetActive(!isInCoveredRoom);
 
         if (isOnWorldMap) {
             ship = GameObject.Find("Ship").transform;
@@ -96,9 +101,12 @@ public class Player : MonoBehaviour {
         backgroundTilemap = GameObject.Find("Background").GetComponent<Tilemap>();
         roomsCoverTilemap = GameObject.Find("RoomsCover")?.GetComponent<Tilemap>();
 
+        roomsCoverTilemap?.gameObject.SetActive(!isInCoveredRoom);
+
         animator.Horizontal = 0f;
         animator.Vertical = -1f;
         animator.IsMoving = false;
+        animator.handleUpdate();
 
         facingDirection = new Vector3(0, -1);
 
@@ -327,6 +335,7 @@ public class Player : MonoBehaviour {
         if (doorColliderAtNewPosition != null) {
             doorColliderAtNewPosition.GetComponent<Door>().open();
             roomsCoverTilemap?.gameObject.SetActive(false);
+            isInCoveredRoom = true;
         }
 
         float moveSpeed = movementStateToSpeed[movementState];
@@ -349,6 +358,7 @@ public class Player : MonoBehaviour {
             if (door != null && door.willCloseWithInitiatorPosition(newPosition)) {
                 door.close();
                 roomsCoverTilemap?.gameObject.SetActive(true);
+                isInCoveredRoom = false;
             }
         }
 
