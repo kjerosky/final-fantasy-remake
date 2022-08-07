@@ -41,13 +41,14 @@ public class PlayerBattleUnit : MonoBehaviour, BattleUnit {
     public int Level => playerUnit.Level;
     public Unit Unit => playerUnit;
 
-    public void setup(PlayerUnit playerUnit, int teamMemberIndex, Weapon weapon) {
+    public void setup(PlayerUnit playerUnit, int teamMemberIndex) {
         this.playerUnit = playerUnit;
         this.teamMemberIndex = teamMemberIndex;
 
         unitImage.sprite = playerUnit.BattleSpriteStanding;
         unitDeathImage.sprite = playerUnit.BattleSpriteDead;
 
+        Weapon weapon = playerUnit.Weapon;
         if (weapon == null) {
             if (playerUnit.UnitType == PlayerUnitType.MONK || playerUnit.UnitType == PlayerUnitType.MASTER) {
                 weaponRaisedImage.enabled = false;

@@ -8497,7 +8497,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0746ff18e802a446faa5bad553cdf9d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unchangedStatColor: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
+  unchangedStatColor: {r: 0.7529412, g: 0.7529412, b: 0.7529412, a: 1}
   increasedStatColor: {r: 0, g: 1, b: 0, a: 1}
   victoryPoseFrameSeconds: 0.4
   nameText: {fileID: 419992284}

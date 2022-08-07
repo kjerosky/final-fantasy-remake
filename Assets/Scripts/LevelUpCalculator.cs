@@ -47,6 +47,7 @@ public class LevelUpCalculator {
         }
 
         results.NewLeftoverExperience = totalExperience;
+        playerUnit.applyLevelUpResults(results);
 
         return results;
     }

@@ -932,6 +932,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: fcc260e587f7e4c75a6880a7ae456d95, type: 2}
   - {fileID: 11400000, guid: dec020e52d4994889ba9b783be9bf69d, type: 2}
   - {fileID: 11400000, guid: 12de765365e5f4200a8a99d544425dbb, type: 2}
+  debugWeapons:
+  - {fileID: 11400000, guid: 434c916cb29234e54b1f6f88d38ce04b, type: 2}
+  - {fileID: 11400000, guid: ec89ca1cc7337406bb6881e8a703dea8, type: 2}
+  - {fileID: 11400000, guid: 5c6c5b8ced48f497a94c866a3e532aa2, type: 2}
 --- !u!1 &8370515405340937193
 GameObject:
   m_ObjectHideFlags: 0

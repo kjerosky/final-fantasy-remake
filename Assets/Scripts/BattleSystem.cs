@@ -52,18 +52,18 @@ public class BattleSystem : MonoBehaviour {
         actionQueue = BattleComponents.Instance.ActionQueue;
         battleMenu = BattleComponents.Instance.BattleMenu;
 
-        PlayerUnit unit1 = new PlayerUnit(playerUnitBase1, "Abraham");
-        PlayerUnit unit2 = new PlayerUnit(playerUnitBase2, "Bobby");
-        PlayerUnit unit3 = new PlayerUnit(playerUnitBase3, "Carly");
-        PlayerUnit unit4 = new PlayerUnit(playerUnitBase4, "Diana");
-        unit1.Weapon = playerWeapon1;
-        unit2.Weapon = playerWeapon2;
-        unit3.Weapon = playerWeapon3;
-        unit4.Weapon = playerWeapon4;
-        playerUnit1.setup(unit1, 0, playerWeapon1);
-        playerUnit2.setup(unit2, 1, playerWeapon2);
-        playerUnit3.setup(unit3, 2, playerWeapon3);
-        playerUnit4.setup(unit4, 3, playerWeapon4);
+        List<PlayerUnit> partyUnits;
+        PartyInfo partyInfo = FindObjectOfType<PartyInfo>();
+        if (partyInfo == null) {
+            partyUnits = setupDebugPlayerUnits();
+        } else {
+            partyUnits = partyInfo.Units;
+        }
+
+        playerUnit1.setup(partyUnits[0], 0);
+        playerUnit2.setup(partyUnits[1], 1);
+        playerUnit3.setup(partyUnits[2], 2);
+        playerUnit4.setup(partyUnits[3], 3);
 
         playerBattleUnits = new List<PlayerBattleUnit>() {
             playerUnit1,
@@ -248,8 +248,12 @@ public class BattleSystem : MonoBehaviour {
     }
 
     private void exitBattle() {
-        //TODO
-        Debug.Log("leaving battle...");
+        BattleTransitionManager battleTransitionManager = FindObjectOfType<BattleTransitionManager>();
+        if (battleTransitionManager == null) {
+            Debug.Log("leaving battle...");
+        } else {
+            battleTransitionManager.transitionOutOfBattle();
+        }
     }
 
     private List<LevelUpResult> levelUpPlayerUnits(int experiencePerUnit) {
@@ -258,6 +262,24 @@ public class BattleSystem : MonoBehaviour {
             .Select(playerUnit =>
                 LevelUpCalculator.attemptLevelUp((PlayerUnit)(playerUnit), experiencePerUnit))
             .ToList();
+    }
+
+    private List<PlayerUnit> setupDebugPlayerUnits() {
+        PlayerUnit unit1 = new PlayerUnit(playerUnitBase1, "Debug_Abraham");
+        PlayerUnit unit2 = new PlayerUnit(playerUnitBase2, "Debug_Bobby");
+        PlayerUnit unit3 = new PlayerUnit(playerUnitBase3, "Debug_Carly");
+        PlayerUnit unit4 = new PlayerUnit(playerUnitBase4, "Debug_Diana");
+        unit1.Weapon = playerWeapon1;
+        unit2.Weapon = playerWeapon2;
+        unit3.Weapon = playerWeapon3;
+        unit4.Weapon = playerWeapon4;
+
+        return new List<PlayerUnit>() {
+            unit1,
+            unit2,
+            unit3,
+            unit4
+        };
     }
 }
 
