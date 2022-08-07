@@ -369,12 +369,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectImage: {fileID: 6626958609900791909}
-  animationFrames:
+  sharpAttackAnimationFrames:
   - {fileID: 6479524763101049248, guid: 90bbc0f8e8b284ec1b2016924f47dc6c, type: 3}
   - {fileID: -1413201659432719385, guid: 90bbc0f8e8b284ec1b2016924f47dc6c, type: 3}
   - {fileID: 7059745002403675074, guid: 90bbc0f8e8b284ec1b2016924f47dc6c, type: 3}
   - {fileID: 3095692042743037338, guid: 90bbc0f8e8b284ec1b2016924f47dc6c, type: 3}
   - {fileID: -4716288538782202061, guid: 90bbc0f8e8b284ec1b2016924f47dc6c, type: 3}
+  bluntAttackAnimationFrames:
+  - {fileID: -6008062858339935053, guid: 5823e9d3a412a4c5484b46d36251de6b, type: 3}
+  - {fileID: 6556253077067402101, guid: 5823e9d3a412a4c5484b46d36251de6b, type: 3}
+  - {fileID: 1178412531407712210, guid: 5823e9d3a412a4c5484b46d36251de6b, type: 3}
+  - {fileID: -1006390568719063417, guid: 5823e9d3a412a4c5484b46d36251de6b, type: 3}
+  - {fileID: 642852631637673905, guid: 5823e9d3a412a4c5484b46d36251de6b, type: 3}
   durationSeconds: 0.15
 --- !u!114 &666506331872784790
 MonoBehaviour:

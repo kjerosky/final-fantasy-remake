@@ -10,9 +10,16 @@ public class Weapon : ScriptableObject {
     [SerializeField] int price;
     [SerializeField] List<PlayerUnitType> unitTypesThatCanWield;
     [SerializeField] Sprite battleSprite;
+    [SerializeField] WeaponHitType weaponHitType;
 
     public int Attack => attack;
     public int Accuracy => accuracy;
     public int CriticalRate => criticalRate;
     public Sprite BattleSprite => battleSprite;
+    public WeaponHitType WeaponHitType => weaponHitType;
+}
+
+public enum WeaponHitType {
+    BLUNT,
+    SHARP
 }

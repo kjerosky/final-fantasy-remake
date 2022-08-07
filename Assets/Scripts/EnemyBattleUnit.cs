@@ -32,6 +32,7 @@ public class EnemyBattleUnit : MonoBehaviour, BattleUnit {
     public int Gil => enemyUnit.Gil;
     public int Experience => enemyUnit.Experience;
     public Unit Unit => enemyUnit;
+    public WeaponHitType WeaponHitType => WeaponHitType.BLUNT;
 
     public void setup(EnemyUnit enemyUnit, int teamMemberIndex) {
         this.enemyUnit = enemyUnit;
@@ -98,7 +99,7 @@ public class EnemyBattleUnit : MonoBehaviour, BattleUnit {
         int damage = result.Damage;
 
         enemyUnit.takeDamage(damage);
-        yield return hitEffect.animate(result);
+        yield return hitEffect.animate(result, attackingUnit.WeaponHitType);
         yield return damageAnimator.animateDamage(damage, enemyUnit.CurrentHp, enemyUnit.MaxHp);
 
         if (enemyUnit.CurrentHp <= 0) {

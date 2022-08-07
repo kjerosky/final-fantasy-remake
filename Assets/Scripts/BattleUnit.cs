@@ -12,6 +12,7 @@ public interface BattleUnit {
     public Sprite UnitActionQueueSprite { get; }
     public int CurrentHp { get; }
     public Unit Unit { get; }
+    public WeaponHitType WeaponHitType { get; }
 
     public IEnumerator takePhysicalDamage(BattleUnit attackingUnit);
     public void setSelected(bool isSelected);

@@ -40,6 +40,7 @@ public class PlayerBattleUnit : MonoBehaviour, BattleUnit {
     public int CurrentHp => playerUnit.CurrentHp;
     public int Level => playerUnit.Level;
     public Unit Unit => playerUnit;
+    public WeaponHitType WeaponHitType => playerUnit.Weapon == null ? WeaponHitType.BLUNT : playerUnit.Weapon.WeaponHitType;
 
     public void setup(PlayerUnit playerUnit, int teamMemberIndex) {
         this.playerUnit = playerUnit;

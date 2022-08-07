@@ -6,10 +6,11 @@ using UnityEngine.UI;
 public class HitEffect : MonoBehaviour {
 
     [SerializeField] Image effectImage;
-    [SerializeField] List<Sprite> animationFrames;
+    [SerializeField] List<Sprite> sharpAttackAnimationFrames;
+    [SerializeField] List<Sprite> bluntAttackAnimationFrames;
     [SerializeField] float durationSeconds;
 
-    public IEnumerator animate(DamageCalculationResult damageCalculationResult) {
+    public IEnumerator animate(DamageCalculationResult damageCalculationResult, WeaponHitType weaponHitType) {
         int damageTaken = damageCalculationResult.Damage;
         if (damageTaken <= 0) {
             yield return new WaitForSeconds(durationSeconds);
@@ -20,11 +21,13 @@ public class HitEffect : MonoBehaviour {
             BattleComponents.Instance.ScreenFlash.flash();
         }
 
-        float frameSeconds = durationSeconds / animationFrames.Count;
-        yield return animateFrames(frameSeconds);
+        yield return animateFrames(weaponHitType);
     }
 
-    private IEnumerator animateFrames(float frameSeconds) {
+    private IEnumerator animateFrames(WeaponHitType weaponHitType) {
+        List<Sprite> animationFrames = weaponHitType == WeaponHitType.BLUNT ? bluntAttackAnimationFrames : sharpAttackAnimationFrames;
+        float frameSeconds = durationSeconds / animationFrames.Count;
+
         effectImage.gameObject.SetActive(true);
 
         float timer = 0f;
