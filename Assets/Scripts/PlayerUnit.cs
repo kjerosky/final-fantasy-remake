@@ -25,6 +25,7 @@ public class PlayerUnit : Unit {
         set => weapon = value;
     }
 
+    public PlayerUnitBase UnitBase => unitBase;
     public string Name => name;
     public int Level => level;
     public int Experience => experience;

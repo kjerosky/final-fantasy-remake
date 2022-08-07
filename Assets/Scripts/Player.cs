@@ -49,7 +49,6 @@ public class Player : MonoBehaviour {
     private bool isMoving;
     private Vector3 facingDirection;
     private bool isOnWorldMap;
-    private PlayerSpritesType displayedCharacterType;
 
     private int displayedCharacterPosition = 0;
 
@@ -58,9 +57,8 @@ public class Player : MonoBehaviour {
     void Start() {
         spriteRenderer = GetComponent<SpriteRenderer>();
 
-        displayedCharacterType = partyInfo.getTypeAtPosition(displayedCharacterPosition);
         animator = new PlayerAnimator(spriteRenderer, playerAnimatorParameters);
-        animator.PlayerSpritesType = displayedCharacterType;
+        animator.changeSprites(PlayerSpritesType.PLAYER_UNIT, partyInfo.getUnitAtPosition(displayedCharacterPosition).UnitBase);
 
         Vector3 defaultScenePosition = FindObjectOfType<EssentialObjectsLoader>().DefaultPlayerPosition;
         handleSceneLoaded(defaultScenePosition);
@@ -120,7 +118,7 @@ public class Player : MonoBehaviour {
                     controlsEnabled = true;
                 };
                 airshipAnimator.OnEndLanding += () => {
-                    animator.PlayerSpritesType = displayedCharacterType;
+                    animator.changeSprites(PlayerSpritesType.PLAYER_UNIT, partyInfo.getUnitAtPosition(displayedCharacterPosition).UnitBase);
                     animator.Horizontal = 0;
                     animator.Vertical = -1;
                     animator.IsMoving = false;
@@ -170,12 +168,10 @@ public class Player : MonoBehaviour {
         } else if (Input.GetKeyDown(KeyCode.Q)) {
             displayedCharacterPosition = (displayedCharacterPosition - 1 >= 0) ?
                 displayedCharacterPosition - 1 : partyInfo.getPartySize() - 1;
-            displayedCharacterType = partyInfo.getTypeAtPosition(displayedCharacterPosition);
-            animator.PlayerSpritesType = displayedCharacterType;
+            animator.changeSprites(animator.PlayerSpritesType, partyInfo.getUnitAtPosition(displayedCharacterPosition).UnitBase);
         } else if (Input.GetKeyDown(KeyCode.E)) {
             displayedCharacterPosition = (displayedCharacterPosition + 1) % partyInfo.getPartySize();
-            displayedCharacterType = partyInfo.getTypeAtPosition(displayedCharacterPosition);
-            animator.PlayerSpritesType = displayedCharacterType;
+            animator.changeSprites(animator.PlayerSpritesType, partyInfo.getUnitAtPosition(displayedCharacterPosition).UnitBase);
         }
 
         bool interactButtonWasPressed = Input.GetKeyDown(KeyCode.Space);
@@ -187,7 +183,7 @@ public class Player : MonoBehaviour {
                 transform.position == airship.position
             ) {
                 movementState = MovementState.IN_AIRSHIP;
-                animator.PlayerSpritesType = PlayerSpritesType.AIRSHIP;
+                animator.changeSprites(PlayerSpritesType.AIRSHIP, partyInfo.getUnitAtPosition(displayedCharacterPosition).UnitBase);
 
                 airship.parent = transform;
 
@@ -292,11 +288,11 @@ public class Player : MonoBehaviour {
                     canMove = true;
                 } else if (worldMapTileMovementData.isWalkableLand(targetTile)) {
                     movementState = MovementState.WALKING;
-                    animator.PlayerSpritesType = displayedCharacterType;
+                    animator.changeSprites(PlayerSpritesType.PLAYER_UNIT, partyInfo.getUnitAtPosition(displayedCharacterPosition).UnitBase);
                     canMove = true;
                 } else if (ship.gameObject.activeSelf && targetPosition == ship.position) {
                     movementState = MovementState.WALKING;
-                    animator.PlayerSpritesType = displayedCharacterType;
+                    animator.changeSprites(PlayerSpritesType.PLAYER_UNIT, partyInfo.getUnitAtPosition(displayedCharacterPosition).UnitBase);
                     canMove = true;
                 }
             } break;
@@ -384,7 +380,7 @@ public class Player : MonoBehaviour {
             animator.PlayerSpritesType != PlayerSpritesType.CANOE
         ) {
             movementState = MovementState.IN_CANOE;
-            animator.PlayerSpritesType = PlayerSpritesType.CANOE;
+            animator.changeSprites(PlayerSpritesType.CANOE, partyInfo.getUnitAtPosition(displayedCharacterPosition).UnitBase);
         }
 
         adjustPlayerPositionWithWrapping();
@@ -416,7 +412,7 @@ public class Player : MonoBehaviour {
     }
 
     private void boardShip() {
-        animator.PlayerSpritesType = PlayerSpritesType.SHIP;
+        animator.changeSprites(PlayerSpritesType.SHIP, partyInfo.getUnitAtPosition(displayedCharacterPosition).UnitBase);
         animator.Horizontal = -1f;
         animator.Vertical = 0f;
         animator.IsMoving = false;
@@ -426,7 +422,7 @@ public class Player : MonoBehaviour {
     }
 
     private void disembarkFromShip() {
-        animator.PlayerSpritesType = displayedCharacterType;
+        animator.changeSprites(PlayerSpritesType.PLAYER_UNIT, partyInfo.getUnitAtPosition(displayedCharacterPosition).UnitBase);
 
         ship.parent = null;
         ship.gameObject.SetActive(true);

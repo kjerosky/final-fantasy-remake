@@ -28,6 +28,18 @@ MonoBehaviour:
   battleSpriteKneeling: {fileID: -8452466686851012226, guid: 727a9241a10a64f5088bb6add7f1432e, type: 3}
   battleSpriteDead: {fileID: 21300000, guid: f44f79b43ccc745e685b8c299567af78, type: 3}
   unitActionQueueSprite: {fileID: -6664788039120196684, guid: 217890e663f624f07ad4ba61def0077c, type: 3}
+  walkUpSprites:
+  - {fileID: -8815393672634332260, guid: 217890e663f624f07ad4ba61def0077c, type: 3}
+  - {fileID: -872452245401337199, guid: 217890e663f624f07ad4ba61def0077c, type: 3}
+  walkDownSprites:
+  - {fileID: -6664788039120196684, guid: 217890e663f624f07ad4ba61def0077c, type: 3}
+  - {fileID: 804646413314214049, guid: 217890e663f624f07ad4ba61def0077c, type: 3}
+  walkLeftSprites:
+  - {fileID: -7459521804922291209, guid: 217890e663f624f07ad4ba61def0077c, type: 3}
+  - {fileID: -8937611222566304740, guid: 217890e663f624f07ad4ba61def0077c, type: 3}
+  walkRightSprites:
+  - {fileID: 7149146941669790047, guid: 217890e663f624f07ad4ba61def0077c, type: 3}
+  - {fileID: -6395565397114667374, guid: 217890e663f624f07ad4ba61def0077c, type: 3}
   battleMenuCommands:
   - {fileID: 11400000, guid: b9fe8a4347a15429fbcaf7af8b69e307, type: 2}
   - {fileID: 11400000, guid: 31fde15679c46413cb94e5a2b07a8dd2, type: 2}

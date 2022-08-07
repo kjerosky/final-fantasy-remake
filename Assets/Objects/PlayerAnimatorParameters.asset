@@ -12,7 +12,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bea7fef4781d4e31915702295cbb557, type: 3}
   m_Name: PlayerAnimatorParameters
   m_EditorClassIdentifier: 
-  playerSprites: {fileID: 11400000, guid: 9b6639e323b974bf4b26ae9aeb4ad8f9, type: 2}
+  canoeMovingUpFrames:
+  - {fileID: 8616892356439531072, guid: 116adb638f0b143398ca1fd2e1194543, type: 3}
+  - {fileID: -3080086411490146588, guid: 116adb638f0b143398ca1fd2e1194543, type: 3}
+  canoeMovingDownFrames:
+  - {fileID: 8616892356439531072, guid: 116adb638f0b143398ca1fd2e1194543, type: 3}
+  - {fileID: -3080086411490146588, guid: 116adb638f0b143398ca1fd2e1194543, type: 3}
+  canoeMovingLeftFrames:
+  - {fileID: 5389629307636312548, guid: 116adb638f0b143398ca1fd2e1194543, type: 3}
+  - {fileID: 3196864067457547721, guid: 116adb638f0b143398ca1fd2e1194543, type: 3}
+  canoeMovingRightFrames:
+  - {fileID: 3196864067457547721, guid: 116adb638f0b143398ca1fd2e1194543, type: 3}
+  - {fileID: 5389629307636312548, guid: 116adb638f0b143398ca1fd2e1194543, type: 3}
+  shipMovingUpFrames:
+  - {fileID: 2560456987978080395, guid: e1bb255d6ff4f4154b0a169ae2d4b684, type: 3}
+  - {fileID: 8831390769183704162, guid: e1bb255d6ff4f4154b0a169ae2d4b684, type: 3}
+  shipMovingDownFrames:
+  - {fileID: 8955758690004214430, guid: e1bb255d6ff4f4154b0a169ae2d4b684, type: 3}
+  - {fileID: -6880915645260913438, guid: e1bb255d6ff4f4154b0a169ae2d4b684, type: 3}
+  shipMovingLeftFrames:
+  - {fileID: -4322565999105603754, guid: e1bb255d6ff4f4154b0a169ae2d4b684, type: 3}
+  - {fileID: -2246153188821507145, guid: e1bb255d6ff4f4154b0a169ae2d4b684, type: 3}
+  shipMovingRightFrames:
+  - {fileID: 7678231660495215184, guid: e1bb255d6ff4f4154b0a169ae2d4b684, type: 3}
+  - {fileID: 4926084128815937341, guid: e1bb255d6ff4f4154b0a169ae2d4b684, type: 3}
+  airshipMovingUpFrames:
+  - {fileID: 21300000, guid: c1fa5d89596ad4ce496bc8d2c24a72f0, type: 3}
+  airshipMovingDownFrames:
+  - {fileID: 21300000, guid: c1fa5d89596ad4ce496bc8d2c24a72f0, type: 3}
+  airshipMovingLeftFrames:
+  - {fileID: 21300000, guid: c1fa5d89596ad4ce496bc8d2c24a72f0, type: 3}
+  airshipMovingRightFrames:
+  - {fileID: 21300000, guid: c1fa5d89596ad4ce496bc8d2c24a72f0, type: 3}
   walkFrameTime: 0.125
   canoeFrameTime: 0.125
   shipFrameTime: 0.0625

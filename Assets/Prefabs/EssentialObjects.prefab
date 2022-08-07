@@ -925,6 +925,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8509c21d4fc8d495ea96e9564a253447, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerUnitBases:
+  - {fileID: 11400000, guid: 9ea00250e107f4c4d9e3bca8d98fed70, type: 2}
+  - {fileID: 11400000, guid: 2f1a739cd6f3144adb6b3ea63b056fee, type: 2}
+  - {fileID: 11400000, guid: c57e22306d22f48cf9e71ca283c208cb, type: 2}
+  - {fileID: 11400000, guid: fcc260e587f7e4c75a6880a7ae456d95, type: 2}
+  - {fileID: 11400000, guid: dec020e52d4994889ba9b783be9bf69d, type: 2}
+  - {fileID: 11400000, guid: 12de765365e5f4200a8a99d544425dbb, type: 2}
 --- !u!1 &8370515405340937193
 GameObject:
   m_ObjectHideFlags: 0

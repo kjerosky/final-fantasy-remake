@@ -7,22 +7,12 @@ public class PlayerAnimator {
     public float Horizontal { get; set; }
     public float Vertical { get; set; }
     public bool IsMoving { get; set; }
-    public PlayerSpritesType PlayerSpritesType {
-        get => playerSpritesType;
-        set {
-            playerSpritesType = value;
-            handleSpritesTypeChange();
-        }
-    }
+    public PlayerSpritesType PlayerSpritesType => playerSpritesType;
     public AirshipAnimator AirshipAnimator {
-        set {
-            airshipAnimator = value;
-        }
+        set => airshipAnimator = value;
     }
 
     private SpriteRenderer spriteRenderer;
-
-    private PlayerSpritesCollection playerSpritesCollection;
 
     private PlayerSpritesType playerSpritesType;
 
@@ -36,7 +26,10 @@ public class PlayerAnimator {
 
     private bool wasPreviouslyMoving;
 
-    private PlayerSprites playerSprites;
+    private List<List<Sprite>> canoeFrames;
+    private List<List<Sprite>> shipFrames;
+    private List<List<Sprite>> airshipFrames;
+
     private float walkFrameTime;
     private float canoeFrameTime;
     private float shipFrameTime;
@@ -45,13 +38,29 @@ public class PlayerAnimator {
     public PlayerAnimator(SpriteRenderer spriteRenderer, PlayerAnimatorParameters playerAnimatorParameters) {
         this.spriteRenderer = spriteRenderer;
 
-        playerSprites = playerAnimatorParameters.PlayerSprites;
+        canoeFrames = new List<List<Sprite>>() {
+            playerAnimatorParameters.CanoeMovingUpFrames,
+            playerAnimatorParameters.CanoeMovingDownFrames,
+            playerAnimatorParameters.CanoeMovingLeftFrames,
+            playerAnimatorParameters.CanoeMovingRightFrames
+        };
+        shipFrames = new List<List<Sprite>>() {
+            playerAnimatorParameters.ShipMovingUpFrames,
+            playerAnimatorParameters.ShipMovingDownFrames,
+            playerAnimatorParameters.ShipMovingLeftFrames,
+            playerAnimatorParameters.ShipMovingRightFrames
+        };
+        airshipFrames = new List<List<Sprite>>() {
+            playerAnimatorParameters.AirshipMovingUpFrames,
+            playerAnimatorParameters.AirshipMovingDownFrames,
+            playerAnimatorParameters.AirshipMovingLeftFrames,
+            playerAnimatorParameters.AirshipMovingRightFrames
+        };
+
         walkFrameTime = playerAnimatorParameters.WalkFrameTime;
         canoeFrameTime = playerAnimatorParameters.CanoeFrameTime;
         shipFrameTime = playerAnimatorParameters.ShipFrameTime;
         airshipFrameTime = playerAnimatorParameters.AirshipFrameTime;
-
-        playerSpritesCollection = new PlayerSpritesCollection(playerSprites);
 
         moveUpAnimator = new SpriteAnimator(spriteRenderer, null, 1f);
         moveDownAnimator = new SpriteAnimator(spriteRenderer, null, 1f);
@@ -59,9 +68,6 @@ public class PlayerAnimator {
         moveRightAnimator = new SpriteAnimator(spriteRenderer, null, 1f);
 
         currentAnimator = moveDownAnimator;
-
-        playerSpritesType = PlayerSpritesType.FIGHTER;
-        handleSpritesTypeChange();
 
         wasPreviouslyMoving = false;
     }
@@ -74,26 +80,50 @@ public class PlayerAnimator {
         airshipAnimator?.animateShake();
     }
 
-    private void handleSpritesTypeChange() {
-        List<List<Sprite>> playerSpritesList = playerSpritesCollection.getSpritesForType(playerSpritesType);
-        moveUpAnimator.frames = playerSpritesList[0];
-        moveDownAnimator.frames = playerSpritesList[1];
-        moveLeftAnimator.frames = playerSpritesList[2];
-        moveRightAnimator.frames = playerSpritesList[3];
+    public void changeSprites(PlayerSpritesType playerSpritesType, PlayerUnitBase unitBase) {
+        this.playerSpritesType = playerSpritesType;
 
-        float frameTime = walkFrameTime;
         if (playerSpritesType == PlayerSpritesType.CANOE) {
-            frameTime = canoeFrameTime;
-        } else if (playerSpritesType == PlayerSpritesType.SHIP) {
-            frameTime = shipFrameTime;
-        } else if (playerSpritesType == PlayerSpritesType.AIRSHIP) {
-            frameTime = airshipFrameTime;
-        }
+            moveUpAnimator.frames = canoeFrames[0];
+            moveDownAnimator.frames = canoeFrames[1];
+            moveLeftAnimator.frames = canoeFrames[2];
+            moveRightAnimator.frames = canoeFrames[3];
 
-        moveUpAnimator.frameTime = frameTime;
-        moveDownAnimator.frameTime = frameTime;
-        moveLeftAnimator.frameTime = frameTime;
-        moveRightAnimator.frameTime = frameTime;
+            moveUpAnimator.frameTime = canoeFrameTime;
+            moveDownAnimator.frameTime = canoeFrameTime;
+            moveLeftAnimator.frameTime = canoeFrameTime;
+            moveRightAnimator.frameTime = canoeFrameTime;
+        } else if (playerSpritesType == PlayerSpritesType.SHIP) {
+            moveUpAnimator.frames = shipFrames[0];
+            moveDownAnimator.frames = shipFrames[1];
+            moveLeftAnimator.frames = shipFrames[2];
+            moveRightAnimator.frames = shipFrames[3];
+
+            moveUpAnimator.frameTime = shipFrameTime;
+            moveDownAnimator.frameTime = shipFrameTime;
+            moveLeftAnimator.frameTime = shipFrameTime;
+            moveRightAnimator.frameTime = shipFrameTime;
+        } else if (playerSpritesType == PlayerSpritesType.AIRSHIP) {
+            moveUpAnimator.frames = airshipFrames[0];
+            moveDownAnimator.frames = airshipFrames[1];
+            moveLeftAnimator.frames = airshipFrames[2];
+            moveRightAnimator.frames = airshipFrames[3];
+
+            moveUpAnimator.frameTime = airshipFrameTime;
+            moveDownAnimator.frameTime = airshipFrameTime;
+            moveLeftAnimator.frameTime = airshipFrameTime;
+            moveRightAnimator.frameTime = airshipFrameTime;
+        } else {
+            moveUpAnimator.frames = unitBase.WalkUpSprites;
+            moveDownAnimator.frames = unitBase.WalkDownSprites;
+            moveLeftAnimator.frames = unitBase.WalkLeftSprites;
+            moveRightAnimator.frames = unitBase.WalkRightSprites;
+
+            moveUpAnimator.frameTime = walkFrameTime;
+            moveDownAnimator.frameTime = walkFrameTime;
+            moveLeftAnimator.frameTime = walkFrameTime;
+            moveRightAnimator.frameTime = walkFrameTime;
+        }
 
         currentAnimator.restart();
 
@@ -131,4 +161,11 @@ public class PlayerAnimator {
 
         wasPreviouslyMoving = IsMoving;
     }
+}
+
+public enum PlayerSpritesType {
+    PLAYER_UNIT,
+    CANOE,
+    SHIP,
+    AIRSHIP
 }
