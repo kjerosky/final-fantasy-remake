@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BattleSystem : MonoBehaviour {
 
@@ -15,9 +16,10 @@ public class BattleSystem : MonoBehaviour {
     [SerializeField] EnemyBattleUnit enemyUnitSmall4;
     [SerializeField] EnemyBattleUnit enemyUnitSmall5;
     [SerializeField] EnemyBattleUnit enemyUnitSmall6;
+    [SerializeField] EnemyBattleUnit enemyUnitBossSmall;
     [SerializeField] VictoryComponents victoryComponents;
+    [SerializeField] Image environmentImage;
 
-    //TODO REMOVE THESE TEMPORARY FIELDS
     [SerializeField] PlayerUnitBase playerUnitBase1;
     [SerializeField] PlayerUnitBase playerUnitBase2;
     [SerializeField] PlayerUnitBase playerUnitBase3;
@@ -28,6 +30,7 @@ public class BattleSystem : MonoBehaviour {
     [SerializeField] EnemyUnitBase enemyUnitBase4;
     [SerializeField] EnemyUnitBase enemyUnitBase5;
     [SerializeField] EnemyUnitBase enemyUnitBase6;
+    [SerializeField] EnemyUnitBase enemyUnitBaseBossSmall;
     [SerializeField] Weapon playerWeapon1;
     [SerializeField] Weapon playerWeapon2;
     [SerializeField] Weapon playerWeapon3;
@@ -72,42 +75,12 @@ public class BattleSystem : MonoBehaviour {
             playerUnit4
         };
 
-        enemyBattleUnits = new List<EnemyBattleUnit>();
-        if (enemyUnitBase1 != null) {
-            enemyUnitSmall1.setup(new EnemyUnit(enemyUnitBase1), 0);
-            enemyBattleUnits.Add(enemyUnitSmall1);
+        BattleSetupData battleSetupData = BattleSetupData.Instance;
+        if (battleSetupData == null) {
+            enemyBattleUnits = setupDebugEnemyUnits();
         } else {
-            enemyUnitSmall1.gameObject.SetActive(false);
-        }
-        if (enemyUnitBase2 != null) {
-            enemyUnitSmall2.setup(new EnemyUnit(enemyUnitBase2), 1);
-            enemyBattleUnits.Add(enemyUnitSmall2);
-        } else {
-            enemyUnitSmall2.gameObject.SetActive(false);
-        }
-        if (enemyUnitBase3 != null) {
-            enemyUnitSmall3.setup(new EnemyUnit(enemyUnitBase3), 2);
-            enemyBattleUnits.Add(enemyUnitSmall3);
-        } else {
-            enemyUnitSmall3.gameObject.SetActive(false);
-        }
-        if (enemyUnitBase4 != null) {
-            enemyUnitSmall4.setup(new EnemyUnit(enemyUnitBase4), 3);
-            enemyBattleUnits.Add(enemyUnitSmall4);
-        } else {
-            enemyUnitSmall4.gameObject.SetActive(false);
-        }
-        if (enemyUnitBase5 != null) {
-            enemyUnitSmall5.setup(new EnemyUnit(enemyUnitBase5), 4);
-            enemyBattleUnits.Add(enemyUnitSmall5);
-        } else {
-            enemyUnitSmall5.gameObject.SetActive(false);
-        }
-        if (enemyUnitBase6 != null) {
-            enemyUnitSmall6.setup(new EnemyUnit(enemyUnitBase6), 5);
-            enemyBattleUnits.Add(enemyUnitSmall6);
-        } else {
-            enemyUnitSmall6.gameObject.SetActive(false);
+            enemyBattleUnits = setupEnemyUnits(battleSetupData);
+            environmentImage.sprite = battleSetupData.EnvironmentSprite;
         }
 
         victoryComponents.setup(playerBattleUnits);
@@ -137,18 +110,12 @@ public class BattleSystem : MonoBehaviour {
 
     private void initializeActionQueue() {
         //TODO IMPLEMENT RANDOMIZED ORDER
-        actionQueueBattleUnits = new List<BattleUnit>() {
-            playerUnit1,
-            playerUnit2,
-            playerUnit3,
-            playerUnit4,
-            enemyUnitSmall1,
-            enemyUnitSmall2,
-            enemyUnitSmall3,
-            enemyUnitSmall4,
-            enemyUnitSmall5,
-            enemyUnitSmall6
-        }.Where(unit => ((MonoBehaviour)unit).gameObject.activeSelf).ToList();
+        actionQueueBattleUnits = playerBattleUnits
+            .Cast<BattleUnit>()
+            .Concat(enemyBattleUnits
+                .Cast<BattleUnit>()
+                .ToList()
+            ).ToList();
 
         currentBattleUnit = actionQueueBattleUnits[0];
         if (!currentBattleUnit.canAct()) {
@@ -280,6 +247,104 @@ public class BattleSystem : MonoBehaviour {
             unit3,
             unit4
         };
+    }
+
+    private List<EnemyBattleUnit> setupDebugEnemyUnits() {
+        getAllEnemyBattleUnitSlots()
+            .ForEach(slot => slot.gameObject.SetActive(false));
+
+        List<EnemyBattleUnit> units = new List<EnemyBattleUnit>();
+        if (enemyUnitBase1 != null) {
+            enemyUnitSmall1.gameObject.SetActive(true);
+            enemyUnitSmall1.setup(new EnemyUnit(enemyUnitBase1), 0);
+            units.Add(enemyUnitSmall1);
+        }
+        if (enemyUnitBase2 != null) {
+            enemyUnitSmall2.gameObject.SetActive(true);
+            enemyUnitSmall2.setup(new EnemyUnit(enemyUnitBase2), 1);
+            units.Add(enemyUnitSmall2);
+        }
+        if (enemyUnitBase3 != null) {
+            enemyUnitSmall3.gameObject.SetActive(true);
+            enemyUnitSmall3.setup(new EnemyUnit(enemyUnitBase3), 2);
+            units.Add(enemyUnitSmall3);
+        }
+        if (enemyUnitBase4 != null) {
+            enemyUnitSmall4.gameObject.SetActive(true);
+            enemyUnitSmall4.setup(new EnemyUnit(enemyUnitBase4), 3);
+            units.Add(enemyUnitSmall4);
+        }
+        if (enemyUnitBase5 != null) {
+            enemyUnitSmall5.gameObject.SetActive(true);
+            enemyUnitSmall5.setup(new EnemyUnit(enemyUnitBase5), 4);
+            units.Add(enemyUnitSmall5);
+        }
+        if (enemyUnitBase6 != null) {
+            enemyUnitSmall6.gameObject.SetActive(true);
+            enemyUnitSmall6.setup(new EnemyUnit(enemyUnitBase6), 5);
+            units.Add(enemyUnitSmall6);
+        }
+        if (enemyUnitBaseBossSmall != null) {
+            enemyUnitBossSmall.gameObject.SetActive(true);
+            enemyUnitBossSmall.setup(new EnemyUnit(enemyUnitBaseBossSmall), 0);
+            units.Add(enemyUnitBossSmall);
+        }
+
+        return units;
+    }
+
+    private List<EnemyBattleUnit> setupEnemyUnits(BattleSetupData battleSetupData) {
+        getAllEnemyBattleUnitSlots()
+            .ForEach(slot => slot.gameObject.SetActive(false));
+
+        List<EnemyUnitBase> unitBases = battleSetupData.EnemyUnitBases;
+        List<EnemyBattleUnit> battleUnits = getEnemyBattleUnitSlotsForFormation(battleSetupData.EnemyFormation);
+
+        List<EnemyBattleUnit> units = new List<EnemyBattleUnit>();
+        for (int i = 0; i < unitBases.Count; i++) {
+            battleUnits[i].gameObject.SetActive(true);
+            battleUnits[i].setup(new EnemyUnit(unitBases[i]), i);
+            units.Add(battleUnits[i]);
+        }
+
+        return units;
+    }
+
+    private List<EnemyBattleUnit> getAllEnemyBattleUnitSlots() {
+        return new List<EnemyBattleUnit>() {
+            enemyUnitSmall1,
+            enemyUnitSmall2,
+            enemyUnitSmall3,
+            enemyUnitSmall4,
+            enemyUnitSmall5,
+            enemyUnitSmall6,
+            enemyUnitBossSmall
+        };
+    }
+
+    private List<EnemyBattleUnit> getEnemyBattleUnitSlotsForFormation(EnemyFormation enemyFormation) {
+        if (enemyFormation == EnemyFormation.SIX_SMALL) {
+            return new List<EnemyBattleUnit>() {
+                enemyUnitSmall1,
+                enemyUnitSmall2,
+                enemyUnitSmall3,
+                enemyUnitSmall4,
+                enemyUnitSmall5,
+                enemyUnitSmall6
+            };
+        } else if (enemyFormation == EnemyFormation.BOSS_SMALL) {
+            return new List<EnemyBattleUnit>() {
+                enemyUnitBossSmall
+            };
+        } else if (enemyFormation == EnemyFormation.FIEND) {
+            //TODO
+            return null;
+        } else if (enemyFormation == EnemyFormation.CHAOS) {
+            //TODO
+            return null;
+        } else {
+            return null;
+        }
     }
 }
 

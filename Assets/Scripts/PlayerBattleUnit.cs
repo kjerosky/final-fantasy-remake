@@ -85,7 +85,7 @@ public class PlayerBattleUnit : MonoBehaviour, BattleUnit {
         if (playerUnit.CurrentHp <= 0) {
             unitDeathImage.enabled = true;
             unitImage.enabled = false;
-        } else if (playerUnit.CurrentHp < playerUnit.MaxHp / 4) {
+        } else if (playerUnit.CurrentHp < (float)playerUnit.MaxHp / 4) {
             unitDeathImage.enabled = false;
             unitImage.enabled = true;
             unitImage.sprite = playerUnit.BattleSpriteKneeling;
@@ -219,6 +219,7 @@ public class PlayerBattleUnit : MonoBehaviour, BattleUnit {
         yield return targetEnemyUnit.takePhysicalDamage(this);
 
         yield return animator.animateWalkingBackToStartPoint();
+        setUnitImagesAccordingToStatus();
 
         state = PlayerBattleUnitState.DONE;
     }
@@ -248,6 +249,7 @@ public class PlayerBattleUnit : MonoBehaviour, BattleUnit {
     public IEnumerator enterBattle() {
         statsGameObject.SetActive(false);
         yield return animator.animateBattleEntrance(canAct());
+        setUnitImagesAccordingToStatus();
         statsGameObject.SetActive(true);
     }
 

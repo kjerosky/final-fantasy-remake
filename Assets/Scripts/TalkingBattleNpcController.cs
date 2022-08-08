@@ -5,6 +5,10 @@ using UnityEngine;
 public class TalkingBattleNpcController : MonoBehaviour, Interactable {
 
     [SerializeField] Dialog dialog;
+    [SerializeField] FightType fightType;
+    [SerializeField] EnemyFormation enemyFormation;
+    [SerializeField] List<EnemyUnitBase> enemyUnitBases;
+    [SerializeField] Sprite battleEnvironmentSprite;
 
     private CharacterAnimator animator;
     private DialogManager dialogManager;
@@ -31,7 +35,7 @@ public class TalkingBattleNpcController : MonoBehaviour, Interactable {
         animator.IsMoving = false;
 
         StartCoroutine(dialogManager.showDialog(dialog, () => {
-            //TODO SETUP BATTLE TRANSFER OBJECT HERE BEFORE TRANSITIONING INTO BATTLE
+            BattleSetupData.Instance.setup(fightType, enemyFormation, enemyUnitBases, battleEnvironmentSprite);
 
             FindObjectOfType<BattleTransitionManager>().transitionIntoBattle(transform);
         }));
