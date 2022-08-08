@@ -33,7 +33,7 @@ public class TalkingBattleNpcController : MonoBehaviour, Interactable {
         StartCoroutine(dialogManager.showDialog(dialog, () => {
             //TODO SETUP BATTLE TRANSFER OBJECT HERE BEFORE TRANSITIONING INTO BATTLE
 
-            FindObjectOfType<BattleTransitionManager>().transitionIntoBattle();
+            FindObjectOfType<BattleTransitionManager>().transitionIntoBattle(transform);
         }));
     }
 
