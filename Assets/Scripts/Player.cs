@@ -181,7 +181,7 @@ public class Player : MonoBehaviour {
             animator.changeSprites(animator.PlayerSpritesType, partyInfo.getUnitAtPosition(displayedCharacterPosition).UnitBase);
         }
 
-        bool interactButtonWasPressed = Input.GetKeyDown(KeyCode.Space);
+        bool interactButtonWasPressed = Input.GetKeyDown(KeyCode.Return);
 
         if (isOnWorldMap && interactButtonWasPressed) {
             if (

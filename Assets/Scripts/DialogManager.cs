@@ -56,7 +56,7 @@ public class DialogManager : MonoBehaviour {
             return;
         }
 
-        bool interactButtonWasPressed = Input.GetKeyDown(KeyCode.Space);
+        bool interactButtonWasPressed = Input.GetKeyDown(KeyCode.Return);
         if (interactButtonWasPressed) {
             if (isTyping) {
                 requestedTypingSkip = true;
