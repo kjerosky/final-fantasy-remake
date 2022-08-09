@@ -105,7 +105,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3302406473569548677}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7491691909993471640
 MonoBehaviour:
@@ -576,6 +576,7 @@ Transform:
   - {fileID: 2866429571672654893}
   - {fileID: 9048362072552323974}
   - {fileID: 4458319440485715347}
+  - {fileID: 4452865217009903511}
   - {fileID: 7749991306334868871}
   - {fileID: 7722439801725521973}
   m_Father: {fileID: 0}
@@ -703,7 +704,7 @@ RectTransform:
   - {fileID: 5879724617309372271}
   - {fileID: 8166957015639808429}
   m_Father: {fileID: 3302406473569548677}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1269,6 +1270,49 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: 'PLACEHOLDER: No one touches my Princess!!  LIGHT WARRIORS??  You impertinent
     fools.  I, Garland, will knock you all down!!'
+--- !u!1 &8919131693979066031
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4452865217009903511}
+  - component: {fileID: 4479690981817857517}
+  m_Layer: 0
+  m_Name: GameEventsLog
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4452865217009903511
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8919131693979066031}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3302406473569548677}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4479690981817857517
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8919131693979066031}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f395f75f7daa4f699590385c26faf66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &9222016748963595407
 GameObject:
   m_ObjectHideFlags: 0

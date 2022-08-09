@@ -26,13 +26,16 @@ public class BattleTransitionManager : MonoBehaviour {
     public event Action OnEndTransitionOutOfBattle;
 
     private int returnSceneIndex;
+    private GameEvent eventToLogWhenBattleIsWon;
     private Image battleSceneTransitionFullscreenImage;
 
-    public void transitionIntoBattle(Transform initiator) {
+    public void transitionIntoBattle(Transform initiator, GameEvent eventToLogWhenBattleIsWon) {
+        this.eventToLogWhenBattleIsWon = eventToLogWhenBattleIsWon;
         StartCoroutine(performTransitionIntoBattle(initiator.position));
     }
 
     public void transitionOutOfBattle() {
+        GameEventsLog.Instance.logEvent(eventToLogWhenBattleIsWon);
         StartCoroutine(performTransitionOutOfBattle());
     }
 

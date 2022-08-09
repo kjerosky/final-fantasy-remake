@@ -9,11 +9,17 @@ public class TalkingBattleNpcController : MonoBehaviour, Interactable {
     [SerializeField] EnemyFormation enemyFormation;
     [SerializeField] List<EnemyUnitBase> enemyUnitBases;
     [SerializeField] Sprite battleEnvironmentSprite;
+    [SerializeField] GameEvent eventToNotSpawn;
 
     private CharacterAnimator animator;
     private DialogManager dialogManager;
 
     void Start() {
+        if (GameEventsLog.Instance.isEventLogged(eventToNotSpawn)) {
+            Destroy(gameObject);
+            return;
+        }
+
         animator = GetComponent<CharacterAnimator>();
         animator.Horizontal = 0;
         animator.Vertical = -1;
@@ -37,7 +43,7 @@ public class TalkingBattleNpcController : MonoBehaviour, Interactable {
         StartCoroutine(dialogManager.showDialog(dialog, () => {
             BattleSetupData.Instance.setup(fightType, enemyFormation, enemyUnitBases, battleEnvironmentSprite);
 
-            FindObjectOfType<BattleTransitionManager>().transitionIntoBattle(transform);
+            FindObjectOfType<BattleTransitionManager>().transitionIntoBattle(transform, eventToNotSpawn);
         }));
     }
 
