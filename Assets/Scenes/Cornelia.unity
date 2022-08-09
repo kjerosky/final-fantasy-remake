@@ -4858,7 +4858,7 @@ MonoBehaviour:
   enemyFormation: 2
   enemyUnitBases:
   - {fileID: 11400000, guid: d84d128265fe64473831eb207a8d4d20, type: 2}
-  battleEnvironmentSprite: {fileID: 21300000, guid: c9ccca3c326764070a33f160da4b3510, type: 3}
+  battleEnvironmentSprite: {fileID: 21300000, guid: c28f9c59c0ad447729498f309fe03b01, type: 3}
 --- !u!1001 &572082442
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -39,5 +39,6 @@ public enum PortalDestination {
     NOT_SPECIFIED,
     CORNELIA,
     CORNELIA_CASTLE_1F,
-    CORNELIA_CASTLE_2F
+    CORNELIA_CASTLE_2F,
+    CHAOS_SHRINE
 }
