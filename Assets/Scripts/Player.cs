@@ -62,7 +62,7 @@ public class Player : MonoBehaviour {
         animator.changeSprites(PlayerSpritesType.PLAYER_UNIT, partyInfo.getUnitAtPosition(displayedCharacterPosition).UnitBase);
 
         Vector3 defaultScenePosition = FindObjectOfType<EssentialObjectsLoader>().DefaultPlayerPosition;
-        handleSceneLoaded(defaultScenePosition, false);
+        handleSceneLoaded(defaultScenePosition, false, new Vector2(0f, -1f));
 
         worldMapTileMovementData = GetComponent<WorldMapTileMovementData>();
 
@@ -93,7 +93,7 @@ public class Player : MonoBehaviour {
         }
     }
 
-    public void handleSceneLoaded(Vector3 newPlayerPosition, bool isNewPositionInRoom) {
+    public void handleSceneLoaded(Vector3 newPlayerPosition, bool isNewPositionInRoom, Vector2 newFacingDirection) {
         transform.position = newPlayerPosition;
 
         backgroundTilemap = GameObject.Find("Background").GetComponent<Tilemap>();
@@ -102,12 +102,12 @@ public class Player : MonoBehaviour {
         isInRoom = isNewPositionInRoom;
         roomsCoverTilemap?.gameObject.SetActive(!isInRoom);
 
-        animator.Horizontal = 0f;
-        animator.Vertical = -1f;
+        animator.Horizontal = newFacingDirection.x;
+        animator.Vertical = newFacingDirection.y;
         animator.IsMoving = false;
         animator.handleUpdate();
 
-        facingDirection = new Vector3(0, -1);
+        facingDirection = new Vector3(newFacingDirection.x, newFacingDirection.y);
 
         isOnWorldMap = SceneManager.GetActiveScene().name == "WorldMap";
         if (isOnWorldMap) {
@@ -364,7 +364,7 @@ public class Player : MonoBehaviour {
         if (movementState == MovementState.WALKING || movementState == MovementState.IN_CANOE) {
             Collider2D portalCollider = Physics2D.OverlapCircle(transform.position, 0.3f, portalsLayer);
             if (portalCollider != null) {
-                portalCollider.GetComponent<Portal>().OnPlayerTriggered(this);
+                portalCollider.GetComponent<Portal>().OnPlayerTriggered();
             }
         }
 

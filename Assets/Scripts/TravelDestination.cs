@@ -1,0 +1,15 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public enum TravelDestination {
+    NOT_SPECIFIED,
+    CORNELIA_WORLD_EXIT,
+    CORNELIA_ENTRANCE,
+    CORNELIA_CASTLE_1F_ENTRANCE,
+    CORNELIA_CASTLE_1F_STAIRS_EXIT,
+    CORNELIA_CASTLE_2F_ENTRANCE,
+    CORNELIA_CASTLE_WORLD_EXIT,
+    CHAOS_SHRINE_ENTRANCE,
+    CHAOS_SHRINE_WORLD_EXIT
+}

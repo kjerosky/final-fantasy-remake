@@ -105,7 +105,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3302406473569548677}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7491691909993471640
 MonoBehaviour:
@@ -217,6 +217,68 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &3083628958555935422
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6455860207730026158}
+  - component: {fileID: 3759311000788860664}
+  m_Layer: 0
+  m_Name: TravelHandler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6455860207730026158
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3083628958555935422}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3302406473569548677}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3759311000788860664
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3083628958555935422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f44f174e7adf94a7888d45eb27afa146, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  transitionManager: {fileID: 2818329046820244171}
+  player: {fileID: 3302406472380957436}
+  destinationToSceneIndexItems:
+  - travelDestination: 1
+    sceneIndex: 0
+  - travelDestination: 2
+    sceneIndex: 2
+  - travelDestination: 3
+    sceneIndex: 3
+  - travelDestination: 4
+    sceneIndex: 3
+  - travelDestination: 5
+    sceneIndex: 4
+  - travelDestination: 6
+    sceneIndex: 0
+  - travelDestination: 7
+    sceneIndex: 5
+  - travelDestination: 8
+    sceneIndex: 0
 --- !u!1 &3183119959831848309
 GameObject:
   m_ObjectHideFlags: 0
@@ -577,6 +639,7 @@ Transform:
   - {fileID: 9048362072552323974}
   - {fileID: 4458319440485715347}
   - {fileID: 4452865217009903511}
+  - {fileID: 6455860207730026158}
   - {fileID: 7749991306334868871}
   - {fileID: 7722439801725521973}
   m_Father: {fileID: 0}
@@ -704,7 +767,7 @@ RectTransform:
   - {fileID: 5879724617309372271}
   - {fileID: 8166957015639808429}
   m_Father: {fileID: 3302406473569548677}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
