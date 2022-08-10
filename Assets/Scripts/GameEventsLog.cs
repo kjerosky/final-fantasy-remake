@@ -29,5 +29,6 @@ public class GameEventsLog : MonoBehaviour {
 
 public enum GameEvent {
     NONE,
-    GARLAND_DEFEATED
+    GARLAND_DEFEATED,
+    PRINCESS_SARA_RESCUED
 }

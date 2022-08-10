@@ -41558,7 +41558,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1307612443467393403, guid: 5dbc7aa2083e54afb8d50c137d18235b, type: 3}
       propertyPath: destination
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 1307612443467393403, guid: 5dbc7aa2083e54afb8d50c137d18235b, type: 3}
       propertyPath: sceneIndexToLoad
@@ -43146,7 +43146,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1307612443467393403, guid: 5dbc7aa2083e54afb8d50c137d18235b, type: 3}
       propertyPath: destination
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 1307612443467393403, guid: 5dbc7aa2083e54afb8d50c137d18235b, type: 3}
       propertyPath: sceneIndexToLoad

@@ -274,10 +274,12 @@ MonoBehaviour:
   - travelDestination: 5
     sceneIndex: 4
   - travelDestination: 6
-    sceneIndex: 0
+    sceneIndex: 4
   - travelDestination: 7
-    sceneIndex: 5
+    sceneIndex: 0
   - travelDestination: 8
+    sceneIndex: 5
+  - travelDestination: 9
     sceneIndex: 0
 --- !u!1 &3183119959831848309
 GameObject:
