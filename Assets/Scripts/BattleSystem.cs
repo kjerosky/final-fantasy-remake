@@ -76,7 +76,7 @@ public class BattleSystem : MonoBehaviour {
         };
 
         BattleSetupData battleSetupData = BattleSetupData.Instance;
-        if (battleSetupData == null) {
+        if (battleSetupData == null || battleSetupData.EnemyFormation == EnemyFormation.NONE) {
             enemyBattleUnits = setupDebugEnemyUnits();
         } else {
             enemyBattleUnits = setupEnemyUnits(battleSetupData);
@@ -232,10 +232,10 @@ public class BattleSystem : MonoBehaviour {
     }
 
     private List<PlayerUnit> setupDebugPlayerUnits() {
-        PlayerUnit unit1 = new PlayerUnit(playerUnitBase1, "Debug_Abraham");
-        PlayerUnit unit2 = new PlayerUnit(playerUnitBase2, "Debug_Bobby");
-        PlayerUnit unit3 = new PlayerUnit(playerUnitBase3, "Debug_Carly");
-        PlayerUnit unit4 = new PlayerUnit(playerUnitBase4, "Debug_Diana");
+        PlayerUnit unit1 = new PlayerUnit(playerUnitBase1, "Andrew");
+        PlayerUnit unit2 = new PlayerUnit(playerUnitBase2, "Becca");
+        PlayerUnit unit3 = new PlayerUnit(playerUnitBase3, "Carl");
+        PlayerUnit unit4 = new PlayerUnit(playerUnitBase4, "Diana");
         unit1.Weapon = playerWeapon1;
         unit2.Weapon = playerWeapon2;
         unit3.Weapon = playerWeapon3;

@@ -2452,13 +2452,13 @@ MonoBehaviour:
   playerUnitBase2: {fileID: 11400000, guid: c57e22306d22f48cf9e71ca283c208cb, type: 2}
   playerUnitBase3: {fileID: 11400000, guid: dec020e52d4994889ba9b783be9bf69d, type: 2}
   playerUnitBase4: {fileID: 11400000, guid: 12de765365e5f4200a8a99d544425dbb, type: 2}
-  enemyUnitBase1: {fileID: 0}
-  enemyUnitBase2: {fileID: 0}
-  enemyUnitBase3: {fileID: 0}
-  enemyUnitBase4: {fileID: 0}
-  enemyUnitBase5: {fileID: 0}
-  enemyUnitBase6: {fileID: 0}
-  enemyUnitBaseBossSmall: {fileID: 11400000, guid: 45fda225e3ab64553861ab1ea7d04eaa, type: 2}
+  enemyUnitBase1: {fileID: 11400000, guid: 45fda225e3ab64553861ab1ea7d04eaa, type: 2}
+  enemyUnitBase2: {fileID: 11400000, guid: 45fda225e3ab64553861ab1ea7d04eaa, type: 2}
+  enemyUnitBase3: {fileID: 11400000, guid: c9060a08fe14641af967ff81817361f2, type: 2}
+  enemyUnitBase4: {fileID: 11400000, guid: c9060a08fe14641af967ff81817361f2, type: 2}
+  enemyUnitBase5: {fileID: 11400000, guid: c9060a08fe14641af967ff81817361f2, type: 2}
+  enemyUnitBase6: {fileID: 11400000, guid: c9060a08fe14641af967ff81817361f2, type: 2}
+  enemyUnitBaseBossSmall: {fileID: 0}
   playerWeapon1: {fileID: 11400000, guid: 434c916cb29234e54b1f6f88d38ce04b, type: 2}
   playerWeapon2: {fileID: 0}
   playerWeapon3: {fileID: 11400000, guid: ec89ca1cc7337406bb6881e8a703dea8, type: 2}

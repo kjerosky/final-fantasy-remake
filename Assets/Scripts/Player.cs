@@ -171,6 +171,7 @@ public class Player : MonoBehaviour {
     private void checkPlayerInput() {
         //TODO REMOVE THIS TEMPORARY CODE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         if (Input.GetKeyDown(KeyCode.B)) {
+            BattleSetupData.Instance.clear();
             FindObjectOfType<BattleTransitionManager>().transitionIntoBattle(transform, GameEvent.NONE);
         } else if (Input.GetKeyDown(KeyCode.Q)) {
             displayedCharacterPosition = (displayedCharacterPosition - 1 >= 0) ?
